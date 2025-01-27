@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="nav">
+        <p>holaa</p>
         <div class="foto">
             <img src="" alt="">
         </div>
@@ -15,8 +16,6 @@
 
         </div>
         <div class="usuario">
-            <img src="" alt="UserFoto">
-            <p>Nombre usuario</p>
             <button id="openPopup">Iniciar Sesion</button>
         </div>
     </div>
