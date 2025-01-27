@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaks</title>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 <body>
     <div class="nav">
@@ -16,6 +17,7 @@
         <div class="usuario">
             <img src="" alt="UserFoto">
             <p>Nombre usuario</p>
+            <button id="openPopup">Iniciar Sesion</button>
         </div>
     </div>
 
@@ -49,6 +51,20 @@
 
         <a href=""><button>VER TODAS</button></a>
     </div>
+
+    <div class="background" id="popupBackground">
+        <div class="popup">
+            <h2>Iniciar SesiÃ³n</h2>
+            <form action="/login" method="POST">
+                @csrf
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="ContraseÃ±a" required>
+                <button type="submit">Acceder</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/login.js') }}"></script>
 
     <footer>
         <div>
