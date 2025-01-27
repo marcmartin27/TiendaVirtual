@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="nav">
-        <p>holaa</p>
         <div class="foto">
             <img src="" alt="">
         </div>
@@ -20,7 +19,7 @@
         </div>
     </div>
 
-    <img src="" alt="">
+    <img src="../../../images/banner.png" alt="Banner promocional" id="bannerPromocional">
 
     <div class="marcasInicio">
         <div class="marcaInicio">
