@@ -77,8 +77,8 @@ body {
 }
 
 .marcaInicio img {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 180px;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -161,4 +161,65 @@ body {
 
 .popup form button:hover {
   background-color: #218838;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  width: 75%;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+.container .sneaker-card {
+  background-color: #baada6;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 10px;
+  margin: 15px;
+}
+.container .sneaker-card img {
+  width: 100%;
+  height: 50%;
+  max-height: 200px;
+  background-color: #f9f9f9;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+.container .sneaker-card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  text-align: left;
+  margin-left: 20px;
+}
+.container .sneaker-card p {
+  font-size: 1rem;
+  color: #666;
+  text-align: left;
+  margin-left: 20px;
+}
+.container .sneaker-card button {
+  background-color: #594C45;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+.container .sneaker-card button:hover {
+  background-color: #0056b3;
 }/*# sourceMappingURL=main.css.map */
