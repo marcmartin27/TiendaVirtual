@@ -51,7 +51,13 @@
     </div>
 
     <div class="background" id="popupBackground">
-        <div class="popup">
+    <div class="popup">
+        <div class="left">
+            <img src="../../../images/logo.png" alt="Logo" class="logo-small">
+            <img src="../../../images/jordan.webp" alt="Logo Grande" class="logo-large">
+        </div>
+        <div class="right">
+            <img src="../../../images/logo_redondo.png" alt="Logo" class="logo-form">
             <h2>Iniciar Sesion</h2>
             <form action="/login" method="POST">
                 @csrf
@@ -61,6 +67,8 @@
             </form>
         </div>
     </div>
+    </div>
+
 
     <script src="{{ asset('js/login.js') }}"></script>
 
