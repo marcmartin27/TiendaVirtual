@@ -10,3 +10,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::get('/viewall', function () {
+    return view('viewAll');
+});
