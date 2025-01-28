@@ -1,92 +1,162 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Navigation Bar */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nav .foto img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.nav .buscador {
+    flex-grow: 1;
+    margin: 0 20px;
+    text-align: center;
+}
+
+.nav .buscador input {
+    width: 70%;
+    padding: 8px;
+    border: none;
+    border-radius: 20px;
+}
+
+.nav .usuario button {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav .usuario button:hover {
+    background-color: #ff5722;
+}
+
+/* Banner */
+#bannerPromocional {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Marcas Inicio */
+.marcasInicio {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.marcaInicio {
+    text-align: center;
+    margin: 10px;
+    flex: 1 1 18%;
+    max-width: 18%;
+}
+
+.marcaInicio img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.marcaInicio p {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Ver Todas Button */
+.marcasInicio a {
     display: flex;
     justify-content: center;
-    align-items: center;
-}
-
-nav {
-    display: block;
-    margin: 0 auto;
-    background-color: #0056b3;
     width: 100%;
-    height: 30px;
-    padding: 20px;
-
-    .foto {
-        display: flex;
-    }
-    .buscador {
-        display: flex;    
-    }
-    .usuario {
-        display: flex;
-    }
+    margin-top: 20px;
 }
 
+.marcasInicio a button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
 
+.marcasInicio a button:hover {
+    background-color: #0056b3;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+/* Popup Background */
 .background {
-    position: absolute;
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
+    background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    z-index: 20;
 }
 
+/* Popup */
 .popup {
-    background: white;
-    width: 400px;
+    background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
+    max-width: 300px;
+    width: 100%;
+}
 
-    h2 {
-        margin: 0 0 10px;
-    }
+.popup h2 {
+    margin-bottom: 20px;
+}
 
-    form {
-        display: flex;
-        flex-direction: column;
+.popup form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        input {
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 16px;
-        }
+.popup form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        
-        button:hover {
-            background-color: #0056b3;
-        }
-    }
+.popup form button:hover {
+    background-color: #218838;
 }
