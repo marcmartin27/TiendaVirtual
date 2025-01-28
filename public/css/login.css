@@ -74,6 +74,11 @@ body {
   margin: 10px;
   flex: 1 1 18%;
   max-width: 18%;
+  transition: transform 0.3s ease;
+}
+
+.marcaInicio:hover {
+  transform: scale(1.1);
 }
 
 .marcaInicio img {

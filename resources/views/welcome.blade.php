@@ -23,7 +23,7 @@
 
     <div class="marcasInicio">
         <div class="marcaInicio">
-            <img src="../../../images/nike2.png" alt="nike">
+            <img src="../../../images/nike.webp" alt="nike">
             <p>Nike</p>
         </div>
 
@@ -52,11 +52,11 @@
 
     <div class="background" id="popupBackground">
         <div class="popup">
-            <h2>Iniciar SesiÃ³n</h2>
+            <h2>Iniciar Sesion</h2>
             <form action="/login" method="POST">
                 @csrf
                 <input type="text" name="username" placeholder="Usuario" required>
-                <input type="password" name="password" placeholder="ContraseÃ±a" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
                 <button type="submit">Acceder</button>
             </form>
         </div>
