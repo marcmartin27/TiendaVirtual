@@ -24,6 +24,7 @@ h1 {
         text-align: center;
         padding: 10px;
         margin: 15px;
+        transition: background-color 0.3s, transform 0.3s ease-in-out;
 
         img {
             width: 100%;
@@ -66,5 +67,9 @@ h1 {
             color: black;
             transform: scale(1.1);
         }
+    }
+
+    .sneaker-card:hover {
+        transform: scale(1.1);
     }
 }
