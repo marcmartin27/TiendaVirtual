@@ -23,27 +23,27 @@
 
     <div class="marcasInicio">
         <div class="marcaInicio">
-            <img src="" alt="">
+            <img src="../../../images/nike2.png" alt="nike">
             <p>Nike</p>
         </div>
 
         <div class="marcaInicio">
-            <img src="" alt="">
+            <img src="../../../images/adidas.webp" alt="adidas">
             <p>Adidas</p>
         </div>
 
         <div class="marcaInicio">
-            <img src="" alt="">
+            <img src="../../../images/jordan.webp" alt="jordan">
             <p>Jordan</p>
         </div>
 
         <div class="marcaInicio">
-            <img src="" alt="">
+            <img src="../../../images/yeezy.webp" alt="yeezy">
             <p>Yeezy</p>
         </div>
 
         <div class="marcaInicio">
-            <img src="" alt="">
+            <img src="../../../images/newbalance.webp" alt="newbalance">
             <p>New Balance</p>
         </div>
 
