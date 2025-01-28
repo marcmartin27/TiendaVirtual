@@ -19,50 +19,83 @@
         </div>
     </div>
 
-    <img src="../../../images/banner.png" alt="Banner promocional" id="bannerPromocional">
+    <h1>¡EXPLORA NUESTRO CATALOGO!</h1>
 
-    <div class="marcasInicio">
-        <div class="marcaInicio">
-            <img src="" alt="">
-            <p>Nike</p>
+    <div class="container">
+        <!-- Tarjetas de ejemplo de zapatillas -->
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 1">
+            <h3>Zapatilla Nike Air</h3>
+            <p>Precio: $120</p>
+            <button>Añadir al carrito</button>
         </div>
-
-        <div class="marcaInicio">
-            <img src="" alt="">
-            <p>Adidas</p>
+        <div class="sneaker-card">
+            <img src="images/adidas.webp" alt="Zapatilla 2">
+            <h3>Adidas Ultraboost</h3>
+            <p>Precio: $140</p>
+            <button>Añadir al carrito</button>
         </div>
-
-        <div class="marcaInicio">
-            <img src="" alt="">
-            <p>Jordan</p>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 3">
+            <h3>Puma Ignite</h3>
+            <p>Precio: $110</p>
+            <button>Añadir al carrito</button>
         </div>
-
-        <div class="marcaInicio">
-            <img src="" alt="">
-            <p>Yeezy</p>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 4">
+            <h3>Converse All Star</h3>
+            <p>Precio: $90</p>
+            <button>Añadir al carrito</button>
         </div>
-
-        <div class="marcaInicio">
-            <img src="" alt="">
-            <p>New Balance</p>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 5">
+            <h3>New Balance 574</h3>
+            <p>Precio: $130</p>
+            <button>Añadir al carrito</button>
         </div>
-
-        <a href=""><button>VER TODAS</button></a>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 6">
+            <h3>Vans Old Skool</h3>
+            <p>Precio: $85</p>
+            <button>Añadir al carrito</button>
+        </div>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 7">
+            <h3>Reebok Classic</h3>
+            <p>Precio: $100</p>
+            <button>Añadir al carrito</button>
+        </div>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 8">
+            <h3>Fila Disruptor</h3>
+            <p>Precio: $110</p>
+            <button>Añadir al carrito</button>
+        </div>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 5">
+            <h3>New Balance 574</h3>
+            <p>Precio: $130</p>
+            <button>Añadir al carrito</button>
+        </div>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 6">
+            <h3>Vans Old Skool</h3>
+            <p>Precio: $85</p>
+            <button>Añadir al carrito</button>
+        </div>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 7">
+            <h3>Reebok Classic</h3>
+            <p>Precio: $100</p>
+            <button>Añadir al carrito</button>
+        </div>
+        <div class="sneaker-card">
+            <img src="images/yeezy.webp" alt="Zapatilla 8">
+            <h3>Fila Disruptor</h3>
+            <p>Precio: $110</p>
+            <button>Añadir al carrito</button>
+        </div>
     </div>
-
-    <div class="background" id="popupBackground">
-        <div class="popup">
-            <h2>Iniciar SesiÃ³n</h2>
-            <form action="/login" method="POST">
-                @csrf
-                <input type="text" name="username" placeholder="Usuario" required>
-                <input type="password" name="password" placeholder="ContraseÃ±a" required>
-                <button type="submit">Acceder</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="{{ asset('js/login.js') }}"></script>
 
     <footer>
         <div>
