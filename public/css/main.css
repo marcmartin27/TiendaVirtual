@@ -150,7 +150,6 @@ body {
   height: auto;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Left Part */
@@ -158,6 +157,7 @@ body {
   flex: 2;
   text-align: center;
   background-color: #BAADA6;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .left .logo-small {
@@ -175,6 +175,7 @@ body {
   flex: 1;
   text-align: center;
   padding-left: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .right .logo-form {
@@ -187,7 +188,7 @@ body {
 }
 
 .right form input {
-  width: 100%;
+  width: 70%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -195,17 +196,18 @@ body {
 }
 
 .right form button {
-  width: 100%;
+  width: 80%;
   padding: 10px;
-  background-color: #28a745;
-  color: white;
+  background-color: #BAADA6;
+  color: black;
   border: none;
   border-radius: 5px;
+  margin-top: 20px;
   cursor: pointer;
 }
 
 .right form button:hover {
-  background-color: #218838;
+  background-color: #BAADA6;
 }
 
 body {
