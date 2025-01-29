@@ -45,7 +45,7 @@ h1 {
 
         p {
             font-size: 1rem;
-            color: #666;
+            color: #000000;
             text-align: left;
             margin-left: 20px;
         }   
@@ -69,7 +69,28 @@ h1 {
         }
     }
 
+    /* Efecto brillante en el borde */
+    .sneaker-card::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 10px;
+        background: linear-gradient(45deg, #594C45, #BAADA6, #bbbbbb, #BAADA6);
+        z-index: -1;
+        filter: blur(5px);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .sneaker-card:hover::before {
+        opacity: 1;
+    }
+
     .sneaker-card:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.555);
     }
 }
