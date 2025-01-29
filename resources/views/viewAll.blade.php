@@ -9,7 +9,7 @@
 <body>
     @include('header')
 
-    <h1>¡EXPLORA NUESTRO CATALOGO!</h1>
+    <h1>🔥 ¡EXPLORA NUESTRO CATALOGO! 🔥</h1>
 
     <div class="container">
         <!-- Tarjetas de ejemplo de zapatillas -->
