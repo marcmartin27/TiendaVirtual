@@ -95,34 +95,19 @@ body {
 .marcasInicio .marcaInicio:hover {
   transform: scale(1.1);
 }
-.marcasInicio a {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 20px;
-}
 .marcasInicio a button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-.marcasInicio a button:hover {
-  background-color: #0056b3;
-}
-.marcasInicio a button {
-  width: 270px;
-  height: 35px;
+  width: 300px;
+  height: 40px;
   background-color: #594C45;
   color: white;
   text-align: center;
   text-decoration: none;
+  border-radius: 10px;
+  border: none;
 }
 .marcasInicio a button:hover {
   background-color: #BAADA6;
+  border: none;
 }
 
 /* Popup Background */
