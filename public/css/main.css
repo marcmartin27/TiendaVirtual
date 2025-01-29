@@ -1,4 +1,8 @@
 /* General Styles */
+#bannerPromocional {
+  transition: opacity 0.1s ease-in-out;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -34,12 +38,12 @@ body {
   display: inline-block;
 }
 .nav .buscador input {
-  width: 70%;
+  width: 40%;
   padding: 8px;
-  border: #594C45;
+  border: #bebebe 1px solid;
   border-radius: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 .nav .buscador img {
   width: 60px;
@@ -95,23 +99,19 @@ body {
 .marcasInicio .marcaInicio:hover {
   transform: scale(1.1);
 }
-.marcasInicio a {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 20px;
-}
 .marcasInicio a button {
-  background-color: #007bff;
+  width: 300px;
+  height: 40px;
+  background-color: #594C45;
   color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
 }
 .marcasInicio a button:hover {
-  background-color: #0056b3;
+  background-color: #BAADA6;
+  border: none;
 }
 
 /* Popup Background */

@@ -9,7 +9,7 @@
 <body>
     @include('header')
 
-    <img src="../../../images/banner1.png" alt="Banner promocional" id="bannerPromocional">
+    <img src="{{ asset('images/banner1.png') }}" alt="Banner promocional" id="bannerPromocional">
 
     <div class="marcasInicio">
         <div class="marcaInicio">
@@ -64,5 +64,6 @@
             
         </div>
     </footer>
+    <script src="{{ asset('js/banner.js') }}"></script>
 </body>
 </html>
