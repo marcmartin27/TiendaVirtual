@@ -3,7 +3,9 @@
             <img src="../../../images/logo.png" alt="">
         </div>
         <div class="buscador">
+            <p><a href=""></a>Rebajas</p>
             <input type="text" id="buscador" placeholder="Buscar...">
+            <img src="../../../images/cesta.webp" alt="">
         </div>
         <div class="usuario">
             <button id="openPopup">Iniciar Sesion</button>

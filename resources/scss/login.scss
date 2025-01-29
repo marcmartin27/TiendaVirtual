@@ -16,39 +16,45 @@ body {
     position: sticky;
     top: 0;
     z-index: 10;
-}
 
-.nav .foto img {
-    width: 250px;
-    height: 50px;
-    object-fit: cover;
-    margin-left: -20px;
-}
+    .foto {
+        img {
+            width: 250px;
+            height: 50px;
+            object-fit: cover;
+            margin-left: -20px;
+        }
+    }
 
-.nav .buscador {
-    flex-grow: 1;
-    margin: 0 20px;
-    text-align: center;
-}
+    .buscador {
+        flex-grow: 1;
+        margin: 0 20px;
+        text-align: center;
 
-.nav .buscador input {
-    width: 70%;
-    padding: 8px;
-    border: none;
-    border-radius: 20px;
-}
+        input {
+            width: 70%;
+            padding: 8px;
+            border: none;
+            border-radius: 20px;
+        }
+        img {
+            width: 60px;
+        }
+    }
 
-.nav .usuario button {
-    background-color: #ff4500;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.nav .usuario button:hover {
-    background-color: #ff5722;
+    .usuario {
+        button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff5722;
+        }
+    }
 }
 
 /* Banner */
@@ -66,54 +72,51 @@ body {
     flex-wrap: wrap;
     padding: 20px;
     background-color: #fff;
+
+    .marcaInicio {
+        text-align: center;
+        margin: 10px;
+        flex: 1 1 18%;
+        max-width: 18%;
+        transition: transform 0.3s ease;
+
+        img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        p {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    }
+    .marcaInicio:hover {
+        transform: scale(1.1);
+    }
+    a {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px;
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    }
 }
 
-.marcaInicio {
-    text-align: center;
-    margin: 10px;
-    flex: 1 1 18%;
-    max-width: 18%;
-    transition: transform 0.3s ease;
-}
-
-.marcaInicio:hover {
-    transform: scale(1.1);
-}
-
-.marcaInicio img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.marcaInicio p {
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Ver Todas Button */
-.marcasInicio a {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.marcasInicio a button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.marcasInicio a button:hover {
-    background-color: #0056b3;
-}
 
 /* Popup Background */
 .background {
