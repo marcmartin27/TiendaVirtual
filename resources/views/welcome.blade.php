@@ -9,7 +9,7 @@
 <body>
     @include('header')
 
-    <img src="../../../images/banner.png" alt="Banner promocional" id="bannerPromocional">
+    <img src="../../../images/banner1.png" alt="Banner promocional" id="bannerPromocional">
 
     <div class="marcasInicio">
         <div class="marcaInicio">
