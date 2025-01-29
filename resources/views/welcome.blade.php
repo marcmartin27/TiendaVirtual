@@ -37,7 +37,7 @@
             <p>New Balance</p>
         </div>
 
-        <a href=""><button>VER TODAS</button></a>
+        <a href="{{ url('/viewall') }}"><button>VER TODAS</button></a>
     </div>
 
 
