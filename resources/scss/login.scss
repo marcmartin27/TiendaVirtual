@@ -169,6 +169,8 @@ body {
 
 /* Left Part */
 .left {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     flex: 2;
     text-align: center;
     background-color: #BAADA6;
@@ -182,11 +184,14 @@ body {
 }
 
 .left .logo-large {
-    width: 80%;
-}
+    width: 90%;
+    transform: scaleX(-1);
+    }
 
 /* Right Part */
 .right {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     background-color: white;
     flex: 1;
     text-align: center;
@@ -196,8 +201,9 @@ body {
 }
 
 .right .logo-form {
-    width: 60%;
+    width: 40%;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .right h2 {

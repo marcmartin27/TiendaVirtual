@@ -1,6 +1,6 @@
 <div class="nav">
         <div class="foto">
-            <img src="../../../images/logo.png" alt="">
+        <a href="{{ url('/') }}"><img src="../../../images/logo.png" alt=""></a>
         </div>
         <div class="buscador">
             <p><a href=""></a>Rebajas</p>
