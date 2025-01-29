@@ -31,14 +31,21 @@ body {
         margin: 0 20px;
         text-align: center;
 
+        p {
+            color: red;
+            display: inline-block;
+        }
         input {
-            width: 70%;
+            width: 40%;
             padding: 8px;
-            border: none;
+            border: #bebebe 1px solid;
             border-radius: 20px;
+            margin-left: 15px;
+            margin-right: 15px;
         }
         img {
             width: 60px;
+            display: inline-block;
         }
     }
 
@@ -114,6 +121,19 @@ body {
         button:hover {
             background-color: #0056b3;
         }
+    }
+    
+    a button {
+        width: 270px;
+        height: 35px;
+        background-color: #594C45;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    a button:hover {
+        background-color: #BAADA6;
     }
 }
 
