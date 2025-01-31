@@ -50,6 +50,8 @@
         <a href="{{ url('/viewall') }}"><button>VER TODAS</button></a>
     </div>
 
+    <h1>🔥 ¡PRODUCTOS REBAJADOS! 🔥</h1>
+
     <script src="{{ asset('js/banner.js') }}"></script>
 
     @include('footer')
