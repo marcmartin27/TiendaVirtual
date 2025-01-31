@@ -86,19 +86,5 @@
             <button>Añadir al carrito</button>
         </div>
     </div>
-
-    <footer>
-        <div>
-
-        </div>
-
-        <div>
-            
-        </div>
-
-        <div>
-            
-        </div>
-    </footer>
 </body>
 </html>

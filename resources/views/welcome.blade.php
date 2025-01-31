@@ -50,20 +50,8 @@
         <a href="{{ url('/viewall') }}"><button>VER TODAS</button></a>
     </div>
 
-
-    <footer>
-        <div>
-
-        </div>
-
-        <div>
-            
-        </div>
-
-        <div>
-            
-        </div>
-    </footer>
     <script src="{{ asset('js/banner.js') }}"></script>
+
+    @include('footer')
 </body>
 </html>
