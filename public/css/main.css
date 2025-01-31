@@ -9,62 +9,6 @@ body {
   background-color: #f9f9f9;
 }
 
-/* Navigation Bar */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  color: white;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.nav .foto img {
-  width: 250px;
-  height: 50px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  margin-left: -20px;
-}
-.nav .buscador {
-  flex-grow: 1;
-  margin: 0 20px;
-  text-align: center;
-}
-.nav .buscador p {
-  color: red;
-  display: inline-block;
-}
-.nav .buscador input {
-  width: 40%;
-  padding: 8px;
-  border: #bebebe 1px solid;
-  border-radius: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-.nav .buscador img {
-  width: 60px;
-  display: inline-block;
-}
-.nav .usuario button {
-  background-color: #594C45;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  transition: background-color 0.3s, transform 0.3s ease-in-out;
-}
-.nav .usuario button:hover {
-  background-color: #baada6;
-  color: black;
-  transform: scale(1.1);
-}
-
 /* Banner */
 #bannerPromocional {
   width: 100%;
@@ -306,4 +250,59 @@ h1 {
 .container .sneaker-card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.555);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  color: white;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav .foto img {
+  width: 250px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-left: -20px;
+}
+.nav .buscador {
+  flex-grow: 1;
+  margin: 0 20px;
+  text-align: center;
+}
+.nav .buscador p {
+  color: red;
+  display: inline-block;
+}
+.nav .buscador input {
+  width: 40%;
+  padding: 8px;
+  border: #bebebe 1px solid;
+  border-radius: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.nav .buscador img {
+  width: 60px;
+  display: inline-block;
+}
+.nav .usuario button {
+  background-color: #594C45;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s ease-in-out;
+}
+.nav .usuario button:hover {
+  background-color: #baada6;
+  color: black;
+  transform: scale(1.1);
 }/*# sourceMappingURL=main.css.map */
