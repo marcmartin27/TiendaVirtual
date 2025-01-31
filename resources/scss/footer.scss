@@ -3,17 +3,17 @@ footer {
     height: 200px;
     background-color: #D9D9D9;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     .texto {
         width: 30%;
-        display: flex;
-        flex-wrap: wrap;
-        background-color: red;
+        text-align: center;
+
     }
 
     .imagen {
+        text-align: center;
         width: 30%;
-        display: flex;
-        flex-wrap: wrap;
         img {
             width: 100px;
             height: 100px;
