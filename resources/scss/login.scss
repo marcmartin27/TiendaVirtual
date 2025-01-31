@@ -57,16 +57,19 @@ body {
 
     .usuario {
         button {
-            background-color: #ff4500;
+            background-color: #594C45;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s ease-in-out;
         }
         button:hover {
-            background-color: #ff5722;
-        }
+            background-color: #baada6;
+            color: black;
+            transform: scale(1.1);        }
     }
 }
 
