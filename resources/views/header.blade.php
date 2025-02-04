@@ -15,19 +15,19 @@
 <div class="background" id="popupBackground">
     <div class="popup">
         <div class="left">
-            <img src="../../../images/logo.png" alt="Logo" class="logo-small">
-            <img src="../../../images/jordan.webp" alt="Logo Grande" class="logo-large">
-        </div>
-        <div class="right">
-            <img src="../../../images/logo_redondo.png" alt="Logo" class="logo-form">
-            <h2>Iniciar Sesion</h2>
-            <form action="/login" method="POST">
-                @csrf
-                <input type="text" name="username" placeholder="Usuario" required>
-                <input type="password" name="password" placeholder="Contraseña" required>
-                <button type="submit">Acceder</button>
-            </form>
-        </div>
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-small">
+        <img src="{{ asset('images/jordan.webp') }}" alt="Logo Grande" class="logo-large">
+    </div>
+    <div class="right">
+        <img src="{{ asset('images/logo_redondo.png') }}" alt="Logo" class="logo-form">
+        <h2>Iniciar Sesion</h2>
+        <form action="{{ route('login') }}" method="POST">
+            @csrf
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Acceder</button>
+        </form>
+    </div>
     </div>
     </div>
 
