@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -20,7 +22,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('formularioProducto');
+        $categories = Category::all();
+        return view('formularioProducto', compact('categories'));
     }
 
     /**
@@ -35,9 +38,10 @@ class ProductController extends Controller
             'category_id' => 'required|integer',
             'price' => 'required|numeric',
             'featured' => 'boolean',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Product::create([
+        $product = Product::create([
             'code' => $request->code,
             'name' => $request->name,
             'description' => $request->description,
@@ -45,6 +49,19 @@ class ProductController extends Controller
             'price' => $request->price,
             'featured' => $request->featured ? true : false,
         ]);
+
+        // Manejar la carga de las imágenes
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images'), $imageName);
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image_url' => $imageName,
+                ]);
+            }
+        }
 
         return redirect()->route('products.create')->with('success', 'Producto añadido con éxito');
     }
@@ -83,7 +100,7 @@ class ProductController extends Controller
 
     public function viewAll()
     {
-        // Aquí puedes obtener los productos de la base de datos y pasarlos a la vista
-        return view('viewAll');
+        $products = Product::all();
+        return view('viewAll', compact('products'));
     }
 }

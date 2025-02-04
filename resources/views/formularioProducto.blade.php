@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Añadir Nuevo Producto</h1>
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="code">Código:</label>
@@ -24,7 +24,12 @@
         </div>
         <div>
             <label for="category_id">Categoría:</label>
-            <input type="number" id="category_id" name="category_id" required>
+            <select id="category_id" name="category_id" required>
+                <option value="">Seleccione una categoría</option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?= $category->id ?>"><?= $category->name ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div>
             <label for="price">Precio:</label>
@@ -33,6 +38,10 @@
         <div>
             <label for="featured">Destacado:</label>
             <input type="checkbox" id="featured" name="featured">
+        </div>
+        <div>
+            <label for="images">Imágenes:</label>
+            <input type="file" id="images" name="images[]" multiple required>
         </div>
         <button type="submit">Añadir Producto</button>
     </form>
