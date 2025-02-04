@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\Category;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('formularioProducto');
+        return view('formularioCategoria');
     }
 
     /**
@@ -29,24 +29,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|unique:products,code|max:10',
+            'code' => 'required|unique:categories,code|max:10',
             'name' => 'required|max:255',
-            'description' => 'required',
-            'category_id' => 'required|integer',
-            'price' => 'required|numeric',
-            'featured' => 'boolean',
         ]);
 
-        Product::create([
+        Category::create([
             'code' => $request->code,
             'name' => $request->name,
-            'description' => $request->description,
-            'category_id' => $request->category_id,
-            'price' => $request->price,
-            'featured' => $request->featured ? true : false,
         ]);
 
-        return redirect()->route('products.create')->with('success', 'Producto añadido con éxito');
+        return redirect()->route('categories.create')->with('success', 'Categoría añadida con éxito');
     }
 
     /**
@@ -79,11 +71,5 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function viewAll()
-    {
-        // Aquí puedes obtener los productos de la base de datos y pasarlos a la vista
-        return view('viewAll');
     }
 }
