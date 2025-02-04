@@ -65,11 +65,11 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             // Autenticación exitosa
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('success', 'Inicio de sesión exitoso.');
         }
 
         // Autenticación fallida
@@ -81,7 +81,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect('/')->with('success', 'Cierre de sesión exitoso.');
     }
 
 }
