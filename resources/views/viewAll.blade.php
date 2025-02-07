@@ -14,15 +14,32 @@
     <div class="container">
         @foreach($products as $product)
             <div class="sneaker-card">
-                @foreach($product->images as $image)
-                    <img src="{{ asset('images/' . $image->image_url) }}" alt="{{ $product->name }}">
-                @endforeach
+                @if($product->images->isNotEmpty())
+                    @php
+                        $firstImage = $product->images->first();
+                        $secondImage = $product->images->skip(1)->first(); // Obtiene la segunda imagen si existe
+                    @endphp
+
+                    <div class="image-container">
+                        <img class="default-image" 
+                            src="{{ asset('images/' . $firstImage->image_url) }}" 
+                            alt="{{ $product->name }}">
+                        
+                        @if($secondImage)
+                            <img class="hover-image" 
+                                src="{{ asset('images/' . $secondImage->image_url) }}" 
+                                alt="{{ $product->name }}">
+                        @endif
+                    </div>
+                @endif
+
                 <h3>{{ $product->name }}</h3>
                 <p>Precio: ${{ $product->price }}</p>
                 <button>Añadir al carrito</button>
             </div>
         @endforeach
     </div>
+
 
     @include('footer')
 </body>
