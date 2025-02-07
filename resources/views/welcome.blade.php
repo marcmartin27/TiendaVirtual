@@ -21,7 +21,7 @@
 
         <div class="marcaInicio">
             <div class="img-container">
-                <img src="../../../images/adidas.webp" alt="adidas">
+                <img src="../../../images/Adidas-CampusBadBunny-Brown-1.webp" alt="adidas">
             </div>
             <p>Adidas</p>
         </div>
