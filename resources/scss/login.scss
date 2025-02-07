@@ -195,3 +195,29 @@ body {
     background-color: #f2dede;
     border-color: #ebccd1;
 }
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #ccc;
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.toggle-buttons button.active {
+    background-color: #BAADA6;
+    color: white;
+}
+
+/* Hidden Form */
+.hidden {
+    display: none;
+}

@@ -53,7 +53,7 @@ class ProductController extends Controller
         // Manejar la carga de las imágenes
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
+                $imageName = $image->getClientOriginalName();
                 $image->move(public_path('images'), $imageName);
 
                 ProductImage::create([
