@@ -54,19 +54,19 @@
 
     @if($featuredProducts->isNotEmpty())
         <div class="featured-container">
-            <div class="featured-scroll">
-                @foreach($featuredProducts as $product)
-                    <div class="featured-card">
-                        @if($product->images->isNotEmpty())
-                            <img src="{{ asset('images/' . $product->images->first()->image_url) }}" alt="{{ $product->name }}">
-                        @endif
-                        <h3>{{ $product->name }}</h3>
-                        <p>Precio: ${{ $product->price }}</p>
-                        <button>Añadir al carrito</button>
-                    </div>
-                @endforeach
-            </div>
+            @foreach($featuredProducts as $product)
+                <div class="featured-card">
+                    @if($product->images->isNotEmpty())
+                        <img src="{{ asset('images/' . $product->images->first()->image_url) }}" alt="{{ $product->name }}">
+                    @endif
+                    <h3>{{ $product->name }}</h3>
+                    <p>Precio: ${{ $product->price }}</p>
+                    <button>Añadir al carrito</button>
+                </div>
+            @endforeach
         </div>
+    @else
+        <p>No hay productos destacados en este momento.</p>
     @endif
 
     <script src="{{ asset('js/banner.js') }}"></script>
