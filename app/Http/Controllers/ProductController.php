@@ -38,32 +38,36 @@ class ProductController extends Controller
             'category_id' => 'required|integer',
             'price' => 'required|numeric',
             'featured' => 'boolean',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $product = Product::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'description' => $request->description,
-            'category_id' => $request->category_id,
-            'price' => $request->price,
-            'featured' => $request->featured ? true : false,
-        ]);
+        try {
+            $product = Product::create([
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'category_id' => $request->category_id,
+                'price' => $request->price,
+                'featured' => $request->featured ? true : false,
+            ]);
 
-        // Manejar la carga de las imágenes
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('images'), $imageName);
+            // Manejar la carga de las imágenes
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('images'), $imageName);
 
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image_url' => $imageName,
-                ]);
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_url' => $imageName,
+                    ]);
+                }
             }
-        }
 
-        return redirect()->route('products.create')->with('success', 'Producto añadido con éxito');
+            return redirect()->route('dashboard')->with('success', 'Producto añadido con éxito');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
