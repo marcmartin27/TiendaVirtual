@@ -208,4 +208,39 @@ body {
 /* Hidden Form */
 .hidden {
   display: none;
+}
+
+.featured-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+}
+.featured-container .featured-wrapper {
+  display: flex;
+  gap: 15px;
+  transition: transform 0.5s ease-in-out;
+}
+.featured-container .featured-card {
+  flex: 0 0 20%;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+.featured-container .featured-card:hover {
+  transform: scale(1.05);
+}
+.featured-container .featured-card img {
+  width: 100%;
+  height: 220px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 10px;
+}
+.featured-container .featured-card h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+  color: #333;
 }/*# sourceMappingURL=login.css.map */
