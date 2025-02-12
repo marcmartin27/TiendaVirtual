@@ -7,25 +7,12 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('dashboard', compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('formularioCategoria');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -38,38 +25,36 @@ class CategoryController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('categories.create')->with('success', 'Categoría añadida con éxito');
+        return redirect()->route('dashboard')->with('success', 'Categoría añadida con éxito');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return response()->json($category);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'code' => 'required|max:10|unique:categories,code,' . $id,
+            'name' => 'required|max:255',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->update([
+            'code' => $request->code,
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Categoría actualizada con éxito');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $category = Category::findOrFail($id);
+        $category->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('dashboard')->with('success', 'Categoría eliminada con éxito');
     }
 }

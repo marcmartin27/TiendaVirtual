@@ -37,3 +37,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('.sidebar ul li a');
+    const sections = document.querySelectorAll('.main-content > div');
+    const addCategoryButton = document.getElementById('addCategoryButton');
+    const addCategoryForm = document.getElementById('addCategoryForm');
+    const editCategoryButtons = document.querySelectorAll('.editCategoryButton');
+    const deleteCategoryButtons = document.querySelectorAll('.deleteCategoryButton');
+    const editCategoryModal = document.getElementById('editCategoryModal');
+    const editCategoryForm = document.getElementById('editCategoryForm');
+    const categorySearch = document.getElementById('categorySearch');
+    const categoryRows = document.querySelectorAll('tbody tr');
+
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sectionId = link.getAttribute('data-section');
+
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    addCategoryButton.addEventListener('click', () => {
+        addCategoryForm.classList.toggle('hidden');
+    });
+
+    editCategoryButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const categoryId = e.target.getAttribute('data-category-id');
+            const response = await fetch(`/categories/${categoryId}/edit`);
+            const category = await response.json();
+
+            document.getElementById('editCode').value = category.code;
+            document.getElementById('editName').value = category.name;
+            editCategoryForm.action = `/categories/${categoryId}`;
+
+            editCategoryModal.classList.remove('hidden');
+        });
+    });
+
+    deleteCategoryButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const categoryId = e.target.getAttribute('data-category-id');
+            const response = await fetch(`/categories/${categoryId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Error al eliminar la categoría:', response.statusText);
+                location.reload();
+            }
+        });
+    });
+
+    categorySearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        categoryRows.forEach(row => {
+            const categoryName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            if (categoryName.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});

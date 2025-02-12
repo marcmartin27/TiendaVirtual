@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <header>
@@ -139,7 +140,64 @@
                 </table>
             </div>
             <div id="categories" class="hidden">
-                <!-- Contenido de categorias -->
+                <button id="addCategoryButton">Añadir Categoría</button>
+                <div id="addCategoryForm" class="hidden">
+                    <h2>Añadir Nueva Categoría</h2>
+                    <form action="{{ route('categories.store') }}" method="POST">
+                        @csrf
+                        <div>
+                            <label for="code">Código:</label>
+                            <input type="text" id="code" name="code" required>
+                        </div>
+                        <div>
+                            <label for="name">Nombre:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <button type="submit">Añadir Categoría</button>
+                    </form>
+                </div>
+                <input type="text" id="categorySearch" placeholder="Buscar categorías...">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $category)
+                            <tr>
+                                <td>{{ $category->id }}</td>
+                                <td>{{ $category->code }}</td>
+                                <td>{{ $category->name }}</td>
+                                <td>
+                                    <button class="editCategoryButton" data-category-id="{{ $category->id }}">Editar</button>
+                                    <button class="deleteCategoryButton" data-category-id="{{ $category->id }}">Eliminar</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal para editar categoría -->
+            <div id="editCategoryModal" class="hidden">
+                <h2>Editar Categoría</h2>
+                <form id="editCategoryForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label for="editCode">Código:</label>
+                        <input type="text" id="editCode" name="code" required>
+                    </div>
+                    <div>
+                        <label for="editName">Nombre:</label>
+                        <input type="text" id="editName" name="name" required>
+                    </div>
+                    <button type="submit">Actualizar Categoría</button>
+                </form>
             </div>
             <div id="users" class="hidden">
                 <!-- Contenido de usuarios -->
