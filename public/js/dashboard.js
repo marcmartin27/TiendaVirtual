@@ -125,11 +125,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    dashboard.js:131 
-    DELETE http://localhost:8000/products/36 419 (unknown status)
-   
-   dashboard.js:138 Error al eliminar la categoría: unknown status
-   (anonymous)	@	dashboard.js:138
+    deleteProductButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const productId = e.target.getAttribute('data-product-id');
+            const response = await fetch(`/products/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Error al eliminar la categoría:', response.statusText);
+                location.reload();
+            }
+        });
+    });
 
     categorySearch.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
