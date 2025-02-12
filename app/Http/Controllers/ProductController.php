@@ -14,8 +14,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with('category')->get();
+        $categories = Category::all();
+        return view('dashboard', compact('products', 'categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.

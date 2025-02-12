@@ -132,12 +132,55 @@
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->featured ? 'Sí' : 'No' }}</td>
                                 <td>
-                                    <button class="addStockButton" data-product-id="{{ $product->id }}">Añadir Stock</button>
+                                    <button class="editProductButton" data-product-id="{{ $product->id }}">Editar</button>
+                                    <button class="deleteProductButton" data-product-id="{{ $product->id }}">Eliminar</button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Modal para editar producto -->
+            <div id="editProductModal" class="hidden">
+                <h2>Editar Producto</h2>
+                <form id="editProductForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label for="editCode">Código:</label>
+                        <input type="text" id="editCode" name="code" required>
+                    </div>
+                    <div>
+                        <label for="editName">Nombre:</label>
+                        <input type="text" id="editName" name="name" required>
+                    </div>
+                    <div>
+                        <label for="editDescription">Descripción:</label>
+                        <textarea id="editDescription" name="description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="editCategoryId">Categoría:</label>
+                        <select id="editCategoryId" name="category_id" required>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label for="editPrice">Precio:</label>
+                        <input type="number" id="editPrice" name="price" step="0.01" required>
+                    </div>
+                    <div>
+                        <label for="editFeatured">Destacado:</label>
+                        <input type="checkbox" id="editFeatured" name="featured">
+                    </div>
+                    <div>
+                        <label for="editImages">Imágenes:</label>
+                        <input type="file" id="editImages" name="images[]" multiple>
+                    </div>
+                    <button type="submit">Actualizar Producto</button>
+                </form>
             </div>
             <div id="categories" class="hidden">
                 <button id="addCategoryButton">Añadir Categoría</button>
