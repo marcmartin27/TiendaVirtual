@@ -22,19 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll(".featured-card");
     const visibleCards = 5;
     let index = 0;
-
+    const cardWidth = cards[0].offsetWidth + 15; // Ancho de una tarjeta + gap
+    const totalCards = cards.length;
+    
     function autoScroll() {
-        if (cards.length <= visibleCards) return; // No hace scroll si hay 5 o menos
-        
         index++;
-        if (index > cards.length - visibleCards) {
-            index = 0; // Reinicia el scroll cuando llega al final
-        }
+        wrapper.style.transition = "transform 0.5s ease-in-out";
+        wrapper.style.transform = `translateX(-${index * cardWidth}px)`;
 
-        const offset = -index * (100 / visibleCards);
-        wrapper.style.transform = `translateX(${offset}%)`;
+        // Cuando llegamos al final, reiniciamos la posición sin transición
+        if (index === totalCards - visibleCards) {
+            setTimeout(() => {
+                wrapper.style.transition = "none"; // Quitamos la animación
+                wrapper.style.transform = `translateX(0px)`;
+                index = 0;
+            }, 500); // Esperamos a que termine la animación antes de resetear
+        }
     }
 
-    setInterval(autoScroll, 4000); // Cambia cada 4 segundos
+    setInterval(autoScroll, 3000); // Cambia cada 3 segundos
 });
 
