@@ -76,9 +76,14 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function show($id) {
+        $product = Product::with('images')->find($id);
+    
+        if (!$product) {
+            abort(404); // Retorna un error 404 si el producto no existe
+        }
+    
+        return view('product', compact('product'));
     }
 
     /**
