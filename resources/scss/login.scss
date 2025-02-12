@@ -1,5 +1,10 @@
 /* General Styles */
 
+html, body {
+    overflow-x: hidden;
+}
+
+
 #bannerPromocional {
     transition: opacity 0.4s ease-in-out;
 }
