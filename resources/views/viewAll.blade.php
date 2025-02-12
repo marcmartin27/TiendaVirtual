@@ -12,12 +12,13 @@
     <h1>🔥 ¡EXPLORA NUESTRO CATALOGO! 🔥</h1>
 
     <div class="container">
-        @foreach($products as $product)
-            <div class="sneaker-card">
+    @foreach($products as $product)
+        <div class="sneaker-card">
+            <a href="{{ route('product.show', ['id' => $product->id]) }}">
                 @if($product->images->isNotEmpty())
                     @php
                         $firstImage = $product->images->first();
-                        $secondImage = $product->images->skip(1)->first(); // Obtiene la segunda imagen si existe
+                        $secondImage = $product->images->skip(1)->first(); // Segunda imagen si existe
                     @endphp
 
                     <div class="image-container">
@@ -32,12 +33,13 @@
                         @endif
                     </div>
                 @endif
+            </a>
 
-                <h3>{{ $product->name }}</h3>
-                <p>Precio: ${{ $product->price }}</p>
-                <button>Añadir al carrito</button>
-            </div>
-        @endforeach
+            <h3><a href="{{ route('product.show', ['id' => $product->id]) }}">{{ $product->name }}</a></h3>
+            <p>Precio: ${{ $product->price }}</p>
+            <button>Añadir al carrito</button>
+        </div>
+    @endforeach
     </div>
 
 

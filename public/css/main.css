@@ -245,6 +245,11 @@ body {
   color: #333;
 }
 
+* {
+  text-decoration: none;
+  color: black;
+}
+
 h1 {
   text-align: center;
 }
@@ -266,6 +271,7 @@ h1 {
   margin: 15px;
   transition: background-color 0.3s, transform 0.3s ease-in-out;
   position: relative;
+  text-decoration: none;
   /* Efecto brillante en el borde */
 }
 .container .sneaker-card .image-container {
@@ -300,6 +306,7 @@ h1 {
   margin: 10px 0;
   text-align: left;
   margin-left: 20px;
+  text-decoration: none;
 }
 .container .sneaker-card p {
   font-size: 1rem;
