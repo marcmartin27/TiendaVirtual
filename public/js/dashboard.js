@@ -47,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteCategoryButtons = document.querySelectorAll('.deleteCategoryButton');
     const editCategoryModal = document.getElementById('editCategoryModal');
     const editCategoryForm = document.getElementById('editCategoryForm');
+    const editProductButtons = document.querySelectorAll('.editProductButton');
+    const deleteProductButtons = document.querySelectorAll('.deleteProductButton');
+    const editProductModal = document.getElementById('editProductModal');
+    const editProductForm = document.getElementById('editProductForm');
     const categorySearch = document.getElementById('categorySearch');
     const categoryRows = document.querySelectorAll('tbody tr');
 
@@ -101,6 +105,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+
+    editProductButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const productId = e.target.getAttribute('data-product-id');
+            const response = await fetch(`/products/${productId}/edit`);
+            const product = await response.json();
+
+            document.getElementById('editCode').value = product.code;
+            document.getElementById('editName').value = product.name;
+            document.getElementById('editDescription').value = product.description;
+            document.getElementById('editCategoryId').value = product.category_id;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editFeatured').checked = product.featured;
+            editProductForm.action = `/products/${productId}`;
+
+            editProductModal.classList.remove('hidden');
+        });
+    });
+
+    dashboard.js:131 
+    DELETE http://localhost:8000/products/36 419 (unknown status)
+   
+   dashboard.js:138 Error al eliminar la categoría: unknown status
+   (anonymous)	@	dashboard.js:138
 
     categorySearch.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
