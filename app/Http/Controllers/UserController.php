@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,7 +14,15 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('dashboard', compact('users'));
+        $products = Product::all();
+        $categories = Category::all();
+        $orders = Order::all();
+        $totalUsers = User::count();
+        $totalProducts = Product::count();
+        $totalCategories = Category::count();
+        $totalOrders = Order::count();
+
+        return view('dashboard', compact('users', 'products', 'categories', 'orders', 'totalUsers', 'totalProducts', 'totalCategories', 'totalOrders'));
     }
 
     public function store(Request $request)

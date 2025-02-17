@@ -312,6 +312,85 @@
                     <button type="submit">Actualizar Usuario</button>
                 </form>
             </div>
+            <div id="orders" class="hidden">
+                <button id="addOrderButton">Añadir Pedido</button>
+                <div id="addOrderForm" class="hidden">
+                    <h2>Añadir Nuevo Pedido</h2>
+                    <form action="{{ route('orders.store') }}" method="POST">
+                        @csrf
+                        <div>
+                            <label for="user_id">Usuario:</label>
+                            <select id="user_id" name="user_id" required>
+                                <option value="">Seleccione un usuario</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="total">Total:</label>
+                            <input type="number" id="total" name="total" step="0.01" required>
+                        </div>
+                        <div>
+                            <label for="status">Estado:</label>
+                            <input type="text" id="status" name="status" required>
+                        </div>
+                        <button type="submit">Añadir Pedido</button>
+                    </form>
+                </div>
+                <input type="text" id="orderSearch" placeholder="Buscar pedidos...">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orders as $order)
+                            <tr>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->user->name }}</td>
+                                <td>{{ $order->total }}</td>
+                                <td>{{ $order->status }}</td>
+                                <td>
+                                    <button class="editOrderButton" data-order-id="{{ $order->id }}">Editar</button>
+                                    <button class="deleteOrderButton" data-order-id="{{ $order->id }}">Eliminar</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal para editar pedido -->
+            <div id="editOrderModal" class="hidden">
+                <h2>Editar Pedido</h2>
+                <form id="editOrderForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label for="editUserId">Usuario:</label>
+                        <select id="editUserId" name="user_id" required>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label for="editTotal">Total:</label>
+                        <input type="number" id="editTotal" name="total" step="0.01" required>
+                    </div>
+                    <div>
+                        <label for="editStatus">Estado:</label>
+                        <input type="text" id="editStatus" name="status" required>
+                    </div>
+                    <button type="submit">Actualizar Pedido</button>
+                </form>
+            </div>
         </main>
     </div>
     <script src="{{ asset('js/dashboard.js') }}"></script>

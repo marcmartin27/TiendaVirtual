@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const editUserForm = document.getElementById('editUserForm');
     const userSearch = document.getElementById('userSearch');
     const userRows = document.querySelectorAll('tbody tr');
+    const addOrderButton = document.getElementById('addOrderButton');
+    const addOrderForm = document.getElementById('addOrderForm');
+    const editOrderButtons = document.querySelectorAll('.editOrderButton');
+    const deleteOrderButtons = document.querySelectorAll('.deleteOrderButton');
+    const editOrderModal = document.getElementById('editOrderModal');
+    const editOrderForm = document.getElementById('editOrderForm');
+    const orderSearch = document.getElementById('orderSearch');
+    const orderRows = document.querySelectorAll('tbody tr');
 
     links.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -87,6 +95,56 @@ document.addEventListener('DOMContentLoaded', () => {
         userRows.forEach(row => {
             const userName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
             if (userName.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    addOrderButton.addEventListener('click', () => {
+        addOrderForm.classList.toggle('hidden');
+    });
+
+    editOrderButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const orderId = e.target.getAttribute('data-order-id');
+            const response = await fetch(`/orders/${orderId}/edit`);
+            const order = await response.json();
+
+            document.getElementById('editUserId').value = order.user_id;
+            document.getElementById('editTotal').value = order.total;
+            document.getElementById('editStatus').value = order.status;
+            editOrderForm.action = `/orders/${orderId}`;
+
+            editOrderModal.classList.remove('hidden');
+        });
+    });
+
+    deleteOrderButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const orderId = e.target.getAttribute('data-order-id');
+            const response = await fetch(`/orders/${orderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Error al eliminar el pedido:', response.statusText);
+                location.reload();
+            }
+        });
+    });
+
+    orderSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        orderRows.forEach(row => {
+            const orderUserName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            if (orderUserName.includes(searchTerm)) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';

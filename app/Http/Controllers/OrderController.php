@@ -3,62 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\User;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $orders = Order::with('user')->get();
+        $users = User::all();
+        return view('dashboard', compact('orders', 'users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'buyer_id' => 'required|exists:users,id',
+            'status' => 'required|string|max:255',
+        ]);
+
+        Order::create($request->all());
+
+        return redirect()->route('dashboard')->with('success', 'Pedido añadido con éxito');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $order = Order::findOrFail($id);
+        return response()->json($order);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'buyer_id' => 'required|exists:users,id',
+            'status' => 'required|string|max:255',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update($request->all());
+
+        return redirect()->route('dashboard')->with('success', 'Pedido actualizado con éxito');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $order = Order::findOrFail($id);
+        $order->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('dashboard')->with('success', 'Pedido eliminado con éxito');
     }
 }
