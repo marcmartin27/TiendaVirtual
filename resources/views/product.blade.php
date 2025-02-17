@@ -11,19 +11,23 @@
     <div class="container">
         <div class="productContainer">
             <div class="productImage">
-                <img src="{{ asset('images/' . $product->imagen) }}" alt="{{ $product->nombre }}">
+                <img src="{{ asset('images/' . $product->imagen) }}" alt="{{ $product->name }}">
             </div>
 
             <div class="productInfo">
-                <h1>{{ $product->nombre }}</h1>
-                <p class="price">{{ number_format($product->precio, 2) }}€</p>
+                <h1>{{ $product->name }}</h1>
+                <p class="price">{{ number_format($product->price, 2) }}€</p>
                 
                 <div class="sizes">
-                    <p><strong>Talla:</strong> <span id="selectedSize">38</span></p>
+                    <p><strong>Talla:</strong> <span id="selectedSize">Selecciona una talla</span></p>
                     <div class="size-options">
-                        @foreach($product->tallas as $talla)
-                            <button class="size-btn" onclick="selectSize({{ $talla }})">{{ $talla }}</button>
-                        @endforeach
+                        @if ($product->sizes->count() > 0)
+                            @foreach($product->sizes as $size)
+                                <button class="size-btn" onclick="selectSize({{ $size->numero }})">{{ $size->numero }}</button>
+                            @endforeach
+                        @else
+                            <p>No hay tallas disponibles</p>
+                        @endif
                     </div>
                 </div>
                 
@@ -43,8 +47,9 @@
             </div>
         </div>
     </div>
-    
 
     @include('footer')
+
+    <script src="{{ asset('js/productView.js') }}"></script>
 </body>
 </html>

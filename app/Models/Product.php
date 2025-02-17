@@ -27,4 +27,9 @@ class Product extends Model
         $product = Product::with('images')->findOrFail($id); 
         return view('product', compact('product'));
     }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'product_size', 'product_id', 'size_id'); 
+    }
 }

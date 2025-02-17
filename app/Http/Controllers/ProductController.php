@@ -77,10 +77,10 @@ class ProductController extends Controller
      * Display the specified resource.
      */
     public function show($id) {
-        $product = Product::with('images')->find($id);
+        $product = Product::with(['images', 'sizes'])->find($id);
     
         if (!$product) {
-            abort(404); // Retorna un error 404 si el producto no existe
+            abort(404);
         }
     
         return view('product', compact('product'));
@@ -138,5 +138,10 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return view('viewAll', compact('products'));
+    }
+
+    public function sizes() 
+    {
+        return $this->belongsToMany(Size::class, 'id', 'size', 'product_id'); 
     }
 }
