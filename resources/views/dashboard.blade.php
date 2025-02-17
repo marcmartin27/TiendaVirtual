@@ -140,48 +140,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Modal para editar producto -->
-            <div id="editProductModal" class="hidden">
-                <h2>Editar Producto</h2>
-                <form id="editProductForm" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="editCode">Código:</label>
-                        <input type="text" id="editCode" name="code" required>
-                    </div>
-                    <div>
-                        <label for="editName">Nombre:</label>
-                        <input type="text" id="editName" name="name" required>
-                    </div>
-                    <div>
-                        <label for="editDescription">Descripción:</label>
-                        <textarea id="editDescription" name="description" required></textarea>
-                    </div>
-                    <div>
-                        <label for="editCategoryId">Categoría:</label>
-                        <select id="editCategoryId" name="category_id" required>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="editPrice">Precio:</label>
-                        <input type="number" id="editPrice" name="price" step="0.01" required>
-                    </div>
-                    <div>
-                        <label for="editFeatured">Destacado:</label>
-                        <input type="checkbox" id="editFeatured" name="featured">
-                    </div>
-                    <div>
-                        <label for="editImages">Imágenes:</label>
-                        <input type="file" id="editImages" name="images[]" multiple>
-                    </div>
-                    <button type="submit">Actualizar Producto</button>
-                </form>
-            </div>
             <div id="categories" class="hidden">
                 <button id="addCategoryButton">Añadir Categoría</button>
                 <div id="addCategoryForm" class="hidden">
@@ -242,11 +200,117 @@
                     <button type="submit">Actualizar Categoría</button>
                 </form>
             </div>
-            <div id="users" class="hidden">
-                <!-- Contenido de usuarios -->
+
+            <!-- Modal para editar producto -->
+            <div id="editProductModal" class="hidden">
+                <h2>Editar Producto</h2>
+                <form id="editProductForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label for="editCode">Código:</label>
+                        <input type="text" id="editCode" name="code" required>
+                    </div>
+                    <div>
+                        <label for="editName">Nombre:</label>
+                        <input type="text" id="editName" name="name" required>
+                    </div>
+                    <div>
+                        <label for="editDescription">Descripción:</label>
+                        <textarea id="editDescription" name="description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="editCategoryId">Categoría:</label>
+                        <select id="editCategoryId" name="category_id" required>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label for="editPrice">Precio:</label>
+                        <input type="number" id="editPrice" name="price" step="0.01" required>
+                    </div>
+                    <div>
+                        <label for="editFeatured">Destacado:</label>
+                        <input type="checkbox" id="editFeatured" name="featured">
+                    </div>
+                    <div>
+                        <label for="editImages">Imágenes:</label>
+                        <input type="file" id="editImages" name="images[]" multiple>
+                    </div>
+                    <button type="submit">Actualizar Producto</button>
+                </form>
             </div>
-            <div id="orders" class="hidden">
-                <!-- Contenido de pedidos -->
+
+            <!-- Sección de usuarios -->
+            <div id="users" class="hidden">
+                <button id="addUserButton">Añadir Usuario</button>
+                <div id="addUserForm" class="hidden">
+                    <h2>Añadir Nuevo Usuario</h2>
+                    <form action="{{ route('users.store') }}" method="POST">
+                        @csrf
+                        <div>
+                            <label for="name">Nombre:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div>
+                            <label for="password">Contraseña:</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit">Añadir Usuario</button>
+                    </form>
+                </div>
+                <input type="text" id="userSearch" placeholder="Buscar usuarios...">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    <button class="editUserButton" data-user-id="{{ $user->id }}">Editar</button>
+                                    <button class="deleteUserButton" data-user-id="{{ $user->id }}">Eliminar</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal para editar usuario -->
+            <div id="editUserModal" class="hidden">
+                <h2>Editar Usuario</h2>
+                <form id="editUserForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label for="editName">Nombre:</label>
+                        <input type="text" id="editName" name="name" required>
+                    </div>
+                    <div>
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div>
+                        <label for="editPassword">Contraseña:</label>
+                        <input type="password" id="editPassword" name="password">
+                    </div>
+                    <button type="submit">Actualizar Usuario</button>
+                </form>
             </div>
         </main>
     </div>

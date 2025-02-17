@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const addProductForm = document.getElementById('addProductForm');
     const productSearch = document.getElementById('productSearch');
     const productRows = document.querySelectorAll('tbody tr');
+    const addUserButton = document.getElementById('addUserButton');
+    const addUserForm = document.getElementById('addUserForm');
+    const editUserButtons = document.querySelectorAll('.editUserButton');
+    const deleteUserButtons = document.querySelectorAll('.deleteUserButton');
+    const editUserModal = document.getElementById('editUserModal');
+    const editUserForm = document.getElementById('editUserForm');
+    const userSearch = document.getElementById('userSearch');
+    const userRows = document.querySelectorAll('tbody tr');
 
     links.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -30,6 +38,55 @@ document.addEventListener('DOMContentLoaded', () => {
         productRows.forEach(row => {
             const productName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
             if (productName.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    addUserButton.addEventListener('click', () => {
+        addUserForm.classList.toggle('hidden');
+    });
+
+    editUserButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const userId = e.target.getAttribute('data-user-id');
+            const response = await fetch(`/users/${userId}/edit`);
+            const user = await response.json();
+
+            document.getElementById('editName').value = user.name;
+            document.getElementById('editEmail').value = user.email;
+            editUserForm.action = `/users/${userId}`;
+
+            editUserModal.classList.remove('hidden');
+        });
+    });
+
+    deleteUserButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const userId = e.target.getAttribute('data-user-id');
+            const response = await fetch(`/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Error al eliminar el usuario:', response.statusText);
+                location.reload();
+            }
+        });
+    });
+
+    userSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        userRows.forEach(row => {
+            const userName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            if (userName.includes(searchTerm)) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
