@@ -18,7 +18,7 @@
                 @if($product->images->isNotEmpty())
                     @php
                         $firstImage = $product->images->first();
-                        $secondImage = $product->images->skip(1)->first(); // Segunda imagen si existe
+                        $secondImage = $product->images->skip(1)->first();
                     @endphp
 
                     <div class="image-container">
