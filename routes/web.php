@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SizeController;
+
 
 
 Route::get('/', [HomeController::class, 'index']);
@@ -23,3 +25,4 @@ Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.s
 Route::resource('users', UserController::class);
 Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
 Route::resource('orders', OrderController::class);
+Route::resource('sizes', SizeController::class);

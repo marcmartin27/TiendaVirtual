@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Size;
 
 class Product extends Model
 {
@@ -30,6 +32,6 @@ class Product extends Model
 
     public function sizes()
     {
-        return $this->belongsToMany(Size::class, 'product_size', 'product_id', 'size_id'); 
+        return $this->hasMany(Size::class);
     }
 }

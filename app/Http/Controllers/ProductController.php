@@ -76,13 +76,14 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id) {
+    public function show($id)
+    {
         $product = Product::with(['images', 'sizes'])->find($id);
-    
+
         if (!$product) {
             abort(404);
         }
-    
+
         return view('product', compact('product'));
     }
 
@@ -140,8 +141,4 @@ class ProductController extends Controller
         return view('viewAll', compact('products'));
     }
 
-    public function sizes() 
-    {
-        return $this->belongsToMany(Size::class, 'id', 'size', 'product_id'); 
-    }
 }

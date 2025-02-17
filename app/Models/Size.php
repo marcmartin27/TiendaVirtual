@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class Size extends Model
 {
     use HasFactory;
 
-    protected $table = 'sizes';
+    protected $fillable = [
+        'size', 'product_id', 'stock'
+    ];
 
-    protected $fillable = ['numero'];
-
-    public function products()
+    public function product()
     {
-        return $this->belongsToMany(Product::class, 'product_size', 'size_id', 'product_id');
+        return $this->belongsTo(Product::class);
     }
 }
-
