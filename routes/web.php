@@ -13,7 +13,7 @@ use App\Http\Controllers\SizeController;
 
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/viewall', [ProductController::class, 'viewAll']);
+Route::get('/viewall', [ProductController::class, 'viewAll'])->name('viewall');
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 
@@ -26,3 +26,4 @@ Route::resource('users', UserController::class);
 Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
 Route::resource('orders', OrderController::class);
 Route::resource('sizes', SizeController::class);
+

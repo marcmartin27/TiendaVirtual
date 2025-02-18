@@ -134,10 +134,19 @@ class ProductController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Producto eliminado con éxito');
     }
-
-    public function viewAll()
+    public function viewAll(Request $request)
     {
-        $products = Product::all();
+        $categoryName = $request->query('category');
+        if ($categoryName) {
+            $category = Category::where('name', $categoryName)->first();
+            if ($category) {
+                $products = Product::where('category_id', $category->id)->get();
+            } else {
+                $products = collect(); // Empty collection if category not found
+            }
+        } else {
+            $products = Product::all();
+        }
         return view('viewAll', compact('products'));
     }
 
