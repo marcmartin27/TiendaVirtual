@@ -6,6 +6,7 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -183,8 +184,8 @@
                 </table>
             </div>
 
-            <!-- Modal para editar categoría -->
-            <div id="editCategoryModal" class="hidden">
+                       <!-- Modal para editar categoría -->
+                       <div id="editCategoryModal" class="hidden">
                 <h2>Editar Categoría</h2>
                 <form id="editCategoryForm" method="POST">
                     @csrf
@@ -291,8 +292,8 @@
                 </table>
             </div>
 
-            <!-- Modal para editar usuario -->
-            <div id="editUserModal" class="hidden">
+                       <!-- Modal para editar usuario -->
+                       <div id="editUserModal" class="hidden">
                 <h2>Editar Usuario</h2>
                 <form id="editUserForm" method="POST">
                     @csrf

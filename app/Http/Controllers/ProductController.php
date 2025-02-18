@@ -19,7 +19,7 @@ class ProductController extends Controller
         $categories = Category::all();
         return view('dashboard', compact('products', 'categories'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -158,6 +158,12 @@ class ProductController extends Controller
             $products = Product::all();
         }
         return view('viewAll', compact('products'));
+    }
+
+    public function showProduct($id)
+    {
+        $product = Product::with(['category', 'images', 'sizes'])->findOrFail($id);
+        return view('productDetail', compact('product'));
     }
 
 }
