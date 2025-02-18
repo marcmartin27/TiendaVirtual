@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
+use App\Models\Size;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,7 @@ class ProductController extends Controller
         $categories = Category::all();
         return view('dashboard', compact('products', 'categories'));
     }
-
+    
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +44,7 @@ class ProductController extends Controller
             'featured' => 'boolean',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
-
+    
         try {
             $product = Product::create([
                 'code' => $request->code,
@@ -53,20 +54,29 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'featured' => $request->featured ? true : false,
             ]);
-
+    
             // Manejar la carga de las imágenes
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $imageName = time() . '_' . $image->getClientOriginalName();
                     $image->move(public_path('images'), $imageName);
-
+    
                     ProductImage::create([
                         'product_id' => $product->id,
                         'image_url' => $imageName,
                     ]);
                 }
             }
-
+    
+            // Añadir tallas por defecto
+            for ($size = 36; $size <= 47; $size++) {
+                Size::create([
+                    'size' => $size,
+                    'product_id' => $product->id,
+                    'stock' => 10,
+                ]);
+            }
+    
             return redirect()->route('dashboard')->with('success', 'Producto añadido con éxito');
         } catch (\Exception $e) {
             return redirect()->route('dashboard')->withErrors(['error' => $e->getMessage()]);
