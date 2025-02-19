@@ -36,21 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 wrapper.style.transition = "none"; // Quitamos la animación
                 wrapper.style.transform = `translateX(0px)`;
                 index = 0;
-            }, 500); // Esperamos a que termine la animación antes de resetear
+            }, 3500); // Esperamos a que termine la animación antes de resetear
         }
     }
 
     setInterval(autoScroll, 3000); // Cambia cada 3 segundos
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const marquee = document.querySelector(".marquee");
-    
-    marquee.addEventListener("mouseover", function () {
-        marquee.style.animationPlayState = "paused";
-    });
-
-    marquee.addEventListener("mouseout", function () {
-        marquee.style.animationPlayState = "running";
-    });
-});
