@@ -36,12 +36,18 @@
             </a>
 
             <h3><a href="{{ route('product.show', ['id' => $product->id]) }}">{{ $product->name }}</a></h3>
-            <p>Precio: ${{ $product->price }}</p>
+            @if($product->sale)
+                <p class="price">
+                    <span class="original-price">${{ $product->price }}</span>
+                    <span class="sale-price">${{ $product->new_price }}</span>
+                </p>
+            @else
+                <p class="price">${{ $product->price }}</p>
+            @endif
             <button>Añadir al carrito</button>
         </div>
     @endforeach
     </div>
-
 
     @include('footer')
 </body>

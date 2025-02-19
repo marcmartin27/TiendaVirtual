@@ -25,6 +25,15 @@
   font-size: 1.5em;
   margin-bottom: 20px;
 }
+.price .original-price {
+  text-decoration: line-through;
+  color: #f16868;
+  margin-right: 10px;
+}
+.price .sale-price {
+  color: #000000;
+  font-weight: bold;
+}
 
 .sizes {
   display: flex;

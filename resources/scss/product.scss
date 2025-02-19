@@ -23,6 +23,17 @@
 .price {
     font-size: 1.5em;
     margin-bottom: 20px;
+
+    .original-price {
+        text-decoration: line-through;
+        color: #f16868;
+        margin-right: 10px;
+    }
+
+    .sale-price {
+        color: #000000;
+        font-weight: bold;
+    }
 }
 
 .sizes {

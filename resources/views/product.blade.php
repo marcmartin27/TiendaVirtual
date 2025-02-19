@@ -19,7 +19,14 @@
         </div>
         <div class="right-column">
             <h2>{{ $product->name }}</h2>
-            <p class="price">{{ $product->price }} €</p>
+            @if($product->sale)
+                <p class="price">
+                    <span class="original-price">{{ $product->price }} €</span>
+                    <span class="sale-price">{{ $product->new_price }} €</span>
+                </p>
+            @else
+                <p class="price">{{ $product->price }} €</p>
+            @endif
             <div class="sizes">
                 @foreach ($product->sizes as $size)
                     <div class="size" data-size="{{ $size->size }}">{{ $size->size }}</div>

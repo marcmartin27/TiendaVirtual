@@ -66,12 +66,24 @@ h1 {
             height: 40px;
         }
 
-        p {
+        .price {
             font-size: 1rem;
             color: #000000;
             text-align: left;
             margin-left: 20px;
-        }   
+
+            .original-price {
+                text-decoration: line-through;
+                color: #f16868;
+                margin-right: 10px;
+            }
+
+            .sale-price {
+                font-size: larger;
+                color: #000000;
+                font-weight: bold;
+            }
+        }
 
         button {
             background-color: #594C45;
