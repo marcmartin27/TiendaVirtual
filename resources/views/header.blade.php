@@ -55,6 +55,12 @@
     </div>
 </div>
 
+<div id="searchPopup" class="search-popup hidden">
+    <div class="search-results">
+        <ul id="searchResultsList"></ul>
+    </div>
+</div>
+
 <?php if (session('success')): ?>
     <div class="alert alert-success">
         <?= session('success') ?>
@@ -68,3 +74,4 @@
 <?php endif; ?>
 
 <script src="{{ asset('js/login.js') }}"></script>
+<script src="{{ asset('js/search.js') }}"></script>

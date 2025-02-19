@@ -26,4 +26,4 @@ Route::resource('users', UserController::class);
 Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
 Route::resource('orders', OrderController::class);
 Route::resource('sizes', SizeController::class);
-
+Route::get('/search', [ProductController::class, 'search'])->name('search');
