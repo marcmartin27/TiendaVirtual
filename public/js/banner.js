@@ -43,3 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(autoScroll, 3000); // Cambia cada 3 segundos
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const marquee = document.querySelector(".marquee");
+    
+    marquee.addEventListener("mouseover", function () {
+        marquee.style.animationPlayState = "paused";
+    });
+
+    marquee.addEventListener("mouseout", function () {
+        marquee.style.animationPlayState = "running";
+    });
+});

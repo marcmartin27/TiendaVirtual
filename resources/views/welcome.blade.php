@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
 <body>
+    <div id="promo-banner">
+        <div class="marquee">
+            <span>Participa en un juego para ganar un artículo</span>
+            <span>Participa en un juego para ganar un artículo</span>
+            <span>Participa en un juego para ganar un artículo</span>
+            <span>Participa en un juego para ganar un artículo</span>
+            <span>Participa en un juego para ganar un artículo</span>
+        </div>
+    </div>
+
+
     @include('header')
 
     <img src="{{ asset('images/banner1.png') }}" alt="Banner promocional" id="bannerPromocional">
