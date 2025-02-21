@@ -38,7 +38,7 @@
                     <div class="size" data-size="{{ $size->size }}">{{ $size->size }}</div>
                 @endforeach
             </div>
-            <p class="delivery-time">El plazo promedio de entrega es de 2 a 14 días.</p>
+            <p class="delivery-time">⚠ El plazo promedio de entrega es de 2 a 14 días.</p>
             <div class="selected-size">
                 <p>Talla: <span id="selected-size">Ninguna</span></p>
                 <label for="quantity">Cantidad:</label>
