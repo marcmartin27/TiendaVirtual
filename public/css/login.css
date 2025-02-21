@@ -38,7 +38,7 @@ body {
     transform: translateX(-100%);
   }
 }
-span {
+.marquee span {
   color: white;
   margin: 0;
   display: inline-block;

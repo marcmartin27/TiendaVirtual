@@ -11,7 +11,13 @@
     <div class="product-container">
         <div class="left-column">
             @if($product->images->isNotEmpty())
-                <img src="{{ asset('images/' . $product->images->first()->image_url) }}" alt="{{ $product->name }}">
+                <div class="image-slider">
+                    @foreach($product->images as $image)
+                        <img src="{{ asset('images/' . $image->image_url) }}" alt="{{ $product->name }}" class="product-image">
+                    @endforeach
+                    <button class="prev" onclick="changeImage(-1)">&#10094;</button>
+                    <button class="next" onclick="changeImage(1)">&#10095;</button>
+                </div>
             @else
                 <img src="{{ asset('images/default-product.png') }}" alt="Imagen no disponible">
             @endif
@@ -44,7 +50,15 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/product.js') }}"></script>
+
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <button class="prev" onclick="changeImageInModal(-1)">&#10094;</button>
+        <button class="next" onclick="changeImageInModal(1)">&#10095;</button>
+    </div>
+
+    <script src="{{ asset('js/productView.js') }}"></script>
     @include('footer')
 </body>
 </html>
