@@ -1,16 +1,24 @@
-let selectedSize = 38;
+let selectedSize = null;
 let quantity = 1;
 let currentImageIndex = 0;
 
 function selectSize(size) {
     selectedSize = size;
-    document.getElementById('selectedSize').innerText = size;
+    document.getElementById('selected-size').innerText = size;
+    const sizeElements = document.querySelectorAll('.size');
+    sizeElements.forEach(element => {
+        if (element.getAttribute('data-size') == size) {
+            element.classList.add('selected');
+        } else {
+            element.classList.remove('selected');
+        }
+    });
 }
 
 function updateQuantity(change) {
     if (quantity + change > 0) {
         quantity += change;
-        document.getElementById('quantity').innerText = quantity;
+        document.getElementById('quantity').value = quantity;
     }
 }
 
@@ -35,6 +43,7 @@ function openModal() {
     const currentImage = images[currentImageIndex];
     modal.style.display = 'flex'; // Cambiar a 'flex' para centrar la imagen
     modalImg.src = currentImage.src;
+    modalImg.style.transform = 'scale(1)'; // Asegurarse de que el zoom no esté activado al abrir el modal
 }
 
 function closeModal() {
@@ -46,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const images = document.querySelectorAll('.product-image');
     images.forEach(image => {
         image.addEventListener('click', openModal);
+    });
+
+    const sizeElements = document.querySelectorAll('.size');
+    sizeElements.forEach(element => {
+        element.addEventListener('click', function () {
+            selectSize(element.getAttribute('data-size'));
+        });
     });
 
     const modalImg = document.getElementById('modalImage');
