@@ -43,3 +43,26 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(autoScroll, 3000); // Cambia cada 3 segundos
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const marquee = document.getElementById("marquee");
+    const clone = marquee.cloneNode(true); // Duplicamos la marquesina
+    document.getElementById("promo-banner").appendChild(clone);
+
+    let speed = 2; // Velocidad de desplazamiento (ajustable)
+    let pos = 0;
+
+    function moveMarquee() {
+        pos -= speed;
+        marquee.style.transform = `translateX(${pos}px)`;
+        clone.style.transform = `translateX(${pos}px)`;
+
+        // Reset cuando el primer bloque desaparece completamente
+        if (pos <= -marquee.offsetWidth) {
+            pos = 0;
+        }
+
+        requestAnimationFrame(moveMarquee);
+    }
+
+    moveMarquee();
+});

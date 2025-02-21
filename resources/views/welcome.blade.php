@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="promo-banner">
-        <div class="marquee">
+        <div class="marquee" id="marquee">
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
