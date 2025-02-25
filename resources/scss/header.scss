@@ -35,14 +35,18 @@
             margin-left: 15px;
             margin-right: 15px;
         }
+    }
+
+    .usuario {
+        display: flex;
+        align-items: center;
+
         img {
             width: 60px;
             display: inline-block;
             cursor: pointer;
+            margin-left: 15px;
         }
-    }
-
-    .usuario {
         button {
             background-color: #594C45;
             color: white;

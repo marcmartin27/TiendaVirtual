@@ -1,3 +1,14 @@
+<div id="promo-banner">
+        <div class="marquee" id="marquee">
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            
+        </div>
+    </div>
+
 <div class="nav">
     <div class="foto">
         <a href="{{ url('/') }}"><img src="../../../images/logo.png" alt=""></a>
@@ -5,7 +16,6 @@
     <div class="buscador">
         <p><a href=""></a>Rebajas</p>
         <input type="text" id="buscador" placeholder="Buscar...">
-        <img src="../../../images/cesta.webp" alt="" id="cartButton">
     </div>
     <div class="usuario">
         <?php if (Auth::check()): ?>
@@ -16,6 +26,8 @@
         <?php else: ?>
             <button id="openPopup">Iniciar Sesion</button>
         <?php endif; ?>
+        <img src="../../../images/cesta.webp" alt="" id="cartButton">
+
     </div>
 </div>
 <div class="background" id="popupBackground">
@@ -87,3 +99,4 @@
 <script src="{{ asset('js/login.js') }}"></script>
 <script src="{{ asset('js/search.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
+<script src="{{ asset('js/banner.js') }}"></script>

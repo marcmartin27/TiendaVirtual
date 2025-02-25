@@ -622,10 +622,15 @@ h1 {
   margin-left: 15px;
   margin-right: 15px;
 }
-.nav .buscador img {
+.nav .usuario {
+  display: flex;
+  align-items: center;
+}
+.nav .usuario img {
   width: 60px;
   display: inline-block;
   cursor: pointer;
+  margin-left: 15px;
 }
 .nav .usuario button {
   background-color: #594C45;

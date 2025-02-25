@@ -7,15 +7,6 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
 <body>
-    <div id="promo-banner">
-        <div class="marquee" id="marquee">
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-        </div>
-    </div>
 
 
     @include('header')
@@ -99,7 +90,6 @@
     @endif
 
 
-    <script src="{{ asset('js/banner.js') }}"></script>
 
     @include('footer')
 </body>
