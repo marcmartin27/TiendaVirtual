@@ -5,7 +5,7 @@
     <div class="buscador">
         <p><a href=""></a>Rebajas</p>
         <input type="text" id="buscador" placeholder="Buscar...">
-        <img src="../../../images/cesta.webp" alt="">
+        <img src="../../../images/cesta.webp" alt="" id="cartButton">
     </div>
     <div class="usuario">
         <?php if (Auth::check()): ?>
@@ -18,8 +18,8 @@
         <?php endif; ?>
     </div>
 </div>
-
 <div class="background" id="popupBackground">
+
     <div class="popup">
         <div class="left">
             <div class="toggle-buttons">
@@ -61,6 +61,17 @@
     </div>
 </div>
 
+    <div class="cart-popup-background hidden" id="cartPopupBackground">
+    <div id="cartPopup" class="cart-popup">
+        <div class="cart-header">
+            <h2>Carrito de Compras</h2>
+            <button id="closeCartButton">&times;</button>
+        </div>
+        <div id="cartItemsContainer" class="cart-items-container"></div>
+        <button id="checkoutButton">Finalizar Compra</button>
+    </div>
+</div>
+
 <?php if (session('success')): ?>
     <div class="alert alert-success">
         <?= session('success') ?>
@@ -75,3 +86,4 @@
 
 <script src="{{ asset('js/login.js') }}"></script>
 <script src="{{ asset('js/search.js') }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>
