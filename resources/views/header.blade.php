@@ -30,8 +30,8 @@
 
     </div>
 </div>
-<div class="background" id="popupBackground">
 
+<div class="background" id="popupBackground">
     <div class="popup">
         <div class="left">
             <div class="toggle-buttons">
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-    <div class="cart-popup-background hidden" id="cartPopupBackground">
+<div class="cart-popup-background hidden" id="cartPopupBackground">
     <div id="cartPopup" class="cart-popup">
         <div class="cart-header">
             <h2>Carrito de Compras</h2>

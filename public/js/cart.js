@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkoutButton = document.getElementById('checkoutButton');
     const selectedSizeElement = document.getElementById('selected-size');
 
+    // Crear elemento para el total del carrito
+    const totalPriceElement = document.createElement('p');
+    totalPriceElement.id = 'totalPrice';
+    totalPriceElement.style.fontWeight = 'bold';
+    totalPriceElement.style.textAlign = 'right';
+    checkoutButton.insertAdjacentElement('beforebegin', totalPriceElement);
+
     // Mostrar el carrito
     cartButton.addEventListener('click', function () {
         cartPopupBackground.classList.remove('hidden');
@@ -31,9 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function () {
             const productId = button.getAttribute('data-product-id');
             const productName = button.getAttribute('data-product-name');
-            const productPrice = button.getAttribute('data-product-price');
+            const productPrice = parseFloat(button.getAttribute('data-product-price'));
             const productImage = button.getAttribute('data-product-image');
-            const productQuantity = document.getElementById('quantity').value;
+            const productQuantity = parseInt(document.getElementById('quantity').value);
             const selectedSize = selectedSizeElement.textContent;
 
             if (selectedSize === 'Ninguna') {
@@ -58,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <p class="cart-item-name">${item.name}</p>
-                    <p class="cart-item-info">Talla: ${item.size} | Precio: ${item.price} € | Cantidad: ${item.quantity}</p>
+                    <p class="cart-item-info">Talla: ${item.size} | Precio: ${item.price.toFixed(2)} € | Cantidad: ${item.quantity}</p>
                 </div>
                 <button class="remove-from-cart" data-product-id="${item.id}">Eliminar</button>
             `;
@@ -74,6 +81,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 renderCartItems();
             });
         });
+
+        updateTotalPrice();
+    }
+
+    // Calcular y actualizar el precio total
+    function updateTotalPrice() {
+        const cartItems = getCartItems();
+        const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        totalPriceElement.textContent = `Total: ${totalPrice.toFixed(2)} €`;
     }
 
     // Añadir producto al carrito
@@ -81,9 +97,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartItems = getCartItems();
         const existingItem = cartItems.find(item => item.id === id && item.size === size);
         if (existingItem) {
-            existingItem.quantity += parseInt(quantity);
+            existingItem.quantity += quantity;
         } else {
-            cartItems.push({ id, name, price, quantity: parseInt(quantity), size, image });
+            cartItems.push({ id, name, price, quantity, size, image });
         }
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         renderCartItems();
@@ -99,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let cartItems = getCartItems();
         cartItems = cartItems.filter(item => item.id !== id);
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        renderCartItems();
     }
 
     // Manejar el checkout
@@ -108,9 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('El carrito está vacío.');
             return;
         }
-
         // Aquí puedes añadir la lógica para manejar el checkout
-        // Por ejemplo, redirigir a una página de pago o enviar los datos al servidor
     });
 
     // Seleccionar talla
