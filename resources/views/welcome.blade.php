@@ -68,20 +68,20 @@
         <div class="featured-container">
             <div class="featured-wrapper">
                 @foreach($featuredProducts as $product)
-                    <div class="featured-card">
+                    <a href="{{ route('product.show', ['id' => $product->id]) }}" class="featured-card">
                         @if($product->images->isNotEmpty())
                             <img src="{{ asset('images/' . $product->images->first()->image_url) }}" alt="{{ $product->name }}">
                         @endif
                         <h3>{{ $product->name }}</h3>
-                    </div>
+                    </a>
                 @endforeach
                 @foreach($featuredProducts->take(5) as $product)
-                    <div class="featured-card clone">
+                    <a href="{{ route('product.show', ['id' => $product->id]) }}" class="featured-card clone">
                         @if($product->images->isNotEmpty())
                             <img src="{{ asset('images/' . $product->images->first()->image_url) }}" alt="{{ $product->name }}">
                         @endif
                         <h3>{{ $product->name }}</h3>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>
