@@ -147,13 +147,18 @@ class ProductController extends Controller
     public function viewAll(Request $request)
     {
         $categoryName = $request->query('category');
+        $sale = $request->query('sale');
+        
         if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();
+
             if ($category) {
                 $products = Product::where('category_id', $category->id)->get();
             } else {
                 $products = collect(); // Empty collection if category not found
             }
+        } elseif ($sale == "1"){
+            $products = Product::where('sale', true)->get();
         } else {
             $products = Product::all();
         }

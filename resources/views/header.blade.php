@@ -14,7 +14,7 @@
         <a href="{{ url('/') }}"><img src="../../../images/logo.png" alt=""></a>
     </div>
     <div class="buscador">
-        <p><a href=""></a>Rebajas</p>
+        <p><a href="{{ route('viewall', ['sale' => '1']) }}">Rebajas</a></p>
         <input type="text" id="buscador" placeholder="Buscar...">
     </div>
     <div class="usuario">
