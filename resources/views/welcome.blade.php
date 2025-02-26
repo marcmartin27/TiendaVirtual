@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    @extends('layouts.app')
 
     @include('header')
 

@@ -74,17 +74,27 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteUserButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
             const userId = e.target.getAttribute('data-user-id');
-            const response = await fetch(`/users/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            
+            // SweetAlert confirmation
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, bórralo!'
             });
-
-            if (response.ok) {
-                location.reload();
-            } else {
-                console.error('Error al eliminar el usuario:', response.statusText);
+    
+            if (result.isConfirmed) {
+                await fetch(`/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+    
+                // Recargar la página después de la eliminación
                 location.reload();
             }
         });
@@ -124,17 +134,27 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteOrderButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
             const orderId = e.target.getAttribute('data-order-id');
-            const response = await fetch(`/orders/${orderId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            
+            // SweetAlert confirmation
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, bórralo!'
             });
-
-            if (response.ok) {
-                location.reload();
-            } else {
-                console.error('Error al eliminar el pedido:', response.statusText);
+    
+            if (result.isConfirmed) {
+                await fetch(`/orders/${orderId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+    
+                // Recargar la página después de la eliminación
                 location.reload();
             }
         });
@@ -151,11 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('.sidebar ul li a');
-    const sections = document.querySelectorAll('.main-content > div');
     const addCategoryButton = document.getElementById('addCategoryButton');
     const addCategoryForm = document.getElementById('addCategoryForm');
     const editCategoryButtons = document.querySelectorAll('.editCategoryButton');
@@ -168,21 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editProductForm = document.getElementById('editProductForm');
     const categorySearch = document.getElementById('categorySearch');
     const categoryRows = document.querySelectorAll('tbody tr');
-
-    links.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const sectionId = link.getAttribute('data-section');
-
-            sections.forEach(section => {
-                if (section.id === sectionId) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
-            });
-        });
-    });
 
     addCategoryButton.addEventListener('click', () => {
         addCategoryForm.classList.toggle('hidden');
@@ -205,22 +206,31 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteCategoryButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
             const categoryId = e.target.getAttribute('data-category-id');
-            const response = await fetch(`/categories/${categoryId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            
+            // SweetAlert confirmation
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, bórralo!'
             });
-
-            if (response.ok) {
-                location.reload();
-            } else {
-                console.error('Error al eliminar la categoría:', response.statusText);
+    
+            if (result.isConfirmed) {
+                await fetch(`/categories/${categoryId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+    
+                // Recargar la página después de la eliminación
                 location.reload();
             }
         });
     });
-
 
     editProductButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
@@ -243,17 +253,27 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteProductButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
             const productId = e.target.getAttribute('data-product-id');
-            const response = await fetch(`/products/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            
+            // SweetAlert confirmation
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, bórralo!'
             });
-
-            if (response.ok) {
-                location.reload();
-            } else {
-                console.error('Error al eliminar la categoría:', response.statusText);
+    
+            if (result.isConfirmed) {
+                await fetch(`/products/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+    
+                // Recargar la página después de la eliminación
                 location.reload();
             }
         });
