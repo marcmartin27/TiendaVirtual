@@ -42,7 +42,11 @@
             <div class="selected-size">
                 <p>Talla: <span id="selected-size">Ninguna</span></p>
                 <label for="quantity">Cantidad:</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1">
+                <div class="quantity-container">
+                    <button type="button" id="decrease">-</button>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                    <button type="button" id="increase">+</button>
+                </div>
             </div>
             <div class="actions">
                 <button id="add-to-cart" data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}" data-product-price="{{ $product->price }}" data-product-image="{{ asset('images/' . $product->images->first()->image_url) }}">Añadir al carrito</button>

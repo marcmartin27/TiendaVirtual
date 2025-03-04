@@ -190,7 +190,62 @@
 
 #selected-size{
     font-weight: bold;
-    #quantity{
-        background-color: #594C45;
+}
+.quantity-container {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+    width: fit-content;
+    margin-top: 3px;
+
+    button {
+        background: #594C45;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background: #463A34;
+    }
+
+    #decrease {
+        margin-right: 5px; /* Separación visual del input */
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+    }
+
+    #increase {
+        margin-left: 5px; /* Separación visual del input */
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    input {
+        width: 50px;
+        text-align: center;
+        border: none;
+        background: #594C45;
+        color: white;
+        font-size: 16px;
+        padding: 8px 0;
+        -moz-appearance: textfield; /* Firefox */
+    }
+
+    /* Eliminar flechas en WebKit (Chrome, Safari, Edge) */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Eliminar flechas en Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
     }
 }
+
+
