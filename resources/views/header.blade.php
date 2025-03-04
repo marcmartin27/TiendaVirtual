@@ -1,3 +1,4 @@
+<head><meta name="csrf-token" content="{{ csrf_token() }}"></head>
 <div id="promo-banner">
     <div class="marquee" id="marquee">
         <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
@@ -18,7 +19,7 @@
     </div>
     <div class="usuario">
     <?php if (Auth::check()): ?>
-        <form action="<?= route('logout') ?>" method="POST">
+        <form action="<?= route('logout') ?>" method="POST" id="logout-form">
             @csrf
             <button type="submit">Cerrar Sesión</button>
         </form>

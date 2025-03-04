@@ -118,7 +118,9 @@ document.addEventListener('DOMContentLoaded', function () {
         renderCartItems();
 
         // Si el usuario está logueado, guardar en la base de datos
+        console.log('addToCart - userId:', userId); // Log para depuración
         if (userId) {
+            console.log('addToCart - Guardando en la base de datos', cartItems);
             saveCartToDatabase(cartItems);
         }
     }
@@ -152,11 +154,16 @@ function removeFromCart(id) {
     // Guardar el carrito en la base de datos
     async function saveCartToDatabase(cartItems) {
         try {
+            console.log('saveCartToDatabase - Iniciando con userId:', userId);
+            
             const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
             let csrfToken = '';
             
             if (csrfTokenElement) {
                 csrfToken = csrfTokenElement.getAttribute('content');
+                console.log('saveCartToDatabase - csrfToken encontrado');
+            } else {
+                console.log('saveCartToDatabase - csrfToken NO encontrado');
             }
             
             const headers = {
@@ -167,11 +174,14 @@ function removeFromCart(id) {
                 headers['X-CSRF-TOKEN'] = csrfToken;
             }
             
-            await fetch('/save-cart', {
+            const response = await fetch('/save-cart', {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({ userId, cartItems })
             });
+            
+            const result = await response.json();
+            console.log('saveCartToDatabase - Respuesta del servidor:', result);
         } catch (error) {
             console.error('Error al guardar el carrito en la base de datos:', error);
         }
@@ -182,43 +192,136 @@ function removeFromCart(id) {
         if (userId) {
             try {
                 console.log('Sincronizando carrito para usuario:', userId);
+                
+                // Paso 1: Obtener los productos actuales de la base de datos
                 const response = await fetch(`/get-cart/${userId}`);
                 const data = await response.json();
-                console.log('Datos recibidos de la base de datos:', data);
-                
                 const dbCartItems = data.cartItems || [];
-                console.log('Productos en base de datos:', dbCartItems);
-    
-                // Obtener los productos del carrito local
+                console.log('Productos iniciales en base de datos:', dbCartItems);
+
+                // Paso 2: Verificar si el usuario acaba de iniciar sesión y hay productos locales
                 const localCartItems = getCartItems();
-                console.log('Productos en localStorage:', localCartItems);
+                const justLoggedIn = document.getElementById('just-logged-in')?.value === 'true';
 
-                // Combinar los productos del carrito local con los de la base de datos
-                const combinedCartItems = [...dbCartItems, ...localCartItems];
+                // Si el usuario acaba de iniciar sesión con productos locales
+                if (localCartItems.length > 0 && justLoggedIn) {
+                    console.log('Usuario recién logueado con productos locales, sincronizando...');
 
-                // Eliminar duplicados
-                const uniqueCartItems = combinedCartItems.reduce((acc, item) => {
-                    const existingItem = acc.find(i => i.id === item.id && i.size === item.size);
-                    if (existingItem) {
-                        existingItem.quantity += item.quantity;
-                    } else {
-                        acc.push(item);
-                    }
-                    return acc;
-                }, []);
-
-                // Guardar el carrito combinado en el local storage y en la base de datos
-                localStorage.setItem('cartItems', JSON.stringify(uniqueCartItems));
-                saveCartToDatabase(uniqueCartItems);
+                    // LIMPIAR localStorage antes de empezar para evitar duplicaciones
+                    localStorage.removeItem('cartItems');
+                    
+                    // Crear un mapa para productos únicos (key: id-size)
+                    const uniqueItemsMap = {};
+                    
+                    // Primero procesar productos de base de datos
+                    dbCartItems.forEach(item => {
+                        // Convertir todo a string para consistencia
+                        const itemId = String(item.id);
+                        const key = `${itemId}-${item.size}`;
+                        uniqueItemsMap[key] = {
+                            ...item,
+                            id: itemId,
+                            price: parseFloat(item.price)
+                        };
+                    });
+                    
+                    // Luego procesar productos locales
+                    localCartItems.forEach(item => {
+                        // Convertir todo a string para consistencia
+                        const itemId = String(item.id);
+                        const key = `${itemId}-${item.size}`;
+                        
+                        if (uniqueItemsMap[key]) {
+                            // Si ya existe, sumar cantidades
+                            uniqueItemsMap[key].quantity += item.quantity;
+                        } else {
+                            // Si no existe, añadir
+                            uniqueItemsMap[key] = {
+                                ...item,
+                                id: itemId,
+                                price: parseFloat(item.price)
+                            };
+                        }
+                    });
+                    
+                    // Convertir el objeto a un array
+                    const mergedItems = Object.values(uniqueItemsMap);
+                    console.log('Productos combinados sin duplicados:', mergedItems);
+                    
+                    // Guardar en base de datos
+                    await saveCartToDatabase(mergedItems);
+                    
+                    // Actualizar localStorage con los productos combinados
+                    localStorage.setItem('cartItems', JSON.stringify(mergedItems));
+                } else {
+                    // Si no acaba de iniciar sesión o no tiene productos locales,
+                    // simplemente cargar desde la base de datos sin combinar
+                    const normalizedDbItems = dbCartItems.map(item => ({
+                        ...item,
+                        id: String(item.id),
+                        price: parseFloat(item.price)
+                    }));
+                    
+                    // Reemplazar completamente el contenido del localStorage
+                    localStorage.setItem('cartItems', JSON.stringify(normalizedDbItems));
+                }
+                
+                // Renderizar los productos del carrito
                 renderCartItems();
+                
             } catch (error) {
                 console.error('Error al sincronizar el carrito con la base de datos:', error);
             }
         }
     }
 
-    // Llamar a la función de sincronización al cargar la página
-    syncCartWithDatabase();
+    // IMPORTANTE: Eliminar o modificar esta línea que causa la sincronización automática en cada carga
+    // syncCartWithDatabase();
+
+    // En lugar de eso, solo sincronizar cuando sea necesario:
+    if (userId && document.getElementById('just-logged-in')?.value === 'true') {
+        // Solo sincronizar si el usuario acaba de iniciar sesión
+    } else if (userId) {
+        // Si el usuario está logueado pero no acaba de iniciar sesión,
+        // solo cargar los datos de la base de datos sin sincronizar
+        loadCartFromDatabase();
+    }
+
+    // Función para cargar el carrito desde la base de datos (sin sincronizar con localStorage)
+    async function loadCartFromDatabase() {
+        if (userId) {
+            try {
+                const response = await fetch(`/get-cart/${userId}`);
+                const data = await response.json();
+                const dbCartItems = data.cartItems || [];
+                
+                // Normalizar los datos
+                const normalizedDbItems = dbCartItems.map(item => ({
+                    ...item,
+                    id: String(item.id),
+                    price: parseFloat(item.price)
+                }));
+                // Limpiar carrito al cerrar sesión
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutForm = document.querySelector('form[action*="logout"]');
+    if (logoutForm) {
+        logoutForm.addEventListener('submit', function() {
+            // Limpiar localStorage antes de enviar la solicitud de cierre de sesión
+            localStorage.removeItem('cartItems');
+            console.log('Carrito limpiado al cerrar sesión');
+        });
+    }
+});
+                // Reemplazar completamente el localStorage
+                localStorage.setItem('cartItems', JSON.stringify(normalizedDbItems));
+                
+                // Renderizar los productos
+                renderCartItems();
+            } catch (error) {
+                console.error('Error al cargar el carrito desde la base de datos:', error);
+            }
+        }
+    }
 
     // Manejar el checkout
     checkoutButton.addEventListener('click', function () {
@@ -239,4 +342,16 @@ function removeFromCart(id) {
             selectedSizeElement.textContent = sizeElement.getAttribute('data-size');
         });
     });
+});
+
+// Limpiar carrito al cerrar sesión
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutForm = document.querySelector('form[action*="logout"]');
+    if (logoutForm) {
+        logoutForm.addEventListener('submit', function() {
+            // Limpiar localStorage antes de enviar la solicitud de cierre de sesión
+            localStorage.removeItem('cartItems');
+            console.log('Carrito limpiado al cerrar sesión');
+        });
+    }
 });
