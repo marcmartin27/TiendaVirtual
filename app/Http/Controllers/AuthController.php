@@ -64,19 +64,24 @@ class AuthController extends Controller
     {
         //
     }
-
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
         if (Auth::attempt($credentials)) {
-            // Autenticación exitosa
+            $request->session()->regenerate();
+            
+            // Establecer una variable de sesión para indicar inicio de sesión reciente
+            session(['just_logged_in' => true]);
+            
             return redirect()->intended('/')->with('success', 'Inicio de sesión exitoso.');
         }
 
-        // Autenticación fallida
-        return redirect()->back()->withErrors([
-            'message' => 'Credenciales incorrectas. Por favor, inténtelo de nuevo.',
+        return back()->withErrors([
+            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
         ]);
     }
 

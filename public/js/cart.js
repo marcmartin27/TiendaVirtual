@@ -7,6 +7,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     const checkoutButton = document.getElementById('checkoutButton');
     const selectedSizeElement = document.getElementById('selected-size');
+    const userIdElement = document.getElementById('userId');
+    const userId = userIdElement ? userIdElement.value : null;
+
+
+    // Verificar si el usuario acaba de iniciar sesión
+    const justLoggedInElement = document.getElementById('just-logged-in');
+    if (justLoggedInElement && justLoggedInElement.value === 'true') {
+        console.log('Usuario recién logueado, sincronizando carrito...');
+        syncCartWithDatabase();
+        
+        // Limpiar el flag para que no se vuelva a sincronizar en futuras cargas
+        fetch('/clear-login-flag').catch(err => console.error('Error al limpiar flag:', err));
+    }
 
     // Crear elemento para el total del carrito
     const totalPriceElement = document.createElement('p');
@@ -65,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <p class="cart-item-name">${item.name}</p>
-                    <p class="cart-item-info">Talla: ${item.size} | Precio: ${item.price.toFixed(2)} € | Cantidad: ${item.quantity}</p>
+                    <p class="cart-item-info">Talla: ${item.size} | Precio: ${parseFloat(item.price).toFixed(2)} € | Cantidad: ${item.quantity}</p>
                 </div>
                 <button class="remove-from-cart" data-product-id="${item.id}">Eliminar</button>
             `;
@@ -88,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Calcular y actualizar el precio total
     function updateTotalPrice() {
         const cartItems = getCartItems();
-        const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const totalPrice = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
         totalPriceElement.textContent = `Total: ${totalPrice.toFixed(2)} €`;
     }
 
@@ -99,10 +112,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (existingItem) {
             existingItem.quantity += quantity;
         } else {
-            cartItems.push({ id, name, price, quantity, size, image });
+            cartItems.push({ id, name, price: parseFloat(price), quantity, size, image });
         }
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         renderCartItems();
+
+        // Si el usuario está logueado, guardar en la base de datos
+        if (userId) {
+            saveCartToDatabase(cartItems);
+        }
     }
 
     // Obtener productos del carrito
@@ -111,12 +129,96 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Eliminar producto del carrito
-    function removeFromCart(id) {
-        let cartItems = getCartItems();
-        cartItems = cartItems.filter(item => item.id !== id);
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        renderCartItems();
+// Eliminar producto del carrito
+function removeFromCart(id) {
+    let cartItems = getCartItems();
+    console.log('Intentando eliminar producto con ID:', id);
+    console.log('Items en el carrito antes de eliminar:', cartItems);
+    
+    // Convertir id a string para asegurar una comparación consistente
+    const idString = String(id);
+    cartItems = cartItems.filter(item => String(item.id) !== idString);
+    
+    console.log('Items en el carrito después de eliminar:', cartItems);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    renderCartItems();
+
+    // Si el usuario está logueado, actualizar la base de datos
+    if (userId) {
+        saveCartToDatabase(cartItems);
     }
+}
+
+    // Guardar el carrito en la base de datos
+    async function saveCartToDatabase(cartItems) {
+        try {
+            const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+            let csrfToken = '';
+            
+            if (csrfTokenElement) {
+                csrfToken = csrfTokenElement.getAttribute('content');
+            }
+            
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (csrfToken) {
+                headers['X-CSRF-TOKEN'] = csrfToken;
+            }
+            
+            await fetch('/save-cart', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ userId, cartItems })
+            });
+        } catch (error) {
+            console.error('Error al guardar el carrito en la base de datos:', error);
+        }
+    }
+
+    // Sincronizar el carrito local con la base de datos al iniciar sesión
+    async function syncCartWithDatabase() {
+        if (userId) {
+            try {
+                console.log('Sincronizando carrito para usuario:', userId);
+                const response = await fetch(`/get-cart/${userId}`);
+                const data = await response.json();
+                console.log('Datos recibidos de la base de datos:', data);
+                
+                const dbCartItems = data.cartItems || [];
+                console.log('Productos en base de datos:', dbCartItems);
+    
+                // Obtener los productos del carrito local
+                const localCartItems = getCartItems();
+                console.log('Productos en localStorage:', localCartItems);
+
+                // Combinar los productos del carrito local con los de la base de datos
+                const combinedCartItems = [...dbCartItems, ...localCartItems];
+
+                // Eliminar duplicados
+                const uniqueCartItems = combinedCartItems.reduce((acc, item) => {
+                    const existingItem = acc.find(i => i.id === item.id && i.size === item.size);
+                    if (existingItem) {
+                        existingItem.quantity += item.quantity;
+                    } else {
+                        acc.push(item);
+                    }
+                    return acc;
+                }, []);
+
+                // Guardar el carrito combinado en el local storage y en la base de datos
+                localStorage.setItem('cartItems', JSON.stringify(uniqueCartItems));
+                saveCartToDatabase(uniqueCartItems);
+                renderCartItems();
+            } catch (error) {
+                console.error('Error al sincronizar el carrito con la base de datos:', error);
+            }
+        }
+    }
+
+    // Llamar a la función de sincronización al cargar la página
+    syncCartWithDatabase();
 
     // Manejar el checkout
     checkoutButton.addEventListener('click', function () {

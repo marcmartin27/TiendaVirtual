@@ -1,13 +1,12 @@
 <div id="promo-banner">
-        <div class="marquee" id="marquee">
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-            
-        </div>
+    <div class="marquee" id="marquee">
+        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
     </div>
+</div>
 
 <div class="nav">
     <div class="foto">
@@ -18,16 +17,19 @@
         <input type="text" id="buscador" placeholder="Buscar...">
     </div>
     <div class="usuario">
-        <?php if (Auth::check()): ?>
-            <form action="<?= route('logout') ?>" method="POST">
-                @csrf
-                <button type="submit">Cerrar Sesión</button>
-            </form>
-        <?php else: ?>
-            <button id="openPopup">Iniciar Sesion</button>
-        <?php endif; ?>
+    <?php if (Auth::check()): ?>
+        <form action="<?= route('logout') ?>" method="POST">
+            @csrf
+            <button type="submit">Cerrar Sesión</button>
+        </form>
+        <!-- Añadir el campo oculto con el ID del usuario -->
+        <input type="hidden" id="userId" value="{{ auth()->user()->id }}">
+        <!-- Indicador de inicio de sesión reciente -->
+        <input type="hidden" id="just-logged-in" value="{{ session('just_logged_in') ? 'true' : 'false' }}">
+    <?php else: ?>
+        <button id="openPopup">Iniciar Sesion</button>
+    <?php endif; ?>
         <img src="../../../images/cesta.webp" alt="" id="cartButton">
-
     </div>
 </div>
 
