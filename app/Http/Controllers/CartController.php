@@ -36,6 +36,9 @@ class CartController extends Controller
             $product = Product::find($cartItem->product_id);
             $image = $product->images->first();
             
+            // Determinar el precio correcto (usar new_price si está disponible)
+            $price = $product->new_price ? $product->new_price : $product->price;
+            
             // Construir la URL completa de la imagen
             $imageUrl = '';
             if ($image) {
@@ -55,13 +58,13 @@ class CartController extends Controller
             return [
                 'id' => $cartItem->product_id,
                 'name' => $product->name,
-                'price' => $product->price,
+                'price' => $price,
                 'quantity' => $cartItem->quantity,
                 'size' => $cartItem->size,
                 'image' => $imageUrl
             ];
         });
-    
+
         return response()->json(['cartItems' => $cartItems]);
     }
 }

@@ -51,16 +51,19 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function () {
             const productId = button.getAttribute('data-product-id');
             const productName = button.getAttribute('data-product-name');
-            const productPrice = parseFloat(button.getAttribute('data-product-price'));
+            // Verificar si existe precio rebajado y usarlo en lugar del precio regular
+            const newPrice = button.getAttribute('data-product-new-price');
+            const regularPrice = parseFloat(button.getAttribute('data-product-price'));
+            const productPrice = newPrice && newPrice !== "null" ? parseFloat(newPrice) : regularPrice;
             const productImage = button.getAttribute('data-product-image');
             const productQuantity = parseInt(document.getElementById('quantity').value);
             const selectedSize = selectedSizeElement.textContent;
-
+    
             if (selectedSize === 'Ninguna') {
                 alert('Por favor, seleccione una talla antes de añadir el producto al carrito.');
                 return;
             }
-
+    
             addToCart(productId, productName, productPrice, productQuantity, selectedSize, productImage);
             cartPopupBackground.classList.remove('hidden');
             renderCartItems();
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <p class="cart-item-name">${item.name}</p>
                     <p class="cart-item-info">Talla: ${item.size} | Precio: ${parseFloat(item.price).toFixed(2)} € | Cantidad: ${item.quantity}</p>
                 </div>
-                <button class="remove-from-cart" data-product-id="${item.id}">Eliminar</button>
+                <button class="remove-from-cart" data-product-id="${item.id}" data-product-size="${item.size}">Eliminar</button>
             `;
             cartItemsContainer.appendChild(cartItem);
         });
@@ -90,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
         removeFromCartButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const productId = button.getAttribute('data-product-id');
-                removeFromCart(productId);
+                const productSize = button.getAttribute('data-product-size');
+                removeFromCart(productId, productSize); // Modificar para pasar también la talla
                 renderCartItems();
             });
         });
@@ -131,25 +135,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Eliminar producto del carrito
-// Eliminar producto del carrito
-function removeFromCart(id) {
-    let cartItems = getCartItems();
-    console.log('Intentando eliminar producto con ID:', id);
-    console.log('Items en el carrito antes de eliminar:', cartItems);
-    
-    // Convertir id a string para asegurar una comparación consistente
-    const idString = String(id);
-    cartItems = cartItems.filter(item => String(item.id) !== idString);
-    
-    console.log('Items en el carrito después de eliminar:', cartItems);
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    renderCartItems();
+    function removeFromCart(id, size) {
+        let cartItems = getCartItems();
+        console.log('Intentando eliminar producto con ID:', id, 'y talla:', size);
+        console.log('Items en el carrito antes de eliminar:', cartItems);
+        
+        // Convertir id a string para asegurar una comparación consistente
+        const idString = String(id);
+        
+        // Filtrar por ID Y talla para eliminar solo el producto específico
+        cartItems = cartItems.filter(item => !(String(item.id) === idString && item.size === size));
+        
+        console.log('Items en el carrito después de eliminar:', cartItems);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        renderCartItems();
 
-    // Si el usuario está logueado, actualizar la base de datos
-    if (userId) {
-        saveCartToDatabase(cartItems);
+        // Si el usuario está logueado, actualizar la base de datos
+        if (userId) {
+            saveCartToDatabase(cartItems);
+        }
     }
-}
 
     // Guardar el carrito en la base de datos
     async function saveCartToDatabase(cartItems) {

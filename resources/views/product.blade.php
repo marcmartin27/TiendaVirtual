@@ -49,7 +49,14 @@
                 </div>
             </div>
             <div class="actions">
-                <button id="add-to-cart" data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}" data-product-price="{{ $product->price }}" data-product-image="{{ asset('images/' . $product->images->first()->image_url) }}">Añadir al carrito</button>
+            <button id="add-to-cart" 
+                    data-product-id="{{ $product->id }}" 
+                    data-product-name="{{ $product->name }}" 
+                    data-product-price="{{ $product->price }}" 
+                    data-product-new-price="{{ $product->new_price }}" 
+                    data-product-image="{{ asset('images/' . $product->images->first()->image_url) }}">
+                Añadir al Carrito
+            </button>
                 <button id="buy-now">Comprar ahora</button>
             </div>
         </div>
