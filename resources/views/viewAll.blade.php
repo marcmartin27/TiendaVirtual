@@ -44,7 +44,6 @@
             @else
                 <p class="price">${{ $product->price }}</p>
             @endif
-            <button>Añadir al carrito</button>
         </div>
     @endforeach
     </div>
