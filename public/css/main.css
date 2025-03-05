@@ -291,7 +291,7 @@ h1 {
   gap: 15px;
 }
 .container .sneaker-card {
-  background-color: #baada6;
+  background: linear-gradient(45deg, #594C45, #BAADA6, #bbbbbb, #BAADA6);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
