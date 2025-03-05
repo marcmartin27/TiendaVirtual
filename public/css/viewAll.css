@@ -70,7 +70,7 @@ h1 {
 }
 .container .sneaker-card .price .original-price {
   text-decoration: line-through;
-  color: #f16868;
+  color: #ff0000;
   margin-right: 10px;
 }
 .container .sneaker-card .price .sale-price {
