@@ -116,7 +116,7 @@ body {
   background: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  z-index: 20;
+  z-index: 1000;
 }
 
 /* Popup */
@@ -636,6 +636,15 @@ h1 {
   -moz-appearance: textfield;
 }
 
+#header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+}
+
 .nav {
   display: flex;
   justify-content: space-between;
@@ -643,8 +652,6 @@ h1 {
   background-color: white;
   color: white;
   padding: 10px 20px;
-  position: sticky;
-  top: 0;
   z-index: 10;
 }
 .nav .foto img {
@@ -700,8 +707,8 @@ h1 {
 }
 
 .search-popup {
-  position: absolute;
-  top: 125px;
+  position: fixed;
+  top: 108px;
   left: 50%;
   transform: translateX(-50%);
   width: 40%;
@@ -843,6 +850,10 @@ h1 {
 
 #checkoutButton:hover {
   background-color: #594C45;
+}
+
+body {
+  padding-top: 110px;
 }
 
 footer {

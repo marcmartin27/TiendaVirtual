@@ -1,37 +1,40 @@
 <head><meta name="csrf-token" content="{{ csrf_token() }}"></head>
-<div id="promo-banner">
-    <div class="marquee" id="marquee">
-        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
-        <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+<div id="header-fixed">
+    <div id="promo-banner">
+        <div class="marquee" id="marquee">
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+            <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
+        </div>
     </div>
-</div>
 
-<div class="nav">
-    <div class="foto">
-        <a href="{{ url('/') }}"><img src="../../../images/logo.png" alt=""></a>
+    <div class="nav">
+        <div class="foto">
+            <a href="{{ url('/') }}"><img src="../../../images/logo.png" alt=""></a>
+        </div>
+        <div class="buscador">
+            <p><a href="{{ route('viewall', ['sale' => '1']) }}">Rebajas</a></p>
+            <input type="text" id="buscador" placeholder="Buscar...">
+        </div>
+        <div class="usuario">
+        <?php if (Auth::check()): ?>
+            <form action="<?= route('logout') ?>" method="POST" id="logout-form">
+                @csrf
+                <button type="submit">Cerrar Sesión</button>
+            </form>
+            <!-- Añadir el campo oculto con el ID del usuario -->
+            <input type="hidden" id="userId" value="{{ auth()->user()->id }}">
+            <!-- Indicador de inicio de sesión reciente -->
+            <input type="hidden" id="just-logged-in" value="{{ session('just_logged_in') ? 'true' : 'false' }}">
+        <?php else: ?>
+            <button id="openPopup">Iniciar Sesion</button>
+        <?php endif; ?>
+            <img src="../../../images/cesta.webp" alt="" id="cartButton">
+        </div>
     </div>
-    <div class="buscador">
-        <p><a href="{{ route('viewall', ['sale' => '1']) }}">Rebajas</a></p>
-        <input type="text" id="buscador" placeholder="Buscar...">
-    </div>
-    <div class="usuario">
-    <?php if (Auth::check()): ?>
-        <form action="<?= route('logout') ?>" method="POST" id="logout-form">
-            @csrf
-            <button type="submit">Cerrar Sesión</button>
-        </form>
-        <!-- Añadir el campo oculto con el ID del usuario -->
-        <input type="hidden" id="userId" value="{{ auth()->user()->id }}">
-        <!-- Indicador de inicio de sesión reciente -->
-        <input type="hidden" id="just-logged-in" value="{{ session('just_logged_in') ? 'true' : 'false' }}">
-    <?php else: ?>
-        <button id="openPopup">Iniciar Sesion</button>
-    <?php endif; ?>
-        <img src="../../../images/cesta.webp" alt="" id="cartButton">
-    </div>
+
 </div>
 
 <div class="background" id="popupBackground">
@@ -86,6 +89,7 @@
         <button id="checkoutButton">Finalizar Compra</button>
     </div>
 </div>
+
 
 <?php if (session('success')): ?>
     <div class="alert alert-success">

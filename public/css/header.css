@@ -1,4 +1,13 @@
 @charset "UTF-8";
+#header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+}
+
 .nav {
   display: flex;
   justify-content: space-between;
@@ -6,8 +15,6 @@
   background-color: white;
   color: white;
   padding: 10px 20px;
-  position: sticky;
-  top: 0;
   z-index: 10;
 }
 .nav .foto img {
@@ -63,8 +70,8 @@
 }
 
 .search-popup {
-  position: absolute;
-  top: 125px;
+  position: fixed;
+  top: 108px;
   left: 50%;
   transform: translateX(-50%);
   width: 40%;
@@ -206,4 +213,8 @@
 
 #checkoutButton:hover {
   background-color: #594C45;
+}
+
+body {
+  padding-top: 110px;
 }/*# sourceMappingURL=header.css.map */
