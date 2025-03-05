@@ -604,7 +604,8 @@ h1 {
   font-size: 16px;
 }
 .quantity-container button:hover {
-  background: #463A34;
+  background: #BAADA6;
+  color: black;
 }
 .quantity-container #decrease {
   margin-right: 5px; /* Separación visual del input */
