@@ -51,6 +51,7 @@
             @endif
 
             <div id="dashboard">
+            <div class="card-container">
                 <div class="card">
                     <h3>Total Usuarios</h3>
                     <p>{{ $totalUsers }}</p>
@@ -67,6 +68,8 @@
                     <h3>Total Pedidos</h3>
                     <p>{{ $totalOrders }}</p>
                 </div>
+            </div>
+
 
                 <!-- Gráfico de productos añadidos por mes -->
                 <div class="card chart-container">
