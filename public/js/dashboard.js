@@ -290,4 +290,168 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+        // Inicializar gráficos si estamos en la sección de dashboard
+        if (document.getElementById('productsChart') && document.getElementById('ordersChart')) {
+            initCharts();
+        }
+        
+// Reemplaza la función initCharts actual con esta versión
+function initCharts() {
+    // Obtener datos del backend
+    const productsByMonthElement = document.getElementById('productsByMonth');
+    const ordersByMonthElement = document.getElementById('ordersByMonth');
+    
+    if (!productsByMonthElement || !ordersByMonthElement) return;
+    
+    const productsByMonth = JSON.parse(productsByMonthElement.value);
+    const ordersByMonth = JSON.parse(ordersByMonthElement.value);
+    const months = JSON.parse(document.getElementById('months').value);
+    
+    // Crear array de etiquetas de meses
+    const monthLabels = Object.values(months);
+    
+    // Crear array de valores
+    const productValues = Object.values(productsByMonth);
+    const orderValues = Object.values(ordersByMonth);
+    
+    // Dibujar gráfico de productos
+    drawBarChart('productsChart', monthLabels, productValues, 
+        'Productos añadidos por mes', 'rgba(54, 162, 235, 0.5)', 'rgb(54, 162, 235)');
+    
+    // Dibujar gráfico de pedidos
+    drawBarChart('ordersChart', monthLabels, orderValues, 
+        'Pedidos realizados por mes', 'rgba(255, 99, 132, 0.5)', 'rgb(255, 99, 132)');
+}
+
+// Función para dibujar un gráfico de barras
+function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || !canvas.getContext) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Establecer dimensiones del canvas
+    canvas.width = canvas.parentElement.clientWidth * 0.95;
+    canvas.height = 280;
+    
+    // Márgenes y dimensiones
+    const margin = {top: 40, right: 20, bottom: 60, left: 60};
+    const width = canvas.width - margin.left - margin.right;
+    const height = canvas.height - margin.top - margin.bottom;
+    
+    // Limpiar el canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    
+    // Encontrar el valor máximo para escalar el gráfico
+    const maxValue = Math.max(...data) || 10; // Valor mínimo de 10 si todos son 0
+    const yScaleFactor = height / (maxValue * 1.1); // Añadir 10% de espacio
+    
+    // Dibujar el eje Y
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + height);
+    ctx.strokeStyle = '#333';
+    ctx.stroke();
+    
+    // Dibujar etiquetas del eje Y
+    const yLabelCount = 5;
+    ctx.font = '12px Roboto';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    
+    for (let i = 0; i <= yLabelCount; i++) {
+        const yValue = (maxValue * i) / yLabelCount;
+        const yPos = margin.top + height - (yValue * yScaleFactor);
+        
+        // Dibujar línea de cuadrícula
+        ctx.beginPath();
+        ctx.moveTo(margin.left - 5, yPos);
+        ctx.lineTo(margin.left + width, yPos);
+        ctx.strokeStyle = '#e0e0e0';
+        ctx.stroke();
+        
+        // Dibujar etiqueta
+        ctx.fillStyle = '#333';
+        ctx.fillText(Math.round(yValue), margin.left - 10, yPos);
+    }
+    
+    // Título del eje Y
+    ctx.save();
+    ctx.translate(20, margin.top + height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.font = '14px Roboto';
+    ctx.fillText('Cantidad', 0, 0);
+    ctx.restore();
+    
+    // Dibujar el eje X
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top + height);
+    ctx.lineTo(margin.left + width, margin.top + height);
+    ctx.strokeStyle = '#333';
+    ctx.stroke();
+    
+    // Dibujar las barras y etiquetas del eje X
+    const barWidth = width / labels.length * 0.7;
+    const barSpacing = width / labels.length;
+    
+    ctx.font = '12px Roboto';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    
+    for (let i = 0; i < labels.length; i++) {
+        const value = data[i] || 0;
+        const barHeight = value * yScaleFactor;
+        const x = margin.left + (i * barSpacing) + (barSpacing - barWidth) / 2;
+        const y = margin.top + height - barHeight;
+        
+        // Dibujar la barra
+        ctx.fillStyle = fillColor;
+        ctx.strokeStyle = strokeColor;
+        ctx.beginPath();
+        ctx.rect(x, y, barWidth, barHeight);
+        ctx.fill();
+        ctx.stroke();
+        
+        // Dibujar valor encima de la barra
+        if (value > 0) {
+            ctx.fillStyle = '#333';
+            ctx.fillText(value, x + barWidth / 2, y - 15);
+        }
+        
+        // ELIMINAR ESTA LÍNEA QUE ESTÁ CAUSANDO LA DUPLICACIÓN
+        // ctx.fillStyle = '#333';
+        // ctx.fillText(labels[i], x + barWidth / 2, margin.top + height + 10);
+        
+        // Si los nombres de los meses son largos, rotarlos
+        ctx.fillStyle = '#333';
+        // Reemplazar este bloque:
+        // Reemplazar este bloque condicional:
+        if (labels[i].length > 4) {
+            ctx.save();
+            ctx.translate(x + barWidth / 2, margin.top + height + 25);
+            ctx.rotate(Math.PI / 8);
+            ctx.textAlign = 'right';
+            ctx.restore();
+        }
+
+        // Por este código simple que mostrará todos los meses en horizontal:
+        ctx.fillStyle = '#333';
+        ctx.fillText(labels[i], x + barWidth / 2, margin.top + height + 25);
+
+        // Por este código que mostrará todos los meses rectos:
+    }
+        
+    // Título del eje X - ajustar la posición vertical
+    ctx.fillStyle = '#333';
+    ctx.textAlign = 'center';
+    ctx.font = '14px Roboto';
+    ctx.fillText('Mes', margin.left + width / 2, canvas.height - 20); // Cambiar de -10 a -20
+    
+    // Añadir un borde al canvas para mayor claridad
+    ctx.strokeStyle = '#ccc';
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+}
 });

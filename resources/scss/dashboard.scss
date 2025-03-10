@@ -13,6 +13,12 @@ header {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
+    position: fixed;      
+    top: 0;               
+    left: 0;       
+    width: 100%;          
+    z-index: 1000;      
+    box-sizing: border-box; 
 }
 
 header .logo img {
@@ -43,15 +49,17 @@ header .user-info button:hover {
 
 .container {
     display: flex;
+    padding-top: 70px;     
 }
 
 .sidebar {
     width: 220px;
     background-color: #343a40;
     padding: 20px;
-    height: 100vh;
+    height: calc(100vh - 70px); 
     position: fixed;
     color: white;
+    top: 70px;           
 }
 
 .sidebar ul {
@@ -157,4 +165,18 @@ tr:nth-child(even) {
 .alert-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+.chart-container {
+    position: relative;
+    height: 350px;  // Un poco más alto para acomodar las etiquetas rotadas
+    margin-bottom: 40px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
 }

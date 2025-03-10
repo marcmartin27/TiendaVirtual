@@ -67,7 +67,23 @@
                     <h3>Total Pedidos</h3>
                     <p>{{ $totalOrders }}</p>
                 </div>
+
+                <!-- Gráfico de productos añadidos por mes -->
+                <div class="card chart-container">
+                    <h3>Productos añadidos por mes</h3>
+                    <canvas id="productsChart"></canvas>
+                </div>
+                
+                <!-- Gráfico de pedidos realizados por mes -->
+                <div class="card chart-container">
+                    <h3>Pedidos realizados por mes</h3>
+                    <canvas id="ordersChart"></canvas>
+                </div>
             </div>
+            <input type="hidden" id="productsByMonth" value="{{ json_encode($productsByMonth) }}">
+            <input type="hidden" id="ordersByMonth" value="{{ json_encode($ordersByMonth) }}">
+            <input type="hidden" id="months" value="{{ json_encode($months) }}">
+            
             <div id="products" class="hidden">
                 <button id="addProductButton">Añadir Producto</button>
                 <div id="addProductForm" class="hidden">

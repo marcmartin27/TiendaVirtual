@@ -23,7 +23,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::resource('users', UserController::class);
-Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
 Route::resource('orders', OrderController::class);
 Route::resource('sizes', SizeController::class);
 Route::get('/search', [ProductController::class, 'search'])->name('search');
