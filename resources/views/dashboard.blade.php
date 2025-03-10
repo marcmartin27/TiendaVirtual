@@ -151,8 +151,8 @@
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->featured ? 'Sí' : 'No' }}</td>
                                 <td>
-                                    <button class="editProductButton" data-product-id="{{ $product->id }}">Editar</button>
-                                    <button class="deleteProductButton" data-product-id="{{ $product->id }}">Eliminar</button>
+                                <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Producto" class="editProductButton action-icon" data-product-id="{{ $product->id }}">
+                                <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Producto" class="deleteProductButton action-icon" data-product-id="{{ $product->id }}">
                                 </td>
                             </tr>
                         @endforeach
@@ -193,8 +193,8 @@
                                 <td>{{ $category->code }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
-                                    <button class="editCategoryButton" data-category-id="{{ $category->id }}">Editar</button>
-                                    <button class="deleteCategoryButton" data-category-id="{{ $category->id }}">Eliminar</button>
+                                <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Categoría" class="editCategoryButton action-icon" data-category-id="{{ $category->id }}">
+                                <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Categoría" class="deleteCategoryButton action-icon" data-category-id="{{ $category->id }}">
                                 </td>
                             </tr>
                         @endforeach
@@ -301,8 +301,8 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <button class="editUserButton" data-user-id="{{ $user->id }}">Editar</button>
-                                    <button class="deleteUserButton" data-user-id="{{ $user->id }}">Eliminar</button>
+                                <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Usuario" class="editUserButton action-icon" data-user-id="{{ $user->id }}">
+                                <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Usuario" class="deleteUserButton action-icon" data-user-id="{{ $user->id }}">
                                 </td>
                             </tr>
                         @endforeach
@@ -376,8 +376,8 @@
                                 <td>{{ $order->total }}</td>
                                 <td>{{ $order->status }}</td>
                                 <td>
-                                    <button class="editOrderButton" data-order-id="{{ $order->id }}">Editar</button>
-                                    <button class="deleteOrderButton" data-order-id="{{ $order->id }}">Eliminar</button>
+                                <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Pedido" class="editOrderButton action-icon" data-order-id="{{ $order->id }}">
+                                <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Pedido" class="deleteOrderButton action-icon" data-order-id="{{ $order->id }}">
                                 </td>
                             </tr>
                         @endforeach

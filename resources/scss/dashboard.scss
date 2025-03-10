@@ -180,3 +180,20 @@ canvas {
     margin: 0 auto;
     max-width: 100%;
 }
+
+// Añadir al final de dashboard.scss
+.action-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+    transform: scale(1.2);
+}
+
+td {
+    vertical-align: middle;
+}
