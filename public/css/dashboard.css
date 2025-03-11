@@ -10,7 +10,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007bff;
+  background-color: #a8a8a8;
   color: white;
   padding: 10px 20px;
   position: fixed;
@@ -23,6 +23,17 @@ header {
 
 header .logo img {
   height: 50px;
+}
+
+.logo {
+  height: 100%;
+  background-color: #155724;
+}
+.logo img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background-color: red;
 }
 
 header .user-info {
@@ -100,6 +111,8 @@ header .user-info button:hover {
 .card {
   background-color: #fff;
   padding: 20px;
+  padding-right: 65px;
+  padding-left: 65px;
   width: 150px;
   height: 150px;
   display: flex;
@@ -109,6 +122,13 @@ header .user-info button:hover {
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.card p {
+  font-size: 40px;
+  margin-top: 2px;
+  color: #007bff;
 }
 
 button {

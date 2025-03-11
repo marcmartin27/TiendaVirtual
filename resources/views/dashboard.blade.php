@@ -72,13 +72,13 @@
 
 
                 <!-- Gráfico de productos añadidos por mes -->
-                <div class="card chart-container">
+                <div class="chart-container">
                     <h3>Productos añadidos por mes</h3>
                     <canvas id="productsChart"></canvas>
                 </div>
                 
                 <!-- Gráfico de pedidos realizados por mes -->
-                <div class="card chart-container">
+                <div class="chart-container">
                     <h3>Pedidos realizados por mes</h3>
                     <canvas id="ordersChart"></canvas>
                 </div>
