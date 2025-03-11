@@ -759,6 +759,34 @@ h1 {
   text-decoration: underline;
 }
 
+.search-popup .search-results .no-results {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  border-bottom: none;
+}
+
+.search-popup .search-results .no-results .no-results-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #666;
+  text-align: center;
+}
+
+.search-popup .search-results .no-results svg {
+  color: #baada6;
+  margin-bottom: 10px;
+}
+
+.search-popup .search-results .no-results p {
+  margin: 0;
+}
+
+.search-popup .search-results .no-results strong {
+  color: #594C45;
+}
+
 .hidden {
   display: none;
 }
