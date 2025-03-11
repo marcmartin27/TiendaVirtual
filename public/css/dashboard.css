@@ -161,24 +161,57 @@ input[type=file] {
   display: block;
 }
 
-table {
+#products,
+#categories,
+#users,
+#orders {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
 }
-
-table, th, td {
-  border: 1px solid #ddd;
+#products table,
+#categories table,
+#users table,
+#orders table {
+  width: 90%;
+  margin: 20px auto;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none;
 }
-
-th, td {
+#products table th, #products table td,
+#categories table th,
+#categories table td,
+#users table th,
+#users table td,
+#orders table th,
+#orders table td {
   padding: 15px;
   text-align: left;
+  border: 1px solid #ddd;
 }
-
-th {
+#products table th,
+#categories table th,
+#users table th,
+#orders table th {
   background-color: #007bff;
   color: white;
+}
+@media (max-width: 768px) {
+  #products table,
+  #categories table,
+  #users table,
+  #orders table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
 }
 
 tr:nth-child(even) {
