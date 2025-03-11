@@ -357,7 +357,7 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     
     // Dibujar etiquetas del eje Y
     const yLabelCount = 5;
-    ctx.font = '12px Roboto';
+    ctx.font = '12px Arial';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     
@@ -382,7 +382,7 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     ctx.translate(20, margin.top + height / 2);
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = 'center';
-    ctx.font = '14px Roboto';
+    ctx.font = '14px Arial';
     ctx.fillText('Cantidad', 0, 0);
     ctx.restore();
     
@@ -397,7 +397,7 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     const barWidth = width / labels.length * 0.7;
     const barSpacing = width / labels.length;
     
-    ctx.font = '12px Roboto';
+    ctx.font = '12px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     
@@ -447,7 +447,7 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     // Título del eje X - ajustar la posición vertical
     ctx.fillStyle = '#333';
     ctx.textAlign = 'center';
-    ctx.font = '14px Roboto';
+    ctx.font = '14px Arial';
     ctx.fillText('Mes', margin.left + width / 2, canvas.height - 20); // Cambiar de -10 a -20
     
     // Añadir un borde al canvas para mayor claridad
