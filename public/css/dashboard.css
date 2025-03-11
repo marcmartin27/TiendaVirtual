@@ -21,19 +21,12 @@ header {
   box-sizing: border-box;
 }
 
-header .logo img {
-  height: 50px;
-}
-
-.logo {
-  height: 100%;
-  background-color: #155724;
-}
 .logo img {
-  width: 100%;
+  width: 250px;
+  height: 50px;
   -o-object-fit: cover;
      object-fit: cover;
-  background-color: red;
+  margin-left: -20px;
 }
 
 header .user-info {

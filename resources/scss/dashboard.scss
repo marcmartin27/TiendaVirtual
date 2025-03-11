@@ -21,18 +21,14 @@ header {
     box-sizing: border-box; 
 }
 
-header .logo img {
-    height: 50px;
-}
 
 .logo {
-    height: 100%;
-    background-color: #155724;
 
     img {
-        width: 100%;
+        width: 250px;
+        height: 50px;
         object-fit: cover;
-        background-color: red;
+        margin-left: -20px;
     }
 }
 
