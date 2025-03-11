@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Str;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,7 +153,7 @@
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->code }}</td>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->description }}</td>
+                                <td>{{ Str::words($product->description, 5, '...') }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->featured ? 'Sí' : 'No' }}</td>
