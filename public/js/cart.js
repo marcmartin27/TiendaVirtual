@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             renderCartItems();
         });
     });
-
+    
     // Renderizar los productos del carrito
     function renderCartItems() {
         const cartItems = getCartItems();
@@ -81,25 +81,75 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <p class="cart-item-name">${item.name}</p>
-                    <p class="cart-item-info">Talla: ${item.size} | Precio: ${parseFloat(item.price).toFixed(2)} € | Cantidad: ${item.quantity}</p>
+                    <p class="cart-item-info">Talla: ${item.size} | Precio: ${parseFloat(item.price).toFixed(2)} €</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn decrease-quantity" data-product-id="${item.id}" data-product-size="${item.size}">-</button>
+                        <span class="quantity-display">${item.quantity}</span>
+                        <button class="quantity-btn increase-quantity" data-product-id="${item.id}" data-product-size="${item.size}">+</button>
+                    </div>
                 </div>
                 <button class="remove-from-cart" data-product-id="${item.id}" data-product-size="${item.size}">Eliminar</button>
             `;
             cartItemsContainer.appendChild(cartItem);
         });
-
+    
         // Añadir eventos a los botones de eliminar
         const removeFromCartButtons = document.querySelectorAll('.remove-from-cart');
         removeFromCartButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const productId = button.getAttribute('data-product-id');
                 const productSize = button.getAttribute('data-product-size');
-                removeFromCart(productId, productSize); // Modificar para pasar también la talla
+                removeFromCart(productId, productSize);
                 renderCartItems();
             });
         });
-
+    
+        // Añadir eventos a los botones de aumentar cantidad
+        const increaseButtons = document.querySelectorAll('.increase-quantity');
+        increaseButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = button.getAttribute('data-product-id');
+                const productSize = button.getAttribute('data-product-size');
+                changeQuantity(productId, productSize, 1);
+            });
+        });
+    
+        // Añadir eventos a los botones de disminuir cantidad
+        const decreaseButtons = document.querySelectorAll('.decrease-quantity');
+        decreaseButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = button.getAttribute('data-product-id');
+                const productSize = button.getAttribute('data-product-size');
+                changeQuantity(productId, productSize, -1);
+            });
+        });
+    
         updateTotalPrice();
+    }
+
+    // Función para cambiar la cantidad de un producto en el carrito
+    function changeQuantity(id, size, change) {
+        let cartItems = getCartItems();
+        const idString = String(id);
+        
+        // Encontrar el producto específico por ID y talla
+        const item = cartItems.find(item => String(item.id) === idString && item.size === size);
+        
+        if (item) {
+            // Cambiar la cantidad (mínimo 1)
+            item.quantity = Math.max(1, item.quantity + change);
+            
+            // Guardar en localStorage
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Si el usuario está logueado, actualizar la base de datos
+            if (userId) {
+                saveCartToDatabase(cartItems);
+            }
+            
+            // Renderizar los cambios
+            renderCartItems();
+        }
     }
 
     // Calcular y actualizar el precio total
