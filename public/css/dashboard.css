@@ -161,20 +161,20 @@ input[type=file] {
   display: block;
 }
 
-#products,
-#categories,
-#users,
-#orders {
+#products:not(.hidden),
+#categories:not(.hidden),
+#users:not(.hidden),
+#orders:not(.hidden) {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
 }
-#products table,
-#categories table,
-#users table,
-#orders table {
+#products:not(.hidden) table,
+#categories:not(.hidden) table,
+#users:not(.hidden) table,
+#orders:not(.hidden) table {
   width: 90%;
   margin: 20px auto;
   background: white;
@@ -185,33 +185,37 @@ input[type=file] {
   border-spacing: 0;
   border: none;
 }
-#products table th, #products table td,
-#categories table th,
-#categories table td,
-#users table th,
-#users table td,
-#orders table th,
-#orders table td {
+#products:not(.hidden) table th, #products:not(.hidden) table td,
+#categories:not(.hidden) table th,
+#categories:not(.hidden) table td,
+#users:not(.hidden) table th,
+#users:not(.hidden) table td,
+#orders:not(.hidden) table th,
+#orders:not(.hidden) table td {
   padding: 15px;
   text-align: left;
   border: 1px solid #ddd;
 }
-#products table th,
-#categories table th,
-#users table th,
-#orders table th {
+#products:not(.hidden) table th,
+#categories:not(.hidden) table th,
+#users:not(.hidden) table th,
+#orders:not(.hidden) table th {
   background-color: #007bff;
   color: white;
 }
 @media (max-width: 768px) {
-  #products table,
-  #categories table,
-  #users table,
-  #orders table {
+  #products:not(.hidden) table,
+  #categories:not(.hidden) table,
+  #users:not(.hidden) table,
+  #orders:not(.hidden) table {
     width: 100%;
     overflow-x: auto;
     display: block;
   }
+}
+
+.main-content .hidden {
+  display: none !important;
 }
 
 tr:nth-child(even) {
