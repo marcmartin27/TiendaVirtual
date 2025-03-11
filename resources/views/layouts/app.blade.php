@@ -1,3 +1,7 @@
+@if(Auth::check())
+    <input type="hidden" id="userId" value="{{ auth()->user()->id }}">
+    <input type="hidden" id="just-logged-in" value="{{ session('just_logged_in') ? 'true' : 'false' }}">
+@endif
 <!DOCTYPE html>
 <html lang="es">
 <head>

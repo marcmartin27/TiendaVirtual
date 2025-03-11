@@ -110,4 +110,10 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Registro exitoso.');
     }
 
+    public function clearLoginFlag(Request $request)
+    {
+        $request->session()->forget('just_logged_in');
+        return response()->json(['success' => true]);
+    }
+
 }

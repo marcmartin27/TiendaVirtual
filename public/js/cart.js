@@ -13,12 +13,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Verificar si el usuario acaba de iniciar sesión
     const justLoggedInElement = document.getElementById('just-logged-in');
-    if (justLoggedInElement && justLoggedInElement.value === 'true') {
+    let hasBeenSynced = localStorage.getItem('cartSynced') === 'true';
+    
+    console.log('Estado inicial:', {
+        'justLoggedInElement exists': !!justLoggedInElement,
+        'justLoggedInElement value': justLoggedInElement ? justLoggedInElement.value : null,
+        'hasBeenSynced': hasBeenSynced,
+        'userId': userId
+    });
+    
+    if (justLoggedInElement && justLoggedInElement.value === 'true' && !hasBeenSynced && userId) {
         console.log('Usuario recién logueado, sincronizando carrito...');
         syncCartWithDatabase();
+        hasBeenSynced = true;
+        localStorage.setItem('cartSynced', 'true');
         
-        // Limpiar el flag para que no se vuelva a sincronizar en futuras cargas
-        fetch('/clear-login-flag').catch(err => console.error('Error al limpiar flag:', err));
+        // Limpiar el flag
+        justLoggedInElement.value = 'false';
+        
+        // Enviar petición al servidor para limpiar la sesión
+        fetch('/clear-login-flag')
+            .then(response => {
+                if (response.ok) {
+                    console.log('Flag de inicio de sesión limpiado correctamente');
+                } else {
+                    throw new Error('Error al limpiar el flag de inicio de sesión');
+                }
+            })
+            .catch(err => console.error('Error al limpiar flag:', err));
+    } else if (userId) {
+        // Solo cargar desde base de datos si el usuario está logueado
+        loadCartFromDatabase();
     }
 
     // Crear elemento para el total del carrito
@@ -209,40 +234,45 @@ document.addEventListener('DOMContentLoaded', function () {
     // Guardar el carrito en la base de datos
     async function saveCartToDatabase(cartItems) {
         try {
-            console.log('saveCartToDatabase - Iniciando con userId:', userId);
+            console.log('saveCartToDatabase - Enviando estos productos:', cartItems);
             
-            const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
-            let csrfToken = '';
-            
-            if (csrfTokenElement) {
-                csrfToken = csrfTokenElement.getAttribute('content');
-                console.log('saveCartToDatabase - csrfToken encontrado');
-            } else {
-                console.log('saveCartToDatabase - csrfToken NO encontrado');
+            if (!userId || !cartItems || cartItems.length === 0) {
+                console.error('saveCartToDatabase - Datos inválidos:', { userId, cartItemsLength: cartItems?.length });
+                return;
             }
             
-            const headers = {
-                'Content-Type': 'application/json'
-            };
+            const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+            let csrfToken = csrfTokenElement ? csrfTokenElement.getAttribute('content') : '';
             
-            if (csrfToken) {
-                headers['X-CSRF-TOKEN'] = csrfToken;
+            if (!csrfToken) {
+                console.error('saveCartToDatabase - No se encontró CSRF token');
+                return;
             }
             
             const response = await fetch('/save-cart', {
                 method: 'POST',
-                headers: headers,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
                 body: JSON.stringify({ userId, cartItems })
             });
             
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Error HTTP: ${response.status}, ${errorText}`);
+            }
+            
             const result = await response.json();
             console.log('saveCartToDatabase - Respuesta del servidor:', result);
+            return result;
         } catch (error) {
-            console.error('Error al guardar el carrito en la base de datos:', error);
+            console.error('Error al guardar el carrito:', error);
+            throw error; // Re-lanzar para que el llamador pueda capturarlo
         }
     }
 
-    // Sincronizar el carrito local con la base de datos al iniciar sesión
+    // Modifica tu función syncCartWithDatabase
     async function syncCartWithDatabase() {
         if (userId) {
             try {
@@ -254,93 +284,75 @@ document.addEventListener('DOMContentLoaded', function () {
                 const dbCartItems = data.cartItems || [];
                 console.log('Productos iniciales en base de datos:', dbCartItems);
 
-                // Paso 2: Verificar si el usuario acaba de iniciar sesión y hay productos locales
+                // Paso 2: Verificar si hay productos locales
                 const localCartItems = getCartItems();
-                const justLoggedIn = document.getElementById('just-logged-in')?.value === 'true';
+                console.log('Productos en localStorage:', localCartItems);
+                
+                // Debug de las condiciones
+                console.log('Condiciones para sincronizar:', {
+                    localCartItemsLength: localCartItems.length,
+                    justLoggedInElement: document.getElementById('just-logged-in')?.value
+                });
 
                 // Si el usuario acaba de iniciar sesión con productos locales
-                if (localCartItems.length > 0 && justLoggedIn) {
-                    console.log('Usuario recién logueado con productos locales, sincronizando...');
-
-                    // LIMPIAR localStorage antes de empezar para evitar duplicaciones
-                    localStorage.removeItem('cartItems');
+                if (localCartItems.length > 0) {
+                    console.log('Usuario con productos locales, sincronizando...');
+                    
+                    // NO eliminar localStorage aquí - lo haremos después de la sincronización exitosa
                     
                     // Crear un mapa para productos únicos (key: id-size)
                     const uniqueItemsMap = {};
                     
                     // Primero procesar productos de base de datos
                     dbCartItems.forEach(item => {
-                        // Convertir todo a string para consistencia
                         const itemId = String(item.id);
                         const key = `${itemId}-${item.size}`;
-                        uniqueItemsMap[key] = {
-                            ...item,
-                            id: itemId,
-                            price: parseFloat(item.price)
-                        };
+                        uniqueItemsMap[key] = {...item, id: itemId, price: parseFloat(item.price)};
                     });
                     
                     // Luego procesar productos locales
                     localCartItems.forEach(item => {
-                        // Convertir todo a string para consistencia
                         const itemId = String(item.id);
                         const key = `${itemId}-${item.size}`;
                         
                         if (uniqueItemsMap[key]) {
-                            // Si ya existe, sumar cantidades
                             uniqueItemsMap[key].quantity += item.quantity;
                         } else {
-                            // Si no existe, añadir
-                            uniqueItemsMap[key] = {
-                                ...item,
-                                id: itemId,
-                                price: parseFloat(item.price)
-                            };
+                            uniqueItemsMap[key] = {...item, id: itemId, price: parseFloat(item.price)};
                         }
                     });
                     
                     // Convertir el objeto a un array
                     const mergedItems = Object.values(uniqueItemsMap);
-                    console.log('Productos combinados sin duplicados:', mergedItems);
+                    console.log('Productos a guardar en DB:', mergedItems);
                     
-                    // Guardar en base de datos
-                    await saveCartToDatabase(mergedItems);
-                    
-                    // Actualizar localStorage con los productos combinados
-                    localStorage.setItem('cartItems', JSON.stringify(mergedItems));
+                    // IMPORTANTE: Guardar en base de datos ANTES de borrar localStorage
+                    try {
+                        await saveCartToDatabase(mergedItems);
+                        console.log('Carrito guardado en base de datos correctamente');
+                        
+                        // AHORA es seguro actualizar localStorage
+                        localStorage.setItem('cartItems', JSON.stringify(mergedItems));
+                        console.log('Carrito local actualizado con productos combinados');
+                    } catch (error) {
+                        console.error('Error al guardar en la base de datos:', error);
+                        // No borramos localStorage si hubo un error
+                    }
                 } else {
-                    // Si no acaba de iniciar sesión o no tiene productos locales,
-                    // simplemente cargar desde la base de datos sin combinar
-                    const normalizedDbItems = dbCartItems.map(item => ({
-                        ...item,
-                        id: String(item.id),
-                        price: parseFloat(item.price)
-                    }));
-                    
-                    // Reemplazar completamente el contenido del localStorage
-                    localStorage.setItem('cartItems', JSON.stringify(normalizedDbItems));
+                    console.log('No hay productos locales que sincronizar');
+                    // Cargar desde la base de datos
+                    loadCartFromDatabase();
                 }
                 
                 // Renderizar los productos del carrito
                 renderCartItems();
                 
             } catch (error) {
-                console.error('Error al sincronizar el carrito con la base de datos:', error);
+                console.error('Error en la sincronización del carrito:', error);
             }
         }
     }
 
-    // IMPORTANTE: Eliminar o modificar esta línea que causa la sincronización automática en cada carga
-    // syncCartWithDatabase();
-
-    // En lugar de eso, solo sincronizar cuando sea necesario:
-    if (userId && document.getElementById('just-logged-in')?.value === 'true') {
-        // Solo sincronizar si el usuario acaba de iniciar sesión
-    } else if (userId) {
-        // Si el usuario está logueado pero no acaba de iniciar sesión,
-        // solo cargar los datos de la base de datos sin sincronizar
-        loadCartFromDatabase();
-    }
 
     // Función para cargar el carrito desde la base de datos (sin sincronizar con localStorage)
     async function loadCartFromDatabase() {
@@ -357,16 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     price: parseFloat(item.price)
                 }));
                 // Limpiar carrito al cerrar sesión
-document.addEventListener('DOMContentLoaded', function() {
-    const logoutForm = document.querySelector('form[action*="logout"]');
-    if (logoutForm) {
-        logoutForm.addEventListener('submit', function() {
-            // Limpiar localStorage antes de enviar la solicitud de cierre de sesión
-            localStorage.removeItem('cartItems');
-            console.log('Carrito limpiado al cerrar sesión');
-        });
-    }
-});
                 // Reemplazar completamente el localStorage
                 localStorage.setItem('cartItems', JSON.stringify(normalizedDbItems));
                 
@@ -398,7 +400,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
 // Limpiar carrito al cerrar sesión
 document.addEventListener('DOMContentLoaded', function() {
     const logoutForm = document.querySelector('form[action*="logout"]');
@@ -406,7 +407,9 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutForm.addEventListener('submit', function() {
             // Limpiar localStorage antes de enviar la solicitud de cierre de sesión
             localStorage.removeItem('cartItems');
-            console.log('Carrito limpiado al cerrar sesión');
+            // También limpiar el flag de sincronización
+            localStorage.removeItem('cartSynced');
+            console.log('Carrito y estado de sincronización limpiados al cerrar sesión');
         });
     }
 });

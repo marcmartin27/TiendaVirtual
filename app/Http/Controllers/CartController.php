@@ -13,11 +13,21 @@ class CartController extends Controller
     {
         $userId = $request->userId;
         $cartItems = $request->cartItems;
-
-        // Eliminar los productos actuales del carrito del usuario
+        
+        // Log para debug
+        \Log::info('Recibiendo carrito para guardar:', [
+            'userId' => $userId,
+            'itemCount' => count($cartItems ?? [])
+        ]);
+    
+        if (!$userId || !$cartItems) {
+            return response()->json(['error' => 'Datos inválidos'], 400);
+        }
+    
+        // Primero eliminar el carrito existente
         Cart::where('user_id', $userId)->delete();
-
-        // Guardar los nuevos productos en el carrito
+    
+        // Luego guardar los nuevos items
         foreach ($cartItems as $item) {
             Cart::create([
                 'user_id' => $userId,
@@ -26,7 +36,7 @@ class CartController extends Controller
                 'size' => $item['size']
             ]);
         }
-
+    
         return response()->json(['message' => 'Carrito guardado correctamente']);
     }
 
