@@ -151,6 +151,15 @@ input[type=file] {
   margin: 10px 0;
 }
 
+#productSearch,
+#userSearch,
+#categorySearch,
+#orderSearch {
+  width: 60%;
+  margin: 0 auto;
+  display: block;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
