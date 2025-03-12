@@ -92,7 +92,10 @@ use Illuminate\Support\Str;
             <input type="hidden" id="months" value="{{ json_encode($months) }}">
             
             <div id="products" class="hidden">
-                <button id="addProductButton">Añadir Producto</button>
+                <div class="action-container">
+                    <button id="addProductButton">Añadir Producto</button>
+                    <input type="text" id="productSearch" placeholder="Buscar productos...">
+                </div>
                 <div id="addProductForm" class="hidden">
                     <h2>Añadir Nuevo Producto</h2>
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
@@ -133,7 +136,6 @@ use Illuminate\Support\Str;
                         <button type="submit">Añadir Producto</button>
                     </form>
                 </div>
-                <input type="text" id="productSearch" placeholder="Buscar productos...">
                 <table>
                     <thead>
                         <tr>
@@ -167,7 +169,10 @@ use Illuminate\Support\Str;
                 </table>
             </div>
             <div id="categories" class="hidden">
-                <button id="addCategoryButton">Añadir Categoría</button>
+                <div class="action-container">
+                    <button id="addCategoryButton">Añadir Categoría</button>
+                    <input type="text" id="categorySearch" placeholder="Buscar categorías...">
+                </div>
                 <div id="addCategoryForm" class="hidden">
                     <h2>Añadir Nueva Categoría</h2>
                     <form action="{{ route('categories.store') }}" method="POST">
@@ -183,7 +188,6 @@ use Illuminate\Support\Str;
                         <button type="submit">Añadir Categoría</button>
                     </form>
                 </div>
-                <input type="text" id="categorySearch" placeholder="Buscar categorías...">
                 <table>
                     <thead>
                         <tr>
@@ -271,7 +275,10 @@ use Illuminate\Support\Str;
 
             <!-- Sección de usuarios -->
             <div id="users" class="hidden">
-                <button id="addUserButton">Añadir Usuario</button>
+                <div class="action-container">
+                    <button id="addUserButton">Añadir Usuario</button>
+                    <input type="text" id="userSearch" placeholder="Buscar usuarios...">
+                </div>
                 <div id="addUserForm" class="hidden">
                     <h2>Añadir Nuevo Usuario</h2>
                     <form action="{{ route('users.store') }}" method="POST">
@@ -291,7 +298,6 @@ use Illuminate\Support\Str;
                         <button type="submit">Añadir Usuario</button>
                     </form>
                 </div>
-                <input type="text" id="userSearch" placeholder="Buscar usuarios...">
                 <table>
                     <thead>
                         <tr>
@@ -339,7 +345,10 @@ use Illuminate\Support\Str;
                 </form>
             </div>
             <div id="orders" class="hidden">
-                <button id="addOrderButton">Añadir Pedido</button>
+                <div class="action-container">
+                    <button id="addOrderButton">Añadir Pedido</button>
+                    <input type="text" id="orderSearch" placeholder="Buscar pedidos...">
+                </div>
                 <div id="addOrderForm" class="hidden">
                     <h2>Añadir Nuevo Pedido</h2>
                     <form action="{{ route('orders.store') }}" method="POST">
@@ -364,7 +373,6 @@ use Illuminate\Support\Str;
                         <button type="submit">Añadir Pedido</button>
                     </form>
                 </div>
-                <input type="text" id="orderSearch" placeholder="Buscar pedidos...">
                 <table>
                     <thead>
                         <tr>

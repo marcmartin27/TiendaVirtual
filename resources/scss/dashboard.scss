@@ -161,14 +161,29 @@ input[type="file"] {
     margin: 10px 0;
 }
 
+.action-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.action-container button {
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
 // Primero mantén tus estilos de tabla y contenedor
 #productSearch,
 #userSearch,
 #categorySearch,
 #orderSearch {
-    width: 60%;
-    margin: 0 auto;
-    display: block;
+    width: 500px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0;
 }
 
 // Asegúrate de respetar la clase .hidden si está presente
