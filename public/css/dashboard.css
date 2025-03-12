@@ -200,7 +200,7 @@ input[type=file] {
 #categories:not(.hidden) table th,
 #users:not(.hidden) table th,
 #orders:not(.hidden) table th {
-  background-color: #007bff;
+  background-color: #343a40;
   color: white;
 }
 @media (max-width: 768px) {
