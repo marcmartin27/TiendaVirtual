@@ -33,36 +33,37 @@ class CartController extends Controller
                 'user_id' => $userId,
                 'product_id' => $item['id'],
                 'quantity' => $item['quantity'],
-                'size' => $item['size']
+                'size' => $item['size'],
+                'customized_image' => $item['isCustomized'] ? $item['image'] : null
             ]);
         }
     
         return response()->json(['message' => 'Carrito guardado correctamente']);
     }
-
+    
     public function getCart($userId)
     {
         $cartItems = Cart::where('user_id', $userId)->get()->map(function ($cartItem) {
             $product = Product::find($cartItem->product_id);
             $image = $product->images->first();
             
-            // Determinar el precio correcto (usar new_price si está disponible)
+            // Determinar el precio correcto
             $price = $product->new_price ? $product->new_price : $product->price;
             
-            // Construir la URL completa de la imagen
+            // Usar la imagen personalizada si existe
             $imageUrl = '';
-            if ($image) {
+            if ($cartItem->customized_image) {
+                $imageUrl = $cartItem->customized_image;
+                $isCustomized = true;
+            } else if ($image) {
                 // Si la imagen ya tiene una URL completa (http o https), usarla tal cual
                 if (strpos($image->image_url, 'http') === 0) {
                     $imageUrl = $image->image_url;
-                } 
-                // Si es una ruta relativa, añadir la URL base
-                else {
+                } else {
+                    // Si es una ruta relativa, añadir la URL base
                     $imageUrl = asset('images/' . $image->image_url);
                 }
-            } else {
-                // Imagen por defecto si no hay imágenes asociadas
-                $imageUrl = asset('images/default-product.png');
+                $isCustomized = false;
             }
             
             return [
@@ -71,10 +72,11 @@ class CartController extends Controller
                 'price' => $price,
                 'quantity' => $cartItem->quantity,
                 'size' => $cartItem->size,
-                'image' => $imageUrl
+                'image' => $imageUrl,
+                'isCustomized' => $isCustomized
             ];
         });
-
+        
         return response()->json(['cartItems' => $cartItems]);
     }
 

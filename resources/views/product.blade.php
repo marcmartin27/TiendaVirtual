@@ -49,15 +49,18 @@
                 </div>
             </div>
             <div class="actions">
-            <button id="add-to-cart" 
-                    data-product-id="{{ $product->id }}" 
-                    data-product-name="{{ $product->name }}" 
-                    data-product-price="{{ $product->price }}" 
-                    data-product-new-price="{{ $product->new_price }}" 
-                    data-product-image="{{ asset('images/' . $product->images->first()->image_url) }}">
-                Añadir al Carrito
-            </button>
+                <button id="add-to-cart" 
+                        data-product-id="{{ $product->id }}" 
+                        data-product-name="{{ $product->name }}" 
+                        data-product-price="{{ $product->price }}" 
+                        data-product-new-price="{{ $product->new_price }}" 
+                        data-product-image="{{ asset('images/' . $product->images->first()->image_url) }}">
+                    Añadir al Carrito
+                </button>
                 <button id="buy-now">Comprar ahora</button>
+                @if($product->id == 75)
+                <button id="customize-product">Modificar producto</button>
+                @endif
             </div>
         </div>
     </div>
@@ -69,7 +72,29 @@
         <button class="next" onclick="changeImageInModal(1)">&#10095;</button>
     </div>
 
+    <div id="customizeModal" class="modal customize-modal">
+        <div class="customize-content">
+            <span class="close" onclick="closeCustomizeModal()">&times;</span>
+            <h3>Personaliza tu producto</h3>
+            <div class="canvas-container">
+                <canvas id="productCanvas"></canvas>
+            </div>
+            <div class="drawing-tools">
+                <div class="color-picker">
+                    <label>Color:</label>
+                    <input type="color" id="drawColor" value="#000000">
+                </div>
+                <div class="brush-size">
+                    <label>Tamaño:</label>
+                    <input type="range" id="brushSize" min="1" max="20" value="5">
+                </div>
+                <button id="clearCanvas">Borrar todo</button>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ asset('js/productView.js') }}"></script>
+    <script src="{{ asset('js/customizer.js') }}"></script>
     @include('footer')
 </body>
 </html>

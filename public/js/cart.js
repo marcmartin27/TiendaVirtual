@@ -103,10 +103,16 @@ document.addEventListener('DOMContentLoaded', function () {
         cartItems.forEach(item => {
             const cartItem = document.createElement('div');
             cartItem.classList.add('cart-item');
+            
+            let customizationBadge = '';
+            if (item.isCustomized) {
+                customizationBadge = '<span class="customized-badge">Personalizado</span>';
+            }
+            
             cartItem.innerHTML = `
                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
-                    <p class="cart-item-name">${item.name}</p>
+                    <p class="cart-item-name">${item.name} ${customizationBadge}</p>
                     <p class="cart-item-info">Talla: ${item.size} | Precio: ${parseFloat(item.price).toFixed(2)} €</p>
                     <div class="quantity-controls">
                         <button class="quantity-btn decrease-quantity" data-product-id="${item.id}" data-product-size="${item.size}">-</button>
@@ -188,17 +194,39 @@ document.addEventListener('DOMContentLoaded', function () {
     // Añadir producto al carrito
     function addToCart(id, name, price, quantity, size, image) {
         const cartItems = getCartItems();
+        
+        // Verificar si hay una imagen personalizada para este producto
+        let customizedImage = localStorage.getItem(`customized_${id}`);
+        
+        // Si existe una imagen personalizada, usarla en lugar de la original
+        const finalImage = customizedImage || image;
+        
         const existingItem = cartItems.find(item => item.id === id && item.size === size);
         if (existingItem) {
             existingItem.quantity += quantity;
+            
+            // Actualizar la imagen si hay una personalización
+            if (customizedImage) {
+                existingItem.image = customizedImage;
+                existingItem.isCustomized = true;
+            }
         } else {
-            cartItems.push({ id, name, price: parseFloat(price), quantity, size, image });
+            cartItems.push({ 
+                id, 
+                name, 
+                price: parseFloat(price), 
+                quantity, 
+                size, 
+                image: finalImage,
+                isCustomized: !!customizedImage
+            });
         }
+        
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         renderCartItems();
-
+    
         // Si el usuario está logueado, guardar en la base de datos
-        console.log('addToCart - userId:', userId); // Log para depuración
+        console.log('addToCart - userId:', userId);
         if (userId) {
             console.log('addToCart - Guardando en la base de datos', cartItems);
             saveCartToDatabase(cartItems);
