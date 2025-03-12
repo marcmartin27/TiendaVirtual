@@ -20,14 +20,12 @@
         </div>
         <div class="usuario">
         <?php if (Auth::check()): ?>
-            <form action="<?= route('logout') ?>" method="POST" id="logout-form">
-                @csrf
-                <button type="submit">Cerrar Sesión</button>
-            </form>
             <!-- Añadir el campo oculto con el ID del usuario -->
             <input type="hidden" id="userId" value="{{ auth()->user()->id }}">
             <!-- Indicador de inicio de sesión reciente -->
             <input type="hidden" id="just-logged-in" value="{{ session('just_logged_in') ? 'true' : 'false' }}">
+            <!-- Icono de perfil -->
+            <img src="../../../images/profile_icon.webp" alt="Perfil" id="profileIcon" onclick="toggleProfilePopup()">
         <?php else: ?>
             <button id="openPopup">Iniciar Sesion</button>
         <?php endif; ?>
@@ -90,6 +88,16 @@
     </div>
 </div>
 
+<!-- Pop-up de perfil -->
+<div id="profilePopup" class="profile-popup hidden">
+    <div class="profile-popup-content">
+        <form action="<?= route('logout') ?>" method="POST" id="logout-form">
+            @csrf
+            <button type="submit">Cerrar Sesión</button>
+        </form>
+    </div>
+</div>
+
 
 <?php if (session('success')): ?>
     <div class="alert alert-success">
@@ -107,3 +115,9 @@
 <script src="{{ asset('js/search.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/banner.js') }}"></script>
+<script>
+    function toggleProfilePopup() {
+        var popup = document.getElementById('profilePopup');
+        popup.classList.toggle('hidden');
+    }
+</script>

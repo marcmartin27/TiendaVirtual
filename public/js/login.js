@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerButton = document.getElementById('registerButton');
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
+    const profileIcon = document.getElementById('profileIcon');
+    const profilePopup = document.getElementById('profilePopup');
 
     openPopup.addEventListener('click', () => {
         popupBackground.style.display = 'flex';
@@ -32,5 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
         loginButton.classList.remove('active');
         registerForm.classList.remove('hidden');
         loginForm.classList.add('hidden');
+    });
+
+    profileIcon.addEventListener('click', () => {
+        profilePopup.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!profilePopup.contains(e.target) && e.target !== profileIcon) {
+            profilePopup.classList.add('hidden');
+        }
     });
 });
