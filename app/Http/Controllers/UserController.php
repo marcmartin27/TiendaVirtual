@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -72,5 +73,22 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('dashboard')->with('success', 'Usuario eliminado con éxito');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->address = $request->input('address');
+        $user->apartment = $request->input('apartment');
+        $user->postal_code = $request->input('postal_code');
+        $user->city = $request->input('city');
+        $user->province = $request->input('province');
+        $user->country = $request->input('country');
+        $user->phone = $request->input('phone');
+        $user->save();
+
+        return redirect()->back()->with('success', 'Perfil actualizado correctamente.');
     }
 }

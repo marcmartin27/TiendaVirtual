@@ -95,6 +95,19 @@
             @csrf
             <button type="submit">Cerrar Sesión</button>
         </form>
+        <form action="<?= route('updateProfile') ?>" method="POST">
+            @csrf
+            <input type="text" name="first_name" placeholder="Nombre" value="{{ auth()->user()->first_name }}" required>
+            <input type="text" name="last_name" placeholder="Apellido" value="{{ auth()->user()->last_name }}" required>
+            <input type="text" name="address" placeholder="Dirección" value="{{ auth()->user()->address }}" required>
+            <input type="text" name="apartment" placeholder="Apartamento" value="{{ auth()->user()->apartment }}">
+            <input type="text" name="postal_code" placeholder="Código Postal" value="{{ auth()->user()->postal_code }}" required>
+            <input type="text" name="city" placeholder="Ciudad" value="{{ auth()->user()->city }}" required>
+            <input type="text" name="province" placeholder="Provincia" value="{{ auth()->user()->province }}" required>
+            <input type="text" name="country" placeholder="País" value="{{ auth()->user()->country }}" required>
+            <input type="text" name="phone" placeholder="Teléfono" value="{{ auth()->user()->phone }}" required>
+            <button type="submit">Actualizar Perfil</button>
+        </form>
     </div>
 </div>
 
