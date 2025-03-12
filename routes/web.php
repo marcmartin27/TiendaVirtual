@@ -28,3 +28,7 @@ Route::resource('sizes', SizeController::class);
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::post('/save-cart', [App\Http\Controllers\CartController::class, 'saveCart']);
 Route::get('/get-cart/{userId}', [App\Http\Controllers\CartController::class, 'getCart']);
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+Route::post('/order/process', [OrderController::class, 'process'])->name('order.process');
+Route::get('/order/confirmation/{id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+Route::get('/user-address/{userId}', [OrderController::class, 'getUserAddress']);

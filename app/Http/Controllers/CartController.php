@@ -77,4 +77,15 @@ class CartController extends Controller
 
         return response()->json(['cartItems' => $cartItems]);
     }
+
+    public function redirectToCheckout()
+    {
+        if (Auth::check()) {
+            return redirect()->route('checkout');
+        } else {
+            // Guardar que el usuario quería ir a checkout para redirigirlo después del login
+            session(['redirect_after_login' => 'checkout']);
+            return redirect()->route('login')->with('message', 'Por favor inicia sesión para finalizar la compra');
+        }
+    }
 }

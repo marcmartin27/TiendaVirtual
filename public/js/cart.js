@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const userIdElement = document.getElementById('userId');
     const userId = userIdElement ? userIdElement.value : null;
 
+    
 
     // Verificar si el usuario acaba de iniciar sesión
     const justLoggedInElement = document.getElementById('just-logged-in');
@@ -381,14 +382,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Manejar el checkout
-    checkoutButton.addEventListener('click', function () {
-        const cartItems = getCartItems();
-        if (cartItems.length === 0) {
-            alert('El carrito está vacío.');
-            return;
-        }
-        // Aquí puedes añadir la lógica para manejar el checkout
-    });
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function() {
+            // Si hay productos en el carrito
+            const cartItems = getCartItems();
+            
+            if (cartItems.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            
+            // Redireccionar a la página de checkout
+            window.location.href = '/checkout';
+        });
+    }
 
     // Seleccionar talla
     const sizeElements = document.querySelectorAll('.size');
