@@ -1,27 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Selección de secciones y navegación
     const links = document.querySelectorAll('.sidebar ul li a');
     const sections = document.querySelectorAll('.main-content > div');
-    const addProductButton = document.getElementById('addProductButton');
-    const addProductForm = document.getElementById('addProductForm');
-    const productSearch = document.getElementById('productSearch');
-    const productRows = document.querySelectorAll('tbody tr');
-    const addUserButton = document.getElementById('addUserButton');
-    const addUserForm = document.getElementById('addUserForm');
-    const editUserButtons = document.querySelectorAll('.editUserButton');
-    const deleteUserButtons = document.querySelectorAll('.deleteUserButton');
-    const editUserModal = document.getElementById('editUserModal');
-    const editUserForm = document.getElementById('editUserForm');
-    const userSearch = document.getElementById('userSearch');
-    const userRows = document.querySelectorAll('tbody tr');
-    const addOrderButton = document.getElementById('addOrderButton');
-    const addOrderForm = document.getElementById('addOrderForm');
-    const editOrderButtons = document.querySelectorAll('.editOrderButton');
-    const deleteOrderButtons = document.querySelectorAll('.deleteOrderButton');
-    const editOrderModal = document.getElementById('editOrderModal');
-    const editOrderForm = document.getElementById('editOrderForm');
-    const orderSearch = document.getElementById('orderSearch');
-    const orderRows = document.querySelectorAll('tbody tr');
-
+    
+    // ===== Navegación entre secciones =====
     links.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -37,266 +19,335 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    addProductButton.addEventListener('click', () => {
-        addProductForm.classList.toggle('hidden');
-    });
-
-    productSearch.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        productRows.forEach(row => {
-            const productName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            if (productName.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-    addUserButton.addEventListener('click', () => {
-        addUserForm.classList.toggle('hidden');
-    });
-
-    editUserButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const userId = e.target.getAttribute('data-user-id');
-            const response = await fetch(`/users/${userId}/edit`);
-            const user = await response.json();
-
-            document.getElementById('editName').value = user.name;
-            document.getElementById('editEmail').value = user.email;
-            editUserForm.action = `/users/${userId}`;
-
-            editUserModal.classList.remove('hidden');
-        });
-    });
-
-    deleteUserButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const userId = e.target.getAttribute('data-user-id');
-            
-            // SweetAlert confirmation
-            const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, bórralo!'
+    // ===== Funciones para manejar modales =====
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+        }
+    }
+    
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restaurar scroll
+        }
+    }
+    
+    // Cerrar modal al hacer clic en el botón de cerrar o fuera del modal
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+        // Cerrar con el botón X
+        const closeBtn = modal.querySelector('.modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
             });
-    
-            if (result.isConfirmed) {
-                await fetch(`/users/${userId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                });
-    
-                // Recargar la página después de la eliminación
-                location.reload();
-            }
-        });
-    });
-
-    userSearch.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        userRows.forEach(row => {
-            const userName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (userName.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-    addOrderButton.addEventListener('click', () => {
-        addOrderForm.classList.toggle('hidden');
-    });
-
-    editOrderButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const orderId = e.target.getAttribute('data-order-id');
-            const response = await fetch(`/orders/${orderId}/edit`);
-            const order = await response.json();
-
-            document.getElementById('editUserId').value = order.user_id;
-            document.getElementById('editTotal').value = order.total;
-            document.getElementById('editStatus').value = order.status;
-            editOrderForm.action = `/orders/${orderId}`;
-
-            editOrderModal.classList.remove('hidden');
-        });
-    });
-
-    deleteOrderButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const orderId = e.target.getAttribute('data-order-id');
-            
-            // SweetAlert confirmation
-            const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, bórralo!'
-            });
-    
-            if (result.isConfirmed) {
-                await fetch(`/orders/${orderId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                });
-    
-                // Recargar la página después de la eliminación
-                location.reload();
-            }
-        });
-    });
-
-    orderSearch.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        orderRows.forEach(row => {
-            const orderUserName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (orderUserName.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-    const addCategoryButton = document.getElementById('addCategoryButton');
-    const addCategoryForm = document.getElementById('addCategoryForm');
-    const editCategoryButtons = document.querySelectorAll('.editCategoryButton');
-    const deleteCategoryButtons = document.querySelectorAll('.deleteCategoryButton');
-    const editCategoryModal = document.getElementById('editCategoryModal');
-    const editCategoryForm = document.getElementById('editCategoryForm');
-    const editProductButtons = document.querySelectorAll('.editProductButton');
-    const deleteProductButtons = document.querySelectorAll('.deleteProductButton');
-    const editProductModal = document.getElementById('editProductModal');
-    const editProductForm = document.getElementById('editProductForm');
-    const categorySearch = document.getElementById('categorySearch');
-    const categoryRows = document.querySelectorAll('tbody tr');
-
-    addCategoryButton.addEventListener('click', () => {
-        addCategoryForm.classList.toggle('hidden');
-    });
-
-    editCategoryButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const categoryId = e.target.getAttribute('data-category-id');
-            const response = await fetch(`/categories/${categoryId}/edit`);
-            const category = await response.json();
-
-            document.getElementById('editCode').value = category.code;
-            document.getElementById('editName').value = category.name;
-            editCategoryForm.action = `/categories/${categoryId}`;
-
-            editCategoryModal.classList.remove('hidden');
-        });
-    });
-
-    deleteCategoryButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const categoryId = e.target.getAttribute('data-category-id');
-            
-            // SweetAlert confirmation
-            const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, bórralo!'
-            });
-    
-            if (result.isConfirmed) {
-                await fetch(`/categories/${categoryId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                });
-    
-                // Recargar la página después de la eliminación
-                location.reload();
-            }
-        });
-    });
-
-    editProductButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const productId = e.target.getAttribute('data-product-id');
-            const response = await fetch(`/products/${productId}/edit`);
-            const product = await response.json();
-
-            document.getElementById('editCode').value = product.code;
-            document.getElementById('editName').value = product.name;
-            document.getElementById('editDescription').value = product.description;
-            document.getElementById('editCategoryId').value = product.category_id;
-            document.getElementById('editPrice').value = product.price;
-            document.getElementById('editFeatured').checked = product.featured;
-            editProductForm.action = `/products/${productId}`;
-
-            editProductModal.classList.remove('hidden');
-        });
-    });
-
-    deleteProductButtons.forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const productId = e.target.getAttribute('data-product-id');
-            
-            // SweetAlert confirmation
-            const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, bórralo!'
-            });
-    
-            if (result.isConfirmed) {
-                await fetch(`/products/${productId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                });
-    
-                // Recargar la página después de la eliminación
-                location.reload();
-            }
-        });
-    });
-
-    categorySearch.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        categoryRows.forEach(row => {
-            const categoryName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            if (categoryName.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-        // Inicializar gráficos si estamos en la sección de dashboard
-        if (document.getElementById('productsChart') && document.getElementById('ordersChart')) {
-            initCharts();
         }
         
-// Reemplaza la función initCharts actual con esta versión
+        // Cerrar al hacer clic fuera del modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // ===== PRODUCTOS =====
+    // Botón añadir producto
+    const addProductButton = document.getElementById('addProductButton');
+    if (addProductButton) {
+        addProductButton.addEventListener('click', () => {
+            openModal('addProductModal');
+        });
+    }
+    
+    // Búsqueda de productos
+    const productSearch = document.getElementById('productSearch');
+    if (productSearch) {
+        productSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const productRows = document.querySelectorAll('#products tbody tr');
+            
+            productRows.forEach(row => {
+                const productName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Botones editar producto
+    document.querySelectorAll('.editProductButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const productId = e.target.getAttribute('data-product-id');
+            try {
+                const response = await fetch(`/products/${productId}/edit`);
+                const product = await response.json();
+                
+                // Actualizar estos IDs
+                document.getElementById('product_editCode').value = product.code;
+                document.getElementById('product_editName').value = product.name;
+                document.getElementById('product_editDescription').value = product.description;
+                document.getElementById('product_editCategoryId').value = product.category_id;
+                document.getElementById('product_editPrice').value = product.price;
+                document.getElementById('product_editFeatured').checked = product.featured;
+                document.getElementById('editProductForm').action = `/products/${productId}`;
+                
+                openModal('editProductModal');
+            } catch (error) {
+                console.error('Error al cargar datos del producto:', error);
+            }
+        });
+    });
+    
+    // Botones eliminar producto
+    document.querySelectorAll('.deleteProductButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const productId = e.target.getAttribute('data-product-id');
+            
+            if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+                try {
+                    await fetch(`/products/${productId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    });
+                    
+                    // Recargar la página después de la eliminación
+                    location.reload();
+                } catch (error) {
+                    console.error('Error al eliminar producto:', error);
+                }
+            }
+        });
+    });
+    
+    // ===== CATEGORÍAS =====
+    // Botón añadir categoría
+    const addCategoryButton = document.getElementById('addCategoryButton');
+    if (addCategoryButton) {
+        addCategoryButton.addEventListener('click', () => {
+            openModal('addCategoryModal');
+        });
+    }
+    
+    // Búsqueda de categorías
+    const categorySearch = document.getElementById('categorySearch');
+    if (categorySearch) {
+        categorySearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const categoryRows = document.querySelectorAll('#categories tbody tr');
+            
+            categoryRows.forEach(row => {
+                const categoryName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                if (categoryName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Botones editar categoría
+    document.querySelectorAll('.editCategoryButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const categoryId = e.target.getAttribute('data-category-id');
+            try {
+                const response = await fetch(`/categories/${categoryId}/edit`);
+                const category = await response.json();
+                
+                // Actualizar estos IDs
+                document.getElementById('category_editCode').value = category.code;
+                document.getElementById('category_editName').value = category.name;
+                document.getElementById('editCategoryForm').action = `/categories/${categoryId}`;
+                
+                openModal('editCategoryModal');
+            } catch (error) {
+                console.error('Error al cargar datos de la categoría:', error);
+            }
+        });
+    });
+    
+    // Botones eliminar categoría
+    document.querySelectorAll('.deleteCategoryButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const categoryId = e.target.getAttribute('data-category-id');
+            
+            if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
+                try {
+                    await fetch(`/categories/${categoryId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    });
+                    
+                    // Recargar la página después de la eliminación
+                    location.reload();
+                } catch (error) {
+                    console.error('Error al eliminar categoría:', error);
+                }
+            }
+        });
+    });
+    
+    // ===== USUARIOS =====
+    // Botón añadir usuario
+    const addUserButton = document.getElementById('addUserButton');
+    if (addUserButton) {
+        addUserButton.addEventListener('click', () => {
+            openModal('addUserModal');
+        });
+    }
+    
+    // Búsqueda de usuarios
+    const userSearch = document.getElementById('userSearch');
+    if (userSearch) {
+        userSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const userRows = document.querySelectorAll('#users tbody tr');
+            
+            userRows.forEach(row => {
+                const userName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (userName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Botones editar usuario
+    document.querySelectorAll('.editUserButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const userId = e.target.getAttribute('data-user-id');
+            try {
+                const response = await fetch(`/users/${userId}/edit`);
+                const user = await response.json();
+                
+                // Actualizar estos IDs
+                document.getElementById('user_editName').value = user.name;
+                document.getElementById('user_editEmail').value = user.email;
+                document.getElementById('editUserForm').action = `/users/${userId}`;
+                
+                openModal('editUserModal');
+            } catch (error) {
+                console.error('Error al cargar datos del usuario:', error);
+            }
+        });
+    });
+    
+    // Botones eliminar usuario
+    document.querySelectorAll('.deleteUserButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const userId = e.target.getAttribute('data-user-id');
+            
+            if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                try {
+                    await fetch(`/users/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    });
+                    
+                    // Recargar la página después de la eliminación
+                    location.reload();
+                } catch (error) {
+                    console.error('Error al eliminar usuario:', error);
+                }
+            }
+        });
+    });
+    
+    // ===== PEDIDOS =====
+    // Botón añadir pedido
+    const addOrderButton = document.getElementById('addOrderButton');
+    if (addOrderButton) {
+        addOrderButton.addEventListener('click', () => {
+            openModal('addOrderModal');
+        });
+    }
+    
+    // Búsqueda de pedidos
+    const orderSearch = document.getElementById('orderSearch');
+    if (orderSearch) {
+        orderSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const orderRows = document.querySelectorAll('#orders tbody tr');
+            
+            orderRows.forEach(row => {
+                const orderUserName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (orderUserName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Botones editar pedido
+    document.querySelectorAll('.editOrderButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const orderId = e.target.getAttribute('data-order-id');
+            try {
+                const response = await fetch(`/orders/${orderId}/edit`);
+                const order = await response.json();
+                
+                // Actualizar estos IDs
+                document.getElementById('order_editUserId').value = order.user_id;
+                document.getElementById('order_editTotal').value = order.total;
+                document.getElementById('order_editStatus').value = order.status;
+                document.getElementById('editOrderForm').action = `/orders/${orderId}`;
+                
+                openModal('editOrderModal');
+            } catch (error) {
+                console.error('Error al cargar datos del pedido:', error);
+            }
+        });
+    });
+    
+    // Botones eliminar pedido
+    document.querySelectorAll('.deleteOrderButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const orderId = e.target.getAttribute('data-order-id');
+            
+            if (confirm('¿Estás seguro de que deseas eliminar este pedido?')) {
+                try {
+                    await fetch(`/orders/${orderId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    });
+                    
+                    // Recargar la página después de la eliminación
+                    location.reload();
+                } catch (error) {
+                    console.error('Error al eliminar pedido:', error);
+                }
+            }
+        });
+    });
+    
+    // Inicializar gráficos si estamos en la sección de dashboard
+    if (document.getElementById('productsChart') && document.getElementById('ordersChart')) {
+        initCharts();
+    }
+});
+
+// Función para inicializar gráficos
 function initCharts() {
     // Obtener datos del backend
     const productsByMonthElement = document.getElementById('productsByMonth');
@@ -342,7 +393,6 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     
     // Limpiar el canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     
     // Encontrar el valor máximo para escalar el gráfico
     const maxValue = Math.max(...data) || 10; // Valor mínimo de 10 si todos son 0
@@ -421,23 +471,16 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
             ctx.fillText(value, x + barWidth / 2, y - 15);
         }
         
-        
-        ctx.fillStyle = '#333';
-
-
-
         ctx.fillStyle = '#333';
         ctx.fillText(labels[i], x + barWidth / 2, margin.top + height + 25);
-
     }
         
-    // Título del eje X - ajustar la posición vertical
+    // Título del eje X
     ctx.fillStyle = '#333';
     ctx.textAlign = 'center';
     ctx.font = '14px Arial';
-    ctx.fillText('Mes', margin.left + width / 2, canvas.height - 20); // Cambiar de -10 a -20
+    ctx.fillText('Mes', margin.left + width / 2, canvas.height - 20);
     
     ctx.strokeStyle = '#ccc';
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
-});

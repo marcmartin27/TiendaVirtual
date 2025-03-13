@@ -96,46 +96,49 @@ use Illuminate\Support\Str;
                     <button id="addProductButton">Añadir Producto</button>
                     <input type="text" id="productSearch" placeholder="Buscar productos...">
                 </div>
-                <div id="addProductForm" class="hidden">
-                    <h2>Añadir Nuevo Producto</h2>
-                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div>
-                            <label for="code">Código:</label>
-                            <input type="text" id="code" name="code" required>
-                        </div>
-                        <div>
-                            <label for="name">Nombre:</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div>
-                            <label for="description">Descripción:</label>
-                            <textarea id="description" name="description" required></textarea>
-                        </div>
-                        <div>
-                            <label for="category_id">Categoría:</label>
-                            <select id="category_id" name="category_id" required>
-                                <option value="">Seleccione una categoría</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label for="price">Precio:</label>
-                            <input type="number" id="price" name="price" step="0.01" required>
-                        </div>
-                        <div>
-                            <label for="featured">Destacado:</label>
-                            <input type="hidden" name="featured" value="0">
-                            <input type="checkbox" id="featured" name="featured" value="1">
-                        </div>
-                        <div>
-                            <label for="images">Imágenes:</label>
-                            <input type="file" id="images" name="images[]" multiple required>
-                        </div>
-                        <button type="submit">Añadir Producto</button>
-                    </form>
+                <div id="addProductModal" class="modal-overlay">
+                    <div class="modal-container">
+                        <button class="modal-close">&times;</button>
+                        <h2>Añadir Nuevo Producto</h2>
+                        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="code">Código:</label>
+                                <textarea id="product_description" name="description" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="product_name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Descripción:</label>
+                                <textarea id="product_editDescription" name="description" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="category_id">Categoría:</label>
+                                <select id="product_category_id" name="category_id" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Precio:</label>
+                                <input type="number" id="product_price" name="price" step="0.01" required>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="featured">Destacado:</label>
+                                <input type="hidden" name="featured" value="0">
+                                <input type="checkbox" id="product_featured" name="featured" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="images">Imágenes:</label>
+                                <input type="file" id="product_images" name="images[]" multiple required>
+                            </div>
+                            <button type="submit">Añadir Producto</button>
+                        </form>
+                    </div>
                 </div>
                 <table>
                     <thead>
@@ -174,20 +177,23 @@ use Illuminate\Support\Str;
                     <button id="addCategoryButton">Añadir Categoría</button>
                     <input type="text" id="categorySearch" placeholder="Buscar categorías...">
                 </div>
-                <div id="addCategoryForm" class="hidden">
-                    <h2>Añadir Nueva Categoría</h2>
-                    <form action="{{ route('categories.store') }}" method="POST">
-                        @csrf
-                        <div>
-                            <label for="code">Código:</label>
-                            <input type="text" id="code" name="code" required>
-                        </div>
-                        <div>
-                            <label for="name">Nombre:</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <button type="submit">Añadir Categoría</button>
-                    </form>
+                <div id="addCategoryModal" class="modal-overlay">
+                    <div class="modal-container">
+                        <button class="modal-close">&times;</button>
+                        <h2>Añadir Nueva Categoría</h2>
+                        <form action="{{ route('categories.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="code">Código:</label>
+                                <input type="text" id="category_code" name="code" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="category_name" name="name" required> 
+                            </div>
+                            <button type="submit">Añadir Categoría</button>
+                        </form>
+                    </div>
                 </div>
                 <table>
                     <thead>
@@ -215,64 +221,70 @@ use Illuminate\Support\Str;
             </div>
 
                        <!-- Modal para editar categoría -->
-                       <div id="editCategoryModal" class="hidden">
-                <h2>Editar Categoría</h2>
-                <form id="editCategoryForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="editCode">Código:</label>
-                        <input type="text" id="editCode" name="code" required>
-                    </div>
-                    <div>
-                        <label for="editName">Nombre:</label>
-                        <input type="text" id="editName" name="name" required>
-                    </div>
-                    <button type="submit">Actualizar Categoría</button>
-                </form>
-            </div>
+                       <div id="editCategoryModal" class="modal-overlay">
+                            <div class="modal-container">
+                                <button class="modal-close">&times;</button>
+                                <h2>Editar Categoría</h2>
+                                <form id="editCategoryForm" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="form-group">
+                                        <label for="editCode">Código:</label>
+                                        <input type="text" id="category_editCode" name="code" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editName">Nombre:</label>
+                                        <input type="text" id="category_editName" name="name" required>
+                                    </div>
+                                    <button type="submit">Actualizar Categoría</button>
+                                </form>
+                            </div>
+                        </div>
 
             <!-- Modal para editar producto -->
-            <div id="editProductModal" class="hidden">
-                <h2>Editar Producto</h2>
-                <form id="editProductForm" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="editCode">Código:</label>
-                        <input type="text" id="editCode" name="code" required>
-                    </div>
-                    <div>
-                        <label for="editName">Nombre:</label>
-                        <input type="text" id="editName" name="name" required>
-                    </div>
-                    <div>
-                        <label for="editDescription">Descripción:</label>
-                        <textarea id="editDescription" name="description" required></textarea>
-                    </div>
-                    <div>
-                        <label for="editCategoryId">Categoría:</label>
-                        <select id="editCategoryId" name="category_id" required>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="editPrice">Precio:</label>
-                        <input type="number" id="editPrice" name="price" step="0.01" required>
-                    </div>
-                    <div>
-                        <label for="editFeatured">Destacado:</label>
-                        <input type="hidden" name="featured" value="0">
-                        <input type="checkbox" id="editFeatured" name="featured" value="1">
-                    </div>
-                    <div>
-                        <label for="editImages">Imágenes:</label>
-                        <input type="file" id="editImages" name="images[]" multiple>
-                    </div>
-                    <button type="submit">Actualizar Producto</button>
-                </form>
+            <div id="editProductModal" class="modal-overlay">
+                <div class="modal-container">
+                    <button class="modal-close">&times;</button>
+                    <h2>Editar Producto</h2>
+                    <form id="editProductForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="editCode">Código:</label>
+                            <input type="text" id="product_editCode" name="code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editName">Nombre:</label>
+                            <input type="text" id="product_editName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDescription">Descripción:</label>
+                            <textarea id="product_editDescription" name="description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCategoryId">Categoría:</label>
+                            <select id="product_editCategoryId" name="category_id" required>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrice">Precio:</label>
+                            <input type="number" id="product_editPrice" name="price" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editFeatured">Destacado:</label>
+                            <input type="hidden" name="featured" value="0">
+                            <input type="checkbox" id="product_editFeatured" name="featured" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="editImages">Imágenes:</label>
+                            <input type="file" id="product_editImages" name="images[]" multiple>
+                        </div>
+                        <button type="submit">Actualizar Producto</button>
+                    </form>
+                </div>
             </div>
 
             <!-- Sección de usuarios -->
@@ -281,24 +293,28 @@ use Illuminate\Support\Str;
                     <button id="addUserButton">Añadir Usuario</button>
                     <input type="text" id="userSearch" placeholder="Buscar usuarios...">
                 </div>
-                <div id="addUserForm" class="hidden">
-                    <h2>Añadir Nuevo Usuario</h2>
-                    <form action="{{ route('users.store') }}" method="POST">
-                        @csrf
-                        <div>
-                            <label for="name">Nombre:</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div>
-                            <label for="password">Contraseña:</label>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-                        <button type="submit">Añadir Usuario</button>
-                    </form>
+                <!-- Modal de añadir usuario -->
+                <div id="addUserModal" class="modal-overlay">
+                    <div class="modal-container">
+                        <button class="modal-close">&times;</button>
+                        <h2>Añadir Nuevo Usuario</h2>
+                        <form action="{{ route('users.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="user_name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="user_email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Contraseña:</label>
+                                <input type="password" id="user_password" name="password" required>
+                            </div>
+                            <button type="submit">Añadir Usuario</button>
+                        </form>
+                    </div>
                 </div>
                 <table>
                     <thead>
@@ -325,55 +341,65 @@ use Illuminate\Support\Str;
                 </table>
             </div>
 
-                       <!-- Modal para editar usuario -->
-                       <div id="editUserModal" class="hidden">
-                <h2>Editar Usuario</h2>
-                <form id="editUserForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="editName">Nombre:</label>
-                        <input type="text" id="editName" name="name" required>
-                    </div>
-                    <div>
-                        <label for="editEmail">Email:</label>
-                        <input type="email" id="editEmail" name="email" required>
-                    </div>
-                    <div>
-                        <label for="editPassword">Contraseña:</label>
-                        <input type="password" id="editPassword" name="password">
-                    </div>
-                    <button type="submit">Actualizar Usuario</button>
-                </form>
+            <!-- Modal para editar usuario -->
+            <div id="editUserModal" class="modal-overlay">
+                <div class="modal-container">
+                    <button class="modal-close">&times;</button>
+                    <h2>Editar Usuario</h2>
+                    <form id="editUserForm" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="editName">Nombre:</label>
+                            <input type="text" id="user_editName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email:</label>
+                            <input type="email" id="user_editEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPassword">Contraseña:</label>
+                            <input type="password" id="user_editPassword" name="password">
+                            <small>Dejar en blanco para mantener la contraseña actual</small>
+                        </div>
+                        <button type="submit">Actualizar Usuario</button>
+                    </form>
+                </div>
             </div>
+
+
             <div id="orders" class="hidden">
                 <div class="action-container">
                     <button id="addOrderButton">Añadir Pedido</button>
                     <input type="text" id="orderSearch" placeholder="Buscar pedidos...">
                 </div>
-                <div id="addOrderForm" class="hidden">
-                    <h2>Añadir Nuevo Pedido</h2>
-                    <form action="{{ route('orders.store') }}" method="POST">
-                        @csrf
-                        <div>
-                            <label for="user_id">Usuario:</label>
-                            <select id="user_id" name="user_id" required>
-                                <option value="">Seleccione un usuario</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label for="total">Total:</label>
-                            <input type="number" id="total" name="total" step="0.01" required>
-                        </div>
-                        <div>
-                            <label for="status">Estado:</label>
-                            <input type="text" id="status" name="status" required>
-                        </div>
-                        <button type="submit">Añadir Pedido</button>
-                    </form>
+                <!-- Modal de añadir pedido -->
+                <div id="addOrderModal" class="modal-overlay">
+                    <div class="modal-container">
+                        <button class="modal-close">&times;</button>
+                        <h2>Añadir Nuevo Pedido</h2>
+                        <form action="{{ route('orders.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="user_id">Usuario:</label>
+                                <select id="order_user_id" name="user_id" required>
+                                    <option value="">Seleccione un usuario</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="total">Total:</label>
+                                <input type="number" id="order_total" name="total" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Estado:</label>
+                                <input type="text" id="order_status" name="status" required>
+                            </div>
+                            <button type="submit">Añadir Pedido</button>
+                        </form>
+                    </div>
                 </div>
                 <table>
                     <thead>
@@ -402,29 +428,32 @@ use Illuminate\Support\Str;
             </div>
 
             <!-- Modal para editar pedido -->
-            <div id="editOrderModal" class="hidden">
-                <h2>Editar Pedido</h2>
-                <form id="editOrderForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="editUserId">Usuario:</label>
-                        <select id="editUserId" name="user_id" required>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="editTotal">Total:</label>
-                        <input type="number" id="editTotal" name="total" step="0.01" required>
-                    </div>
-                    <div>
-                        <label for="editStatus">Estado:</label>
-                        <input type="text" id="editStatus" name="status" required>
-                    </div>
-                    <button type="submit">Actualizar Pedido</button>
-                </form>
+            <div id="editOrderModal" class="modal-overlay">
+                <div class="modal-container">
+                    <button class="modal-close">&times;</button>
+                    <h2>Editar Pedido</h2>
+                    <form id="editOrderForm" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="editUserId">Usuario:</label>
+                            <select id="editUserId" name="user_id" required>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTotal">Total:</label>
+                            <input type="number" id="editTotal" name="total" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editStatus">Estado:</label>
+                            <input type="text" id="editStatus" name="status" required>
+                        </div>
+                        <button type="submit">Actualizar Pedido</button>
+                    </form>
+                </div>
             </div>
         </main>
     </div>
