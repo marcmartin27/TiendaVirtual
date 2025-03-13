@@ -95,6 +95,7 @@
             @csrf
             <button type="submit">Cerrar Sesión</button>
         </form>
+        <?php if (Auth::check()): ?>
         <form action="<?= route('updateProfile') ?>" method="POST">
             @csrf
             <input type="text" name="first_name" placeholder="Nombre" value="{{ auth()->user()->first_name }}" required>
@@ -108,6 +109,7 @@
             <input type="text" name="phone" placeholder="Teléfono" value="{{ auth()->user()->phone }}" required>
             <button type="submit">Actualizar Perfil</button>
         </form>
+        <?php endif; ?>
     </div>
 </div>
 
