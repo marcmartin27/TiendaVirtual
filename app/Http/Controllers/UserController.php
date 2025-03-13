@@ -75,6 +75,11 @@ class UserController extends Controller
         return redirect()->route('dashboard')->with('success', 'Usuario eliminado con éxito');
     }
 
+    public function profile()
+    {
+        return view('profile');
+    }
+
     public function updateProfile(Request $request)
     {
         $user = Auth::user();

@@ -32,4 +32,5 @@ Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 Route::post('/order/process', [OrderController::class, 'process'])->name('order.process');
 Route::get('/order/confirmation/{id}', [OrderController::class, 'confirmation'])->name('order.confirmation');
 Route::get('/user-address/{userId}', [OrderController::class, 'getUserAddress']);
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');

@@ -309,3 +309,54 @@ body {
     padding-top: 110px;
 }
 
+
+.profile-popup {
+    position: absolute;
+    top: 100px; /* Ajusta según la altura total de tu header */
+    right: 20px;
+    width: 190px; /* Aumenta el ancho si es necesario */
+    height: 100px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 20px; /* Aumenta el padding para más espacio interno */
+}
+
+.profile-popup-content {
+    display: flex;
+    margin-top: 17px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-popup-content p {
+    margin: 0 0 15px 0; /* Aumenta el margen inferior */
+    font-size: 16px; /* Aumenta el tamaño de la fuente */
+}
+
+.profile-popup-content a {
+    color: #594C45;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.profile-popup-content a:hover {
+    text-decoration: underline;
+}
+
+.logout-button {
+    background-color: #594C45;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Aumenta el padding para un botón más grande */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #baada6;
+    transform: scale(1.05);
+}
