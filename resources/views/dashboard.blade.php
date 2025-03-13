@@ -127,7 +127,8 @@ use Illuminate\Support\Str;
                         </div>
                         <div>
                             <label for="featured">Destacado:</label>
-                            <input type="checkbox" id="featured" name="featured">
+                            <input type="hidden" name="featured" value="0">
+                            <input type="checkbox" id="featured" name="featured" value="1">
                         </div>
                         <div>
                             <label for="images">Imágenes:</label>
@@ -263,7 +264,8 @@ use Illuminate\Support\Str;
                     </div>
                     <div>
                         <label for="editFeatured">Destacado:</label>
-                        <input type="checkbox" id="editFeatured" name="featured">
+                        <input type="hidden" name="featured" value="0">
+                        <input type="checkbox" id="editFeatured" name="featured" value="1">
                     </div>
                     <div>
                         <label for="editImages">Imágenes:</label>
@@ -387,8 +389,7 @@ use Illuminate\Support\Str;
                         @foreach ($orders as $order)
                             <tr>
                                 <td>{{ $order->id }}</td>
-                                <td>{{ $order->user->name }}</td>
-                                <td>{{ $order->total }}</td>
+                                <td>{{ $order->user ? $order->user->name : 'Usuario no disponible' }}</td>                                <td>{{ $order->total }}</td>
                                 <td>{{ $order->status }}</td>
                                 <td>
                                 <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Pedido" class="editOrderButton action-icon" data-order-id="{{ $order->id }}">

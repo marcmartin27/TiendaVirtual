@@ -421,27 +421,14 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
             ctx.fillText(value, x + barWidth / 2, y - 15);
         }
         
-        // ELIMINAR ESTA LÍNEA QUE ESTÁ CAUSANDO LA DUPLICACIÓN
-        // ctx.fillStyle = '#333';
-        // ctx.fillText(labels[i], x + barWidth / 2, margin.top + height + 10);
         
-        // Si los nombres de los meses son largos, rotarlos
         ctx.fillStyle = '#333';
-        // Reemplazar este bloque:
-        // Reemplazar este bloque condicional:
-        if (labels[i].length > 4) {
-            ctx.save();
-            ctx.translate(x + barWidth / 2, margin.top + height + 25);
-            ctx.rotate(Math.PI / 8);
-            ctx.textAlign = 'right';
-            ctx.restore();
-        }
 
-        // Por este código simple que mostrará todos los meses en horizontal:
+
+
         ctx.fillStyle = '#333';
         ctx.fillText(labels[i], x + barWidth / 2, margin.top + height + 25);
 
-        // Por este código que mostrará todos los meses rectos:
     }
         
     // Título del eje X - ajustar la posición vertical
@@ -450,7 +437,6 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     ctx.font = '14px Arial';
     ctx.fillText('Mes', margin.left + width / 2, canvas.height - 20); // Cambiar de -10 a -20
     
-    // Añadir un borde al canvas para mayor claridad
     ctx.strokeStyle = '#ccc';
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }

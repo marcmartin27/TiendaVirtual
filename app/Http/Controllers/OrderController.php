@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
+use App\Models\Buyer;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -20,6 +21,25 @@ class OrderController extends Controller
         }
         
         return view('finalizarCompra');
+    }
+
+    public function store(Request $request)
+    {
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'total' => 'required|numeric|min:0',
+            'status' => 'required|string',
+        ]);
+    
+        // Crear el nuevo pedido
+        $order = Order::create([
+            'user_id' => $validatedData['user_id'],
+            'total' => $validatedData['total'],
+            'status' => $validatedData['status'],
+        ]);
+    
+        return redirect()->route('dashboard')->with('success', 'Pedido creado correctamente');
     }
     
     public function process(Request $request)
