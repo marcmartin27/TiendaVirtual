@@ -767,9 +767,10 @@ h1 {
   border-radius: 8px;
   text-align: center;
 }
-.related-products h3 {
+.related-products h2 {
   margin-bottom: 20px;
   color: #333;
+  margin-bottom: 40px;
 }
 .related-products .related-products-container {
   display: flex;

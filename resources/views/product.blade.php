@@ -95,7 +95,7 @@
 
     <!-- Productos relacionados -->
     <div class="related-products">
-        <h2>🔥 PRODUCTOS RELACIONADOS 🔥</h2>
+        <h2>🔥 ¡PRODUCTOS RELACIONADOS! 🔥</h2>
         <div class="related-products-container">
             @foreach($relatedProducts as $relatedProduct)
                 <div class="related-product">
