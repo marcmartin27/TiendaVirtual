@@ -420,7 +420,65 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             
-            // Redireccionar a la página de checkout
+            // Verificar si el usuario está autenticado
+            if (!userId) {
+                // Cerrar el popup del carrito
+                cartPopupBackground.classList.add('hidden');
+                
+                // Mostrar el popup de inicio de sesión
+                const popupBackground = document.getElementById('popupBackground');
+                const loginButton = document.getElementById('loginButton');
+                const registerButton = document.getElementById('registerButton');
+                const loginForm = document.getElementById('loginForm');
+                const registerForm = document.getElementById('registerForm');
+                
+                // Mostrar el popup de login
+                if (popupBackground) {
+                    popupBackground.style.display = 'flex';
+                    
+                    // Asegurarse de que el formulario de login está activo
+                    if (loginButton && registerButton) {
+                        loginButton.classList.add('active');
+                        registerButton.classList.remove('active');
+                    }
+                    
+                    if (loginForm && registerForm) {
+                        loginForm.classList.remove('hidden');
+                        registerForm.classList.add('hidden');
+                    }
+                    
+                    // Añadir mensaje especial para el usuario
+                    const loginMessage = document.createElement('div');
+                    loginMessage.className = 'login-message';
+                    loginMessage.style.color = '#594C45';
+                    loginMessage.style.marginBottom = '15px';
+                    loginMessage.style.textAlign = 'center';
+                    loginMessage.style.fontWeight = 'bold';
+                    loginMessage.innerHTML = '¡Inicia sesión para finalizar tu compra!';
+                    
+                    // Insertar el mensaje al principio del formulario de login
+                    const formContainer = loginForm.querySelector('form');
+                    if (formContainer) {
+                        formContainer.insertBefore(loginMessage, formContainer.firstChild);
+                        
+                        // Eliminar mensajes antiguos después de 5 segundos
+                        setTimeout(() => {
+                            const oldMessages = document.querySelectorAll('.login-message');
+                            if (oldMessages.length > 1) {
+                                oldMessages.forEach((msg, index) => {
+                                    if (index < oldMessages.length - 1) {
+                                        msg.remove();
+                                    }
+                                });
+                            }
+                        }, 5000);
+                    }
+                }
+                
+                return;
+            }
+            
+            // Si el usuario está autenticado, redirigir a la página de checkout
             window.location.href = '/checkout';
         });
     }
