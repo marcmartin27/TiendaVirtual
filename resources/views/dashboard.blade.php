@@ -437,7 +437,7 @@ use Illuminate\Support\Str;
                         @method('PUT')
                         <div class="form-group">
                             <label for="editUserId">Usuario:</label>
-                            <select id="editUserId" name="user_id" required>
+                            <select id="order_editUserId" name="user_id" required>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
@@ -445,11 +445,11 @@ use Illuminate\Support\Str;
                         </div>
                         <div class="form-group">
                             <label for="editTotal">Total:</label>
-                            <input type="number" id="editTotal" name="total" step="0.01" required>
+                            <input type="number" id="order_editTotal" name="total" step="0.01" required>
                         </div>
                         <div class="form-group">
                             <label for="editStatus">Estado:</label>
-                            <input type="text" id="editStatus" name="status" required>
+                            <input type="text" id="order_editStatus" name="status" required>
                         </div>
                         <button type="submit">Actualizar Pedido</button>
                     </form>
