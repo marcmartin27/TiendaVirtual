@@ -45,4 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
             profilePopup.classList.add('hidden');
         }
     });
+
+    // Ocultar mensajes de alerta después de 1 segundo
+    setTimeout(function() {
+        var successAlert = document.getElementById('success-alert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+        var errorAlert = document.getElementById('error-alert');
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 1000); // 1000 milisegundos = 1 segundo
 });
