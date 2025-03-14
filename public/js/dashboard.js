@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Selección de secciones y navegación
     const links = document.querySelectorAll('.sidebar ul li a');
-    const sections = document.querySelectorAll('.main-content > div');
+    const sections = document.querySelectorAll('.main-content > div#dashboard, .main-content > div#products, .main-content > div#categories, .main-content > div#users, .main-content > div#orders');
     
     // ===== Navegación entre secciones =====
     links.forEach(link => {
