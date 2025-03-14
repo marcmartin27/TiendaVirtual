@@ -352,4 +352,9 @@ body {
 .logout-button:hover {
   background-color: #baada6;
   transform: scale(1.05);
+}
+
+.alert {
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }/*# sourceMappingURL=header.css.map */
