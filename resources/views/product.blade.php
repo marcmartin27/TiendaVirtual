@@ -93,6 +93,22 @@
         </div>
     </div>
 
+    <!-- Productos relacionados -->
+    <div class="related-products">
+        <h2>🔥 PRODUCTOS RELACIONADOS 🔥</h2>
+        <div class="related-products-container">
+            @foreach($relatedProducts as $relatedProduct)
+                <div class="related-product">
+                    <a href="{{ route('products.show', $relatedProduct->id) }}">
+                        <img src="{{ asset('images/' . $relatedProduct->images->first()->image_url) }}" alt="{{ $relatedProduct->name }}">
+                        <p>{{ $relatedProduct->name }}</p>
+                        <p>{{ $relatedProduct->price }} €</p>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
     <script src="{{ asset('js/productView.js') }}"></script>
     <script src="{{ asset('js/customizer.js') }}"></script>
     @include('footer')

@@ -90,11 +90,20 @@ class ProductController extends Controller
     {
         $product = Product::with(['images', 'sizes'])->find($id);
 
+        // Obtener productos relacionados de la misma categoría (marca)
+        $relatedProducts = Product::where('category_id', $product->category_id)
+        ->where('id', '!=', $product->id)
+        ->inRandomOrder()
+        ->take(4)
+        ->get();
+
+        return view('product', compact('product', 'relatedProducts'));
+
         if (!$product) {
             abort(404);
         }
 
-        return view('product', compact('product'));
+        /* return view('product', compact('product')); */
     }
 
     /**
