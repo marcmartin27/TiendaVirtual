@@ -98,16 +98,20 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:8',
         ]);
-
+    
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        
+        // Iniciar sesión con el usuario recién creado
         Auth::login($user);
-
-        return redirect('/')->with('success', 'Registro exitoso.');
+        
+        // Establecer el flag de inicio de sesión reciente (mismo flag usado en login)
+        session(['just_logged_in' => true]);
+        
+        return redirect()->intended('/')->with('success', 'Registro exitoso. ¡Bienvenido!');
     }
 
     public function clearLoginFlag(Request $request)
