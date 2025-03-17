@@ -365,3 +365,203 @@ body {
     opacity: 1;
     transition: opacity 0.5s ease;
 }
+
+// Añadir al final de tu archivo header.scss
+
+// Media queries para hacer el header responsive
+@media screen and (max-width: 768px) {
+    .nav {
+        padding: 10px;
+        
+        .foto img {
+            width: 150px;
+            height: 40px;
+            margin-left: 0;
+        }
+        
+        .buscador {
+            margin: 0 10px;
+            
+            p {
+                display: none; // Ocultar "Rebajas" en pantallas pequeñas
+            }
+            
+            input {
+                width: 100%;
+                margin: 0;
+            }
+        }
+        
+        .usuario {
+            button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+            
+            img {
+                width: 40px;
+                margin-left: 10px;
+            }
+        }
+    }
+    
+    .profile-popup {
+        right: 10px;
+        width: 160px;
+        padding: 15px;
+    }
+    
+    .cart-popup {
+        width: 80%;
+    }
+}
+
+// Ajustes específicos para dispositivos muy pequeños como iPhone SE
+@media screen and (max-width: 375px) {
+    .nav {
+        flex-wrap: nowrap;
+        padding: 8px 5px;
+        
+        .foto img {
+            width: 100px;
+            height: 35px;
+        }
+        
+        .buscador {
+            margin: 0 5px;
+            
+            input {
+                padding: 6px;
+                font-size: 0.8em;
+            }
+        }
+        
+        .usuario {
+            button {
+                padding: 6px 8px;
+                font-size: 0.8em;
+            }
+            
+            img {
+                width: 35px;
+                margin-left: 5px;
+            }
+        }
+    }
+    
+    .cart-popup {
+        width: 90%;
+    }
+    
+    // Ajustar posición del banner para móviles
+    body {
+        padding-top: 90px;
+    }
+
+    #promo-banner {
+        height: 30px;
+    }
+    
+    // Ajustar altura del popup del perfil
+    .profile-popup {
+        top: 80px;
+        right: 5px;
+        width: 150px;
+        padding: 12px;
+        height: auto;
+    }
+    
+    // Hacer más pequeño el botón de logout
+    .logout-button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    
+    // Ajustar el popup de búsqueda
+    .search-popup {
+        top: 88px;
+        width: 90%;
+    }
+}
+
+// Ajuste para el popup de carrito en móviles
+@media screen and (max-width: 576px) {
+    .cart-popup-background {
+        .cart-popup {
+            width: 90%;
+            height: 70%;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 15px;
+            
+            .cart-item {
+                flex-direction: column;
+                
+                .cart-item-image {
+                    width: 80px;
+                    height: 80px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+// Ajustes específicos para tablets y móviles
+@media screen and (max-width: 768px) {
+    .nav {
+        .buscador {
+            margin-right: 15px; // Aumentar el margen derecho del buscador
+        }
+        
+        .usuario {
+            margin-left: 10px; // Añadir margen izquierdo al contenedor de usuario
+            
+            button#openPopup {
+                padding: 7px 10px;
+                font-size: 0.85em;
+                white-space: nowrap;
+                margin-left: 5px; // Espacio adicional desde el buscador
+            }
+        }
+    }
+}
+
+// Ajustes para dispositivos medianos
+@media screen and (max-width: 576px) {
+    .nav {
+        .buscador {
+            margin-right: 12px;
+        }
+        
+        .usuario {
+            margin-left: 8px;
+            
+            button#openPopup {
+                padding: 6px 8px;
+                font-size: 0.8em;
+                margin-left: 4px;
+            }
+        }
+    }
+}
+
+// Ajustes específicos para dispositivos muy pequeños como iPhone SE
+@media screen and (max-width: 375px) {
+    .nav {
+        .buscador {
+            margin-right: 10px;
+        }
+        
+        .usuario {
+            margin-left: 6px;
+            
+            button#openPopup {
+                padding: 5px 6px;
+                font-size: 0.75em;
+                min-width: 0;
+                margin-left: 3px;
+            }
+        }
+    }
+}

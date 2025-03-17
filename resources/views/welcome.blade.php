@@ -15,51 +15,54 @@
     <img src="{{ asset('images/banner1.png') }}" alt="Banner promocional" id="bannerPromocional">
 
     <div class="marcasInicio">
-    <div class="marcaInicio">
-        <a href="{{ route('viewall', ['category' => 'Nike']) }}">
-            <div class="img-container">
-                <img src="../../../images/nike.webp" alt="nike">
-            </div>
-            <p>Nike</p>
-        </a>
+        <div class="marcaInicio">
+            <a href="{{ route('viewall', ['category' => 'Nike']) }}">
+                <div class="img-container">
+                    <img src="../../../images/nike.webp" alt="nike">
+                </div>
+                <p>Nike</p>
+            </a>
+        </div>
+
+        <div class="marcaInicio">
+            <a href="{{ route('viewall', ['category' => 'Adidas']) }}">
+                <div class="img-container">
+                    <img src="../../../images/Adidas-CampusBadBunny-Brown-1.webp" alt="adidas">
+                </div>
+                <p>Adidas</p>
+            </a>
+        </div>
+
+        <div class="marcaInicio">
+            <a href="{{ route('viewall', ['category' => 'Jordan']) }}">
+                <div class="img-container">
+                    <img src="../../../images/jordan.webp" alt="jordan">
+                </div>
+                <p>Jordan</p>
+            </a>
+        </div>
+
+        <div class="marcaInicio">
+            <a href="{{ route('viewall', ['category' => 'Yeezy']) }}">
+                <div class="img-container">
+                    <img src="../../../images/yeezy.webp" alt="yeezy">
+                </div>
+                <p>Yeezy</p>
+            </a>
+        </div>
+
+        <div class="marcaInicio">
+            <a href="{{ route('viewall', ['category' => 'New Balance']) }}">
+                <div class="img-container">
+                    <img src="../../../images/newbalance.webp" alt="newbalance">
+                </div>
+                <p>New Balance</p>
+            </a>
+        </div>
+
     </div>
 
-    <div class="marcaInicio">
-        <a href="{{ route('viewall', ['category' => 'Adidas']) }}">
-            <div class="img-container">
-                <img src="../../../images/Adidas-CampusBadBunny-Brown-1.webp" alt="adidas">
-            </div>
-            <p>Adidas</p>
-        </a>
-    </div>
-
-    <div class="marcaInicio">
-        <a href="{{ route('viewall', ['category' => 'Jordan']) }}">
-            <div class="img-container">
-                <img src="../../../images/jordan.webp" alt="jordan">
-            </div>
-            <p>Jordan</p>
-        </a>
-    </div>
-
-    <div class="marcaInicio">
-        <a href="{{ route('viewall', ['category' => 'Yeezy']) }}">
-            <div class="img-container">
-                <img src="../../../images/yeezy.webp" alt="yeezy">
-            </div>
-            <p>Yeezy</p>
-        </a>
-    </div>
-
-    <div class="marcaInicio">
-        <a href="{{ route('viewall', ['category' => 'New Balance']) }}">
-            <div class="img-container">
-                <img src="../../../images/newbalance.webp" alt="newbalance">
-            </div>
-            <p>New Balance</p>
-        </a>
-    </div>
-
+    <div class="ver-todas-container">
         <a href="{{ url('/viewall') }}"><button>VER TODAS</button></a>
     </div>
 
