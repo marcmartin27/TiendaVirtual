@@ -81,27 +81,106 @@
 .chatbot-input {
     padding: 15px;
     border-top: 1px solid #eee;
+    position: relative;
 
     select {
+        // Reset del estilo nativo
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        
+        // Nuevo estilo personalizado
         width: 100%;
-        padding: 8px;
+        padding: 12px 40px 12px 15px;
         margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: 2px solid #BAADA6;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        
+        // Agregar flecha personalizada
+        background-image: url("data:image/svg+xml;utf8,<svg fill='%23594C45' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        
+        &:focus {
+            outline: none;
+            border-color: #594C45;
+            box-shadow: 0 0 0 3px rgba(89, 76, 69, 0.2);
+        }
+        
+        &:hover {
+            background-color: #f2f2f2;
+            border-color: darken(#BAADA6, 10%);
+        }
+        
+        // Estilizar opciones (funciona en algunos navegadores)
+        option {
+            padding: 10px;
+            background-color: white;
+            color: #333;
+            
+            &:hover {
+                background-color: #594C45;
+                color: white;
+            }
+        }
     }
 
     button {
         width: 100%;
-        padding: 8px;
+        padding: 12px;
         background-color: #594C45;
         color: white;
         border: none;
-        border-radius: 4px;
+        border-radius: 8px;
         cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 
         &:hover {
             background-color: darken(#594C45, 10%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
+        
+        &:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+    }
+    
+    // Añadir efecto de placeholder al select inicial
+    select:invalid {
+        color: #999;
+    }
+}
+
+// Media queries para dispositivos móviles
+@media screen and (max-width: 576px) {
+    .chatbot-popup {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+    }
+    
+    .chatbot-input select {
+        padding: 10px 35px 10px 12px;
+        font-size: 13px;
+    }
+    
+    .chatbot-input button {
+        padding: 10px;
+        font-size: 13px;
     }
 }
 
