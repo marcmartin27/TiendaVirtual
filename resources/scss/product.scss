@@ -1,23 +1,60 @@
+// Modificar estas propiedades para la vista desktop
 .product-container {
     display: flex;
-    width: 70%; /* Ajusta el ancho según sea necesario */
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-    padding: 20px; /* Añade un poco de padding */
+    width: 80%; // Aumentado de 70% a 80%
+    margin: 0 auto;
+    padding: 20px;
+    gap: 30px; // Añadir espacio entre columnas
 }
 
 .left-column {
-    width: 30%;
+    width: 45%; // Aumentado de 30% a 45%
+    padding: 20px;
+}
+
+.right-column {
+    width: 55%; // Reducido de 70% a 55%
     padding: 20px;
 }
 
 .image-slider {
     position: relative;
     width: 100%;
+    min-height: 450px; // Altura mínima para el contenedor
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-description {
+    width: 80%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    
+    h3 {
+        font-size: 1.4em;
+        margin-bottom: 15px;
+        color: #594C45;
+        border-bottom: 2px solid #BAADA6;
+        padding-bottom: 8px;
+    }
+    
+    p {
+        margin: 0;
+        line-height: 1.6;
+        font-size: 1.05em;
+        color: #333;
+    }
 }
 
 .product-image {
     width: 100%;
     height: auto;
+    max-height: 450px; // Altura máxima de la imagen
+    object-fit: contain; // Mantener proporciones
     display: none;
 }
 
@@ -25,20 +62,22 @@
     display: block;
 }
 
+// Ajustar el posicionamiento de los botones de navegación
 .prev, .next {
     cursor: pointer;
     position: absolute;
     top: 50%;
     width: auto;
-    padding: 10px;
+    padding: 15px; // Agrandar un poco
     margin-top: -22px;
     color: #D9D9D9;
     font-weight: bold;
-    font-size: 18px; /* Tamaño de fuente más pequeño */
+    font-size: 22px; // Aumentado de 18px a 22px
     transition: 0.6s ease;
     user-select: none;
-    background: none; /* Sin recuadro */
-    border: none; /* Sin borde */
+    background: none;
+    border: none;
+    z-index: 5;
 }
 
 .next {
@@ -62,12 +101,19 @@
     background-color: rgba(255, 255, 255, 0.9); /* Fondo menos opaco */
 }
 
+// Ajustar el modal para vista grande
 .modal-content {
     margin: auto;
     display: block;
-    width: 80%;
-    max-width: 700px;
-    transition: transform 0.3s ease-in-out; /* Transición para el zoom */
+    width: 85%;
+    max-width: 900px; // Aumentado de 700px a 900px
+}
+
+// Ajustar tamaño de la descripción debajo de la imagen
+.left-column p {
+    margin-top: 20px;
+    line-height: 1.6;
+    font-size: 1.05em;
 }
 
 .modal .prev, .modal .next {
@@ -418,6 +464,326 @@
             margin: 10px 0;
             color: #333;
         }
+    }
+}
+
+// Media queries para hacer la página de producto responsive
+
+// Tablets grandes (hasta 992px)
+@media screen and (max-width: 992px) {
+
+    .product-description {
+        width: 85%;
+    }
+
+    .product-container {
+        width: 85%;
+        padding: 15px;
+    }
+    
+    .size {
+        width: calc(20% - 10px); // 5 tallas por fila
+    }
+    
+    .related-products-container {
+        flex-wrap: wrap;
+        
+        .related-product {
+            width: 30%;
+        }
+    }
+    
+    .customized-badge {
+        display: inline-block;
+    }
+    
+    // Ajuste del canvas para personalización
+    .canvas-container {
+        height: 400px;
+    }
+}
+
+// Tablets pequeñas y dispositivos medianos (hasta 768px)
+@media screen and (max-width: 768px) {
+
+    .product-description {
+        width: 90%;
+        padding: 15px;
+        
+        h3 {
+            font-size: 1.3em;
+        }
+    }
+    .product-container {
+        width: 90%;
+        padding: 10px;
+        flex-direction: column; // Cambio a una columna
+    }
+    
+    .left-column, .right-column {
+        width: 100%;
+        padding: 15px 10px;
+    }
+    
+    .image-slider {
+        max-height: 400px;
+        overflow: hidden;
+        
+        .product-image {
+            max-height: 400px;
+            object-fit: contain;
+        }
+    }
+    
+    .prev, .next {
+        padding: 15px; // Botones más grandes para mejor experiencia táctil
+        font-size: 24px;
+    }
+    
+    .size {
+        width: calc(16.66% - 10px); // 6 tallas por fila
+        height: 45px;
+    }
+    
+    .actions button {
+        padding: 12px 15px; // Botones más grandes para tacto
+        font-size: 1.1em;
+    }
+    
+    .quantity-container {
+        margin-bottom: 15px;
+        
+        button {
+            padding: 10px 15px; // Botones de cantidad más grandes
+        }
+        
+        input {
+            width: 60px;
+            padding: 10px 0;
+        }
+    }
+    
+    .delivery-time {
+        font-size: 1.1em;
+    }
+    
+    .related-products {
+        margin-top: 30px;
+        
+        h2 {
+            font-size: 1.5em;
+        }
+        
+        .related-products-container {
+            .related-product {
+                width: 45%; // 2 productos por fila
+            }
+        }
+    }
+    
+    // Personalización
+    .customize-content {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .canvas-container {
+        height: 350px;
+    }
+    
+    .drawing-tools {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        
+        .color-picker, .brush-size {
+            justify-content: space-between;
+        }
+        
+        #clearCanvas {
+            width: 100%;
+            padding: 12px;
+        }
+    }
+}
+
+// Dispositivos móviles (hasta 576px)
+@media screen and (max-width: 576px) {
+
+    .product-description {
+        width: 95%;
+        padding: 12px;
+        
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            font-size: 1em;
+        }
+    }
+    .product-container {
+        width: 95%;
+        padding: 10px 5px;
+    }
+    
+    h2 {
+        font-size: 1.5em;
+    }
+    
+    .price {
+        font-size: 1.3em;
+    }
+    
+    .image-slider {
+        max-height: 300px;
+        
+        .product-image {
+            max-height: 300px;
+        }
+    }
+    
+    .size {
+        width: calc(25% - 10px); // 4 tallas por fila
+        height: 40px;
+        font-size: 0.9em;
+    }
+    
+    .selected-size {
+        font-size: 0.9em;
+    }
+    
+    .actions {
+        flex-direction: column;
+        
+        button {
+            margin-bottom: 10px;
+            width: 100%; // Botones a ancho completo
+        }
+    }
+    
+    .related-products h2 {
+        font-size: 1.3em;
+    }
+    
+    .related-products-container {
+        gap: 10px;
+        
+        .related-product {
+            width: 48%; // Casi 2 por fila completa
+            padding: 5px;
+            
+            p {
+                font-size: 0.9em;
+                margin: 5px 0;
+            }
+        }
+    }
+    
+    // Modal de imágenes
+    .modal {
+        padding-top: 60px;
+    }
+    
+    .modal-content {
+        width: 90%;
+    }
+    
+    .close {
+        top: 10px;
+        right: 20px;
+        font-size: 30px;
+    }
+    
+    // Canvas para personalización
+    .canvas-container {
+        height: 300px;
+    }
+}
+
+// Dispositivos muy pequeños como iPhone SE (hasta 375px)
+@media screen and (max-width: 375px) {
+    .product-container {
+        padding: 5px;
+    }
+    
+    .left-column, .right-column {
+        padding: 10px 5px;
+    }
+    
+    h2 {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+    
+    .price {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+    }
+    
+    .size {
+        width: calc(33.33% - 10px); // 3 tallas por fila
+        height: 35px;
+    }
+    
+    .selected-size {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        
+        p {
+            margin: 5px 0;
+        }
+    }
+    
+    .quantity-container {
+        width: 100%;
+        justify-content: center;
+        
+        input {
+            width: 40px;
+        }
+    }
+    
+    .delivery-time {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+    
+    .image-slider {
+        max-height: 250px;
+        
+        .product-image {
+            max-height: 250px;
+        }
+    }
+    
+    .related-products {
+        padding: 10px;
+        
+        h2 {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        .related-products-container {
+            flex-direction: column; // 1 producto por fila
+            
+            .related-product {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    }
+    
+    // Personalización
+    .customize-content h3 {
+        font-size: 1.1em;
+    }
+    
+    .canvas-container {
+        height: 250px;
     }
 }
 

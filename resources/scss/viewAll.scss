@@ -128,3 +128,117 @@ h1 {
         }
     }
 }
+
+// Media queries para hacer la página responsive
+
+// Para tablets y pantallas medianas
+@media screen and (max-width: 992px) {
+    .container {
+        grid-template-columns: repeat(3, 1fr); // 3 productos por fila
+        width: 90%;
+        gap: 10px;
+        
+        .sneaker-card {
+            margin: 10px;
+            
+            .image-container {
+                height: 180px;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+                height: 35px;
+            }
+        }
+    }
+}
+
+// Para dispositivos más pequeños (tablets pequeñas)
+@media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr); // 2 productos por fila
+        width: 95%;
+        
+        .sneaker-card {
+            margin: 8px;
+            
+            .image-container {
+                height: 160px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin-left: 10px;
+            }
+            
+            .price {
+                margin-left: 10px;
+            }
+        }
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+        margin: 15px 10px;
+    }
+}
+
+// Para dispositivos móviles
+@media screen and (max-width: 576px) {
+    .container {
+        grid-template-columns: 1fr; // 1 producto por fila (columna única)
+        width: 90%;
+        max-width: 400px; // Para que no se vea demasiado ancho en algunos móviles
+        
+        .sneaker-card {
+            margin: 15px 0;
+            
+            .image-container {
+                height: 220px; // Un poco más grande ya que ahora ocupa todo el ancho
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+                margin-left: 15px;
+                height: auto; // Altura automática para evitar truncamiento
+            }
+            
+            .price {
+                font-size: 1.1rem;
+            }
+            
+            &:hover {
+                transform: scale(1.02); // Reducir un poco la escala en móviles
+            }
+        }
+    }
+    
+    h1 {
+        font-size: 1.2rem;
+        padding: 0 10px;
+    }
+}
+
+// Para dispositivos muy pequeños
+@media screen and (max-width: 375px) {
+    .container {
+        width: 95%;
+        
+        .sneaker-card {
+            padding: 8px;
+            
+            .image-container {
+                height: 180px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin: 8px 5px;
+            }
+            
+            .price {
+                margin-left: 5px;
+            }
+        }
+    }
+}

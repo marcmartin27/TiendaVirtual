@@ -21,7 +21,6 @@
             @else
                 <img src="{{ asset('images/default-product.png') }}" alt="Imagen no disponible">
             @endif
-            <p>{{ $product->description }}</p>
         </div>
         <div class="right-column">
             <h2>{{ $product->name }}</h2>
@@ -63,6 +62,11 @@
                 @endif
             </div>
         </div>
+    </div>
+
+    <div class="product-description">
+        <h3>Descripción</h3>
+        <p>{{ $product->description }}</p>
     </div>
 
     <div id="imageModal" class="modal">
