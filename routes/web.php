@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\ChatbotController;
 
 
 
@@ -34,3 +35,13 @@ Route::get('/order/confirmation/{id}', [OrderController::class, 'confirmation'])
 Route::get('/user-address/{userId}', [OrderController::class, 'getUserAddress']);
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
+
+
+Route::post('/chatbot', [ChatbotController::class, 'chat']);
+Route::match(['get', 'post'], '/chatbot', [ChatbotController::class, 'chat']);
+
+// Ruta para mostrar la vista del chatbot con preguntas
+Route::get('/chatbot', [ChatbotController::class, 'index']);
+
+// Ruta para procesar mensajes con POST (API)
+Route::post('/chatbot/send', [ChatbotController::class, 'chat']);
