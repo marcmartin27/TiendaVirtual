@@ -113,7 +113,7 @@
 
 <!-- Añadir antes del cierre del body -->
 <button id="chatbotButton" class="chatbot-button">
-    <img src="{{ asset('images/chat-icon.png') }}" alt="Chat" width="30" height="30">
+    <img src="{{ asset('images/logo_mini.png') }}" alt="Chat" width="30" height="30">
 </button>
 
 <div id="chatbotPopup" class="chatbot-popup hidden">
