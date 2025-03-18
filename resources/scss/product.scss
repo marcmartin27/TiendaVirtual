@@ -62,30 +62,30 @@
     display: block;
 }
 
-// Ajustar el posicionamiento de los botones de navegación
 .prev, .next {
-    cursor: pointer;
-    position: absolute;
     top: 50%;
-    width: auto;
-    padding: 15px; // Agrandar un poco
-    margin-top: -22px;
-    color: #D9D9D9;
-    font-weight: bold;
-    font-size: 22px; // Aumentado de 18px a 22px
-    transition: 0.6s ease;
-    user-select: none;
+    font-size: 24px;
+    color: black;
     background: none;
     border: none;
-    z-index: 5;
+    position: absolute; // Asegurar posición absoluta
+    transform: translateY(-50%); // Centrar verticalmente
+    padding: 15px 20px; // Área de clic más grande
+    z-index: 1010; // Mayor que el z-index de la imagen
+    cursor: pointer;
+}
+
+.prev {
+    left: 0px; // Posicionar a la izquierda
 }
 
 .next {
-    right: 0;
+    right: 0px; // Posicionar a la derecha
 }
 
 .prev:hover, .next:hover {
-    color: #ccc; /* Color más claro al pasar el ratón */
+    color: #594C45; // Color consistente con el tema
+
 }
 
 .modal {
