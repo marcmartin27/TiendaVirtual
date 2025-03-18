@@ -115,6 +115,10 @@
         color: white;
         margin-left: 20%;
         border-radius: 15px 15px 0 15px;
+
+        strong {
+            color: white; // Esto asegura que el "Tú:" sea blanco
+        }
     }
 
     &.bot {

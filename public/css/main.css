@@ -2201,6 +2201,9 @@ footer .imagen img {
   margin-left: 20%;
   border-radius: 15px 15px 0 15px;
 }
+.message.user strong {
+  color: white;
+}
 .message.bot {
   background-color: #BAADA6;
   color: #333;
