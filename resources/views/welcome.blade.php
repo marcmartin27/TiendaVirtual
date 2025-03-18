@@ -96,6 +96,9 @@
 
 
     @include('footer')
+
+    <!-- Añadir justo antes del cierre del body en welcome.blade.php -->
+    <script src="{{ asset('js/login.js') }}"></script>
 </body>
 </html>
 
