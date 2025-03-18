@@ -111,9 +111,37 @@
     </div>
 <?php endif; ?>
 
+<!-- Añadir antes del cierre del body -->
+<button id="chatbotButton" class="chatbot-button">
+    <img src="{{ asset('images/chat-icon.png') }}" alt="Chat" width="30" height="30">
+</button>
+
+<div id="chatbotPopup" class="chatbot-popup hidden">
+    <div class="chatbot-popup-content">
+        <div class="chatbot-header">
+            <h3>Chat de ayuda</h3>
+            <button class="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbox">
+        <p class="message bot"><strong>Bot:</strong> Hola, ¿cómo puedo ayudarte?</p>
+        </div>
+        <div class="chatbot-input">
+            <select id="message">
+                <option value="" disabled selected>Selecciona una pregunta...</option>
+                @foreach(App\Models\FAQ::pluck('question') as $question)
+                    <option value="{{ $question }}">{{ $question }}</option>
+                @endforeach
+            </select>
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+</div>
+
 <script src="{{ asset('js/login.js') }}"></script>
 <script src="{{ asset('js/search.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/banner.js') }}"></script>
 <script src="{{ asset('js/alerts.js') }}"></script>
 <script src="{{ asset('js/profile.js') }}"></script>
+<script src="{{ asset('js/chatbot.js') }}"></script>
+

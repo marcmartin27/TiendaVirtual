@@ -1,0 +1,120 @@
+.chatbot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #594C45;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.chatbot-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 350px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+
+    &.hidden {
+        display: none;
+    }
+}
+
+.chatbot-popup-content {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+}
+
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #594C45;
+    color: white;
+    border-radius: 10px 10px 0 0;
+
+    h3 {
+        margin: 0;
+        color: white;
+    }
+
+    .close-chatbot {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+}
+
+#chatbox {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #f5f5f5;
+}
+
+.chatbot-input {
+    padding: 15px;
+    border-top: 1px solid #eee;
+
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        padding: 8px;
+        background-color: #594C45;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(#594C45, 10%);
+        }
+    }
+}
+
+.message {
+    margin: 8px 0;
+    padding: 8px;
+    border-radius: 4px;
+
+    &.user {
+        background-color: #594C45;
+        color: white;
+        margin-left: 20%;
+        border-radius: 15px 15px 0 15px;
+    }
+
+    &.bot {
+        background-color: #BAADA6;
+        color: #333;
+        margin-right: 20%;
+        border-radius: 15px 15px 15px 0;
+    }
+}
