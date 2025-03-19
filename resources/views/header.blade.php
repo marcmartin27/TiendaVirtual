@@ -1,6 +1,7 @@
 <head><meta name="csrf-token" content="{{ csrf_token() }}"></head>
 <div id="header-fixed">
-    <div id="promo-banner">
+<div id="promo-banner">
+    <a href="{{ route('game') }}" style="text-decoration: none; color: inherit;">
         <div class="marquee" id="marquee">
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
@@ -8,7 +9,8 @@
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
         </div>
-    </div>
+    </a>
+</div>
 
     <div class="nav">
         <div class="foto">
@@ -111,7 +113,6 @@
     </div>
 <?php endif; ?>
 
-<!-- Añadir antes del cierre del body -->
 <button id="chatbotButton" class="chatbot-button">
     <img src="{{ asset('images/logo_mini.png') }}" alt="Chat" width="30" height="30">
 </button>

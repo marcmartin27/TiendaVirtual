@@ -34,7 +34,7 @@
                     </div>
                 @endif
             </a>
-
+            <p class="product-category">{{ $product->category->name ?? 'Sin categoría' }}</p>
             <h3><a href="{{ route('product.show', ['id' => $product->id]) }}">{{ $product->name }}</a></h3>
             @if($product->sale)
                 <p class="price">

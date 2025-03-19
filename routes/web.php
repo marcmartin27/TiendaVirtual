@@ -35,5 +35,6 @@ Route::get('/order/confirmation/{id}', [OrderController::class, 'confirmation'])
 Route::get('/user-address/{userId}', [OrderController::class, 'getUserAddress']);
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
-// Ruta para procesar mensajes con POST (API)
 Route::post('/chatbot/send', [ChatbotController::class, 'chat']);
+Route::get('/juego-promocion', [App\Http\Controllers\GameController::class, 'index'])->name('game');
+Route::post('/generate-coupon', [App\Http\Controllers\GameController::class, 'generateCoupon']);

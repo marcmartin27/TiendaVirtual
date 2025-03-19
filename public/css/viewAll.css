@@ -7,6 +7,16 @@ h1 {
   text-align: center;
 }
 
+.product-category {
+  font-size: 0.85em;
+  color: #777;
+  margin-top: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  margin-left: 20px;
+}
+
 .container {
   width: 85%;
   margin: 20px auto;
@@ -130,6 +140,9 @@ h1 {
     font-size: 1.1rem;
     height: 35px;
   }
+  .product-category {
+    font-size: 0.8em;
+  }
 }
 @media screen and (max-width: 768px) {
   .container {
@@ -176,6 +189,9 @@ h1 {
   }
   .container .sneaker-card:hover {
     transform: scale(1.02);
+  }
+  .product-category {
+    margin: 3px 0 6px;
   }
   h1 {
     font-size: 1.2rem;

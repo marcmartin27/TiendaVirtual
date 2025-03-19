@@ -6,7 +6,15 @@
 h1 {
     text-align: center;
 }
-
+.product-category {
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left; // Asegurar alineación a la izquierda
+    margin-left: 20px; // Mismo margen que el título y precio
+}
 .container {
     width: 85%;
     margin: 20px auto;
@@ -152,6 +160,9 @@ h1 {
             }
         }
     }
+    .product-category {
+        font-size: 0.8em;
+    }
 }
 
 // Para dispositivos más pequeños (tablets pequeñas)
@@ -212,6 +223,9 @@ h1 {
                 transform: scale(1.02); // Reducir un poco la escala en móviles
             }
         }
+    }
+    .product-category {
+        margin: 3px 0 6px;
     }
     
     h1 {

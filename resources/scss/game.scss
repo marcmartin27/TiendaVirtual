@@ -1,0 +1,684 @@
+// Importación de fuentes (añadir al head del HTML)
+// <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+// Variables
+$primary-color: #594C45;
+$accent-color: #BAADA6;
+$light-accent: lighten($accent-color, 15%);
+$text-light: #fff;
+$text-dark: #333;
+
+// Estilos globales para el juego
+.game-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    
+    // Decoración de fondo
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        background-color: $accent-color;
+        opacity: 0.1;
+        border-radius: 50%;
+        z-index: 0;
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 250px;
+        height: 250px;
+        background-color: $primary-color;
+        opacity: 0.05;
+        border-radius: 50%;
+        z-index: 0;
+    }
+    
+    // Encabezado del juego
+    .game-header {
+        padding: 30px;
+        background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+        color: $text-light;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 5px solid rgba(255, 255, 255, 0.1);
+        
+        // Elementos decorativos
+        &::before {
+            content: '👟';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 24px;
+            opacity: 0.5;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        &::after {
+            content: '🎁';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            opacity: 0.5;
+            animation: float 3s ease-in-out infinite alternate;
+        }
+        
+        h1 {
+            color: $text-light;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: $accent-color;
+                border-radius: 2px;
+            }
+        }
+        
+        .game-instructions {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 0 auto 25px;
+            max-width: 400px;
+            
+            .score, .timer {
+                padding: 10px 24px;
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 30px;
+                font-size: 18px;
+                font-weight: 600;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                
+                span {
+                    margin-left: 6px;
+                    color: $light-accent;
+                    font-weight: 700;
+                    font-size: 20px;
+                }
+            }
+        }
+        
+        .start-game-btn {
+            padding: 14px 36px;
+            font-size: 18px;
+            background: linear-gradient(135deg, $accent-color, darken($accent-color, 15%));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: 0.5s;
+            }
+            
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                
+                &::before {
+                    left: 100%;
+                }
+            }
+            
+            &:active {
+                transform: translateY(1px);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+    
+    // Área de juego
+    .game-area {
+        position: relative;
+        width: 100%;
+        height: 550px;
+        background: url('/images/floor-texture.jpg'), linear-gradient(180deg, #f8f8f8, #e0e0e0);
+        background-size: cover, cover;
+        background-position: center bottom;
+        overflow: hidden;
+        box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+        
+        // Elementos decorativos animados
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        // Nubes decorativas
+        .cloud {
+            position: absolute;
+            width: 120px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            z-index: 1;
+            opacity: 0.7;
+            animation: floatCloud 30s linear infinite;
+            
+            &:nth-child(odd) {
+                top: 10%;
+                animation-duration: 35s;
+            }
+            
+            &:nth-child(even) {
+                top: 15%;
+                animation-duration: 28s;
+            }
+            
+            &::before, &::after {
+                content: '';
+                position: absolute;
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+            }
+            
+            &::before {
+                width: 70px;
+                height: 70px;
+                top: -25px;
+                left: 15px;
+            }
+            
+            &::after {
+                width: 60px;
+                height: 60px;
+                top: -15px;
+                right: 15px;
+            }
+        }
+        
+        // Cesta para arrastrar
+        .basket {
+            position: absolute;
+            bottom: 30px;
+            left: calc(50% - 60px);
+            width: 120px;
+            height: 80px;
+            cursor: grab;
+            z-index: 10;
+            transition: transform 0.2s ease, filter 0.2s ease;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+            
+            &.dragging {
+                cursor: grabbing;
+                transform: scale(1.08);
+                filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.3)) brightness(1.1);
+            }
+            
+            // Indicador visual para arrastrar
+            &::after {
+                content: '⟺';
+                position: absolute;
+                bottom: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 24px;
+                color: $primary-color;
+                opacity: 0.7;
+                animation: pulse 1.5s infinite;
+            }
+            
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                pointer-events: none;
+                filter: brightness(1.05);
+            }
+        }
+        
+        // Zapatos que caen
+        .shoe {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 5;
+            filter: drop-shadow(2px 6px 8px rgba(0, 0, 0, 0.15));
+            animation: rotate 2s infinite alternate ease-in-out;
+            
+            &::before {
+                content: '✨';
+                position: absolute;
+                top: 0;
+                right: 0;
+                font-size: 14px;
+                animation: sparkle 1s infinite;
+            }
+        }
+    }
+    
+    // Modal de fin de juego
+    .game-over-modal {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        
+        .modal-content {
+            background-color: white;
+            margin: 8% auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 550px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: modalAppear 0.4s ease-out;
+            
+            h2 {
+                color: $primary-color;
+                margin-bottom: 25px;
+                font-size: 32px;
+                font-weight: 700;
+                
+                &::after {
+                    content: '';
+                    display: block;
+                    width: 60px;
+                    height: 3px;
+                    background: $accent-color;
+                    margin: 10px auto 0;
+                    border-radius: 3px;
+                }
+            }
+            
+            #gameResultMessage {
+                font-size: 18px;
+                margin-bottom: 30px;
+                
+                #finalScore {
+                    font-weight: bold;
+                    color: $primary-color;
+                    font-size: 24px;
+                }
+            }
+            
+            // Diseño mejorado del cupón
+            .coupon-container {
+                margin: 30px 0;
+                padding: 20px;
+                background: linear-gradient(135deg, #f9f9f9, #f0f0f0);
+                border-radius: 12px;
+                border: 1px solid #e0e0e0;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+                
+                &::before, &::after {
+                    content: '';
+                    position: absolute;
+                    background-color: white;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                }
+                
+                &::before {
+                    top: -10px;
+                    left: -10px;
+                    box-shadow: 0 0 0 10px #f0f0f0;
+                }
+                
+                &::after {
+                    bottom: -10px;
+                    right: -10px;
+                    box-shadow: 0 0 0 10px #f0f0f0;
+                }
+                
+                p:first-child {
+                    font-weight: 600;
+                    color: $primary-color;
+                    margin-bottom: 15px;
+                    font-size: 18px;
+                }
+                
+                .coupon-code {
+                    font-size: 28px;
+                    font-weight: 700;
+                    color: $primary-color;
+                    padding: 15px;
+                    margin: 15px 0;
+                    border: 2px dashed $accent-color;
+                    background-color: white;
+                    display: inline-block;
+                    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+                    letter-spacing: 1px;
+                    position: relative;
+                    
+                    &::before {
+                        content: '🎉';
+                        position: absolute;
+                        left: -15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        font-size: 20px;
+                        animation: bounce 1s infinite;
+                    }
+                    
+                    &::after {
+                        content: '🎉';
+                        position: absolute;
+                        right: -15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        font-size: 20px;
+                        animation: bounce 1s infinite 0.5s;
+                    }
+                }
+                
+                .coupon-info {
+                    font-size: 14px;
+                    color: #666;
+                    margin-top: 15px;
+                }
+            }
+            
+            // Botones mejorados
+            button {
+                margin: 12px;
+                padding: 14px 30px;
+                border: none;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 600;
+                font-size: 16px;
+                letter-spacing: 0.5px;
+                
+                &.play-again-btn {
+                    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+                    color: white;
+                    box-shadow: 0 4px 12px rgba(89, 76, 69, 0.3);
+                    
+                    &:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 8px 15px rgba(89, 76, 69, 0.4);
+                        background: linear-gradient(135deg, lighten($primary-color, 5%), $primary-color);
+                    }
+                    
+                    &:active {
+                        transform: translateY(1px);
+                    }
+                }
+                
+                &.return-to-shop-btn {
+                    background: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+                    color: white;
+                    box-shadow: 0 4px 12px rgba(186, 173, 166, 0.3);
+                    
+                    &:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 8px 15px rgba(186, 173, 166, 0.4);
+                        background: linear-gradient(135deg, lighten($accent-color, 5%), $accent-color);
+                    }
+                    
+                    &:active {
+                        transform: translateY(1px);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Clase para ocultar elementos
+.hidden {
+    display: none !important;
+}
+
+// Animaciones
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes floatCloud {
+    0% {
+        transform: translateX(-150px);
+    }
+    100% {
+        transform: translateX(calc(100vw + 150px));
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-50%);
+    }
+    50% {
+        transform: translateY(-65%);
+    }
+}
+
+@keyframes modalAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Media queries para responsividad
+@media (max-width: 768px) {
+    .game-container {
+        margin: 20px 15px;
+        
+        .game-header {
+            padding: 25px 15px;
+            
+            h1 {
+                font-size: 30px;
+            }
+            
+            .game-stats {
+                gap: 20px;
+                
+                .score, .timer {
+                    padding: 8px 16px;
+                    font-size: 16px;
+                }
+            }
+        }
+        
+        .game-area {
+            height: 450px;
+            
+            .basket::after {
+                bottom: -20px;
+                font-size: 20px;
+            }
+        }
+        
+        .game-over-modal .modal-content {
+            padding: 30px 20px;
+            margin: 10% auto;
+            
+            h2 {
+                font-size: 28px;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .game-container {
+        margin: 15px 10px;
+        
+        .game-header {
+            padding: 20px 15px;
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .game-instructions {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+            
+            .game-stats {
+                gap: 15px;
+                margin-bottom: 20px;
+                
+                .score, .timer {
+                    padding: 6px 14px;
+                    font-size: 15px;
+                }
+            }
+            
+            .start-game-btn {
+                padding: 12px 28px;
+                font-size: 16px;
+            }
+        }
+        
+        .game-area {
+            height: 380px;
+            
+            .basket {
+                width: 100px;
+                height: 70px;
+            }
+            
+            .shoe {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        
+        .game-over-modal .modal-content {
+            padding: 25px 15px;
+            margin: 15% auto;
+            
+            h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            #gameResultMessage {
+                font-size: 16px;
+            }
+            
+            .coupon-container {
+                padding: 15px;
+                
+                .coupon-code {
+                    font-size: 20px;
+                    padding: 10px;
+                    
+                    &::before, &::after {
+                        display: none;
+                    }
+                }
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 14px;
+                margin: 8px;
+            }
+        }
+    }
+}
