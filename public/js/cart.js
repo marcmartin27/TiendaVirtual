@@ -260,13 +260,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Guardar el carrito en la base de datos
+    // Modificar la función saveCartToDatabase
     async function saveCartToDatabase(cartItems) {
         try {
             console.log('saveCartToDatabase - Enviando estos productos:', cartItems);
             
-            if (!userId || !cartItems || cartItems.length === 0) {
-                console.error('saveCartToDatabase - Datos inválidos:', { userId, cartItemsLength: cartItems?.length });
+            // Verificar solo userID, permitiendo que cartItems esté vacío
+            if (!userId) {
+                console.error('saveCartToDatabase - Usuario no identificado');
                 return;
             }
             
@@ -278,13 +279,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             
+            // Asegurarse de que cartItems sea un array (aunque esté vacío)
+            const itemsToSave = Array.isArray(cartItems) ? cartItems : [];
+            
             const response = await fetch('/save-cart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken
                 },
-                body: JSON.stringify({ userId, cartItems })
+                body: JSON.stringify({ userId, cartItems: itemsToSave })
             });
             
             if (!response.ok) {
@@ -297,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return result;
         } catch (error) {
             console.error('Error al guardar el carrito:', error);
-            throw error; // Re-lanzar para que el llamador pueda capturarlo
+            throw error;
         }
     }
 
