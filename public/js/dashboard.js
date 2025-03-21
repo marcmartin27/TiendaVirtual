@@ -484,3 +484,83 @@ function drawBarChart(canvasId, labels, data, title, fillColor, strokeColor) {
     ctx.strokeStyle = '#ccc';
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
+
+// CODIGO DE POP UP ACTUALIZAR STOCK
+
+document.addEventListener('DOMContentLoaded', function() {
+    const stockModal = document.getElementById('stockModal');
+    const manageStockButton = document.getElementById('manageStockButton');
+    const stockForm = document.getElementById('stockForm');
+
+    // Manejar el botón de gestionar stock
+    if (manageStockButton) {
+        manageStockButton.addEventListener('click', function() {
+            const productId = document.querySelector('#editProductForm').getAttribute('action').split('/').pop();
+            document.getElementById('stock_product_id').value = productId;
+            
+            // Cargar el stock actual
+            fetch(`/products/${productId}/stock`)
+                .then(response => response.json())
+                .then(sizes => {
+                    // Rellenar los inputs con los valores actuales
+                    for (let size = 36; size <= 47; size++) {
+                        const input = document.getElementById(`size_${size}`);
+                        input.value = sizes[size] || 0;
+                    }
+                    stockModal.classList.add('active'); // Cambiado de remove('hidden') a add('active')
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    }
+
+    // Manejar el formulario de stock
+    if (stockForm) {
+        stockForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const productId = document.getElementById('stock_product_id').value;
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (key.startsWith('sizes[')) {
+                    const size = key.match(/\[(\d+)\]/)[1];
+                    if (!data.sizes) data.sizes = {};
+                    data.sizes[size] = value;
+                } else {
+                    data[key] = value;
+                }
+            });
+
+            fetch(`/products/${productId}/stock`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Stock actualizado correctamente');
+                stockModal.classList.remove('active'); // Cambiado de add('hidden') a remove('active')
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al actualizar el stock');
+            });
+        });
+    }
+
+    // Cerrar modal de stock
+    document.querySelectorAll('.modal-close').forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('.modal-overlay').classList.remove('active'); // Cambiado de add('hidden') a remove('active')
+        });
+    });
+
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-overlay')) {
+            e.target.classList.remove('active');
+        }
+    });
+});

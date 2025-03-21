@@ -38,3 +38,5 @@ Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('u
 Route::post('/chatbot/send', [ChatbotController::class, 'chat']);
 Route::get('/juego-promocion', [App\Http\Controllers\GameController::class, 'index'])->name('game');
 Route::post('/generate-coupon', [App\Http\Controllers\GameController::class, 'generateCoupon']);
+Route::post('/products/{id}/stock', [ProductController::class, 'updateStock'])->name('products.updateStock');
+Route::get('/products/{id}/stock', [ProductController::class, 'getStock'])->name('products.getStock');

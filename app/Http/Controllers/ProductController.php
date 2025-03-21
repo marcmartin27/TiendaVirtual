@@ -191,4 +191,30 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function updateStock(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $sizes = $request->input('sizes');
+
+        foreach ($sizes as $size => $stock) {
+            Size::updateOrCreate(
+                [
+                    'product_id' => $id,
+                    'size' => $size
+                ],
+                [
+                    'stock' => $stock
+                ]
+            );
+        }
+
+        return response()->json(['message' => 'Stock actualizado correctamente']);
+    }
+
+    public function getStock($id)
+    {
+        $sizes = Size::where('product_id', $id)->get()->pluck('stock', 'size');
+        return response()->json($sizes);
+    }
+
 }

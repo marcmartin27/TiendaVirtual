@@ -1,4 +1,3 @@
-@charset "UTF-8";
 body {
   font-family: "Roboto", sans-serif;
   margin: 0;
@@ -294,100 +293,66 @@ td {
   vertical-align: middle;
 }
 
-/* Modal overlay - fondo oscurecido */
 .modal-overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
+  justify-content: center;
+  align-items: center;
 }
-
 .modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
+  display: flex;
 }
 
-/* Contenedor del modal */
 .modal-container {
-  background-color: #fff;
+  background-color: white;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  padding: 25px;
   width: 90%;
   max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  transform: translateY(-20px);
-  transition: transform 0.3s;
   position: relative;
+  z-index: 1001;
 }
 
-.modal-overlay.active .modal-container {
-  transform: translateY(0);
-}
-
-/* Botón para cerrar el modal */
-.modal-close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #999;
-}
-
-.modal-close:hover {
-  color: #333;
-}
-
-/* Título del modal */
-.modal-container h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
-  color: #594C45;
-}
-
-/* Espaciado para los formularios dentro de modales */
-.modal-container form {
-  display: flex;
-  flex-direction: column;
+.sizes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+  margin-bottom: 20px;
 }
 
-.modal-container .form-group {
+.size-input {
   display: flex;
   flex-direction: column;
 }
-
-.modal-container label {
+.size-input label {
   margin-bottom: 5px;
   font-weight: 500;
 }
+.size-input input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.size-input input:focus {
+  border-color: #594C45;
+  outline: none;
+}
 
-.modal-container button[type=submit] {
-  margin-top: 10px;
-  padding: 10px;
+.secondary-button {
   background-color: #594C45;
   color: white;
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  margin-top: 10px;
 }
-
-.modal-container button[type=submit]:hover {
-  background-color: #483c36;
+.secondary-button:hover {
+  background-color: #3c332f;
 }/*# sourceMappingURL=dashboard.css.map */
