@@ -11,10 +11,17 @@ class CartController extends Controller
 {
     public function saveCart(Request $request)
     {
-        $userId = $request->userId;
-        $cartItems = $request->cartItems;
+        $userId = $request->input('userId');
+        $cartItems = $request->input('cartItems', []);
         
-        // Log para debug
+        // Si el carrito está vacío, eliminar todos los elementos del carrito del usuario
+        if (empty($cartItems)) {
+            // Eliminar todos los productos del carrito de este usuario
+            Cart::where('user_id', $userId)->delete();  // CORREGIDO: Cart en lugar de CartItem
+            return response()->json(['message' => 'Carrito vaciado correctamente']);
+        }
+        
+        // Resto del código sin cambios...
         \Log::info('Recibiendo carrito para guardar:', [
             'userId' => $userId,
             'itemCount' => count($cartItems ?? [])
