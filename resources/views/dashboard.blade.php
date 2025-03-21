@@ -104,7 +104,7 @@ use Illuminate\Support\Str;
                             @csrf
                             <div class="form-group">
                                 <label for="code">Código:</label>
-                                <textarea id="product_description" name="description" required></textarea>
+                                <input type="text" id="product_code" name="code" required>
                             </div>
                             <div class="form-group">
                                 <label for="name">Nombre:</label>
@@ -112,7 +112,7 @@ use Illuminate\Support\Str;
                             </div>
                             <div class="form-group">
                                 <label for="description">Descripción:</label>
-                                <textarea id="product_editDescription" name="description" required></textarea>
+                                <textarea id="product_description" name="description" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Categoría:</label>
