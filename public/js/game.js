@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mouseup', endDrag);
     
     // Eventos para dispositivos táctiles
-    basket.addEventListener('touchstart', startDragTouch);
-    document.addEventListener('touchmove', dragTouch);
+    basket.addEventListener('touchstart', startDragTouch, { passive: false });
+    document.addEventListener('touchmove', dragTouch, { passive: false });
     document.addEventListener('touchend', endDrag);
     
     // Función para iniciar arrastre con mouse
@@ -180,6 +180,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let speed = 2 + Math.random() * 3; // Velocidad aleatoria
         
         const fallInterval = setInterval(() => {
+            // Verificar si el juego sigue activo o si el elemento ya no existe
+            if (!gameActive || !shoe || !shoe.parentNode) {
+                clearInterval(fallInterval);
+                return;
+            }
+            
             posY += speed;
             shoe.style.top = posY + 'px';
             
@@ -190,7 +196,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 posX < basketPositionX + basket.offsetWidth - 30) {
                 
                 // Colisión detectada
-                gameArea.removeChild(shoe);
+                if (shoe.parentNode) {
+                    shoe.parentNode.removeChild(shoe);
+                }
                 clearInterval(fallInterval);
                 score += 10;
                 scoreElement.textContent = score;
@@ -204,32 +212,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 scorePopup.style.color = '#594C45';
                 scorePopup.style.fontWeight = 'bold';
                 scorePopup.style.fontSize = '20px';
+                scorePopup.classList.add('score-popup'); // Añadir clase para referencia
                 gameArea.appendChild(scorePopup);
                 
                 setTimeout(() => {
-                    gameArea.removeChild(scorePopup);
+                    if (scorePopup && scorePopup.parentNode) {
+                        scorePopup.parentNode.removeChild(scorePopup);
+                    }
                 }, 500);
             } 
             // Si la zapatilla llega al fondo sin ser atrapada
             else if (posY > gameArea.offsetHeight) {
-                gameArea.removeChild(shoe);
+                if (shoe.parentNode) {
+                    shoe.parentNode.removeChild(shoe);
+                }
                 clearInterval(fallInterval);
             }
         }, 20);
+        
+        // Almacenar el ID del intervalo para limpiarlo más tarde si es necesario
+        if (!window.activeIntervals) window.activeIntervals = [];
+        window.activeIntervals.push(fallInterval);
     }
-
-    // Resto del código sin cambios...
     
     // Terminar el juego
     function endGame() {
         gameActive = false;
         isDragging = false;
         basket.style.cursor = 'default';
+        
+        // Limpiar intervalos principales
         clearInterval(gameInterval);
         clearInterval(shoeInterval);
         
+        // Limpiar todos los intervalos de animación
+        if (window.activeIntervals && window.activeIntervals.length) {
+            window.activeIntervals.forEach(intervalId => clearInterval(intervalId));
+            window.activeIntervals = [];
+        }
+        
         // Eliminar todas las zapatillas
-        document.querySelectorAll('.shoe').forEach(shoe => shoe.remove());
+        document.querySelectorAll('.shoe').forEach(shoe => {
+            if (shoe && shoe.parentNode) {
+                shoe.parentNode.removeChild(shoe);
+            }
+        });
+        
+        // Eliminar todas las animaciones de puntuación
+        document.querySelectorAll('.score-popup').forEach(popup => {
+            if (popup && popup.parentNode) {
+                popup.parentNode.removeChild(popup);
+            }
+        });
         
         // Actualizar mensaje final
         finalScoreElement.textContent = score;
