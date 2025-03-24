@@ -136,6 +136,9 @@ use Illuminate\Support\Str;
                                 <label for="images">Imágenes:</label>
                                 <input type="file" id="product_images" name="images[]" multiple required>
                             </div>
+                            <div class="form-group">
+                                <button type="button" id="addStockButton" class="secondary-button">Añadir Stock</button>
+                            </div>
                             <button type="submit">Añadir Producto</button>
                         </form>
                     </div>
@@ -487,6 +490,31 @@ use Illuminate\Support\Str;
             </form>
         </div>
     </div>
+
+    <div id="addStockModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close">&times;</button>
+            <h2>Añadir Stock Inicial</h2>
+            <div id="initialStockForm">
+                <div class="sizes-grid">
+                    @for ($size = 36; $size <= 47; $size++)
+                        <div class="size-input">
+                            <label for="initial_size_{{ $size }}">Talla {{ $size }}:</label>
+                            <input type="number" 
+                                id="initial_size_{{ $size }}" 
+                                name="initial_sizes[{{ $size }}]" 
+                                min="0" 
+                                value="0"
+                                class="stock-input">
+                        </div>
+                    @endfor
+                </div>
+                <button type="button" id="saveInitialStock">Guardar Stock</button>
+            </div>
+        </div>
+    </div>
+
+
     <script src="{{ asset('js/dashboard.js') }}"></script>
 </body>
 </html>

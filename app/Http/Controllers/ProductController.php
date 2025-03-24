@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
 use App\Models\Size;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -36,50 +37,61 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|unique:products,code|max:10',
-            'name' => 'required|max:255',
+            'code' => 'required|unique:products',
+            'name' => 'required',
             'description' => 'required',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric',
-            'featured' => 'boolean',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images.*' => 'image'
         ]);
-    
+
         try {
+            DB::beginTransaction();
+
+            // Crear el producto
             $product = Product::create([
                 'code' => $request->code,
                 'name' => $request->name,
                 'description' => $request->description,
                 'category_id' => $request->category_id,
                 'price' => $request->price,
-                'featured' => $request->featured ? true : false,
+                'featured' => $request->has('featured')
             ]);
-    
-            // Manejar la carga de las imágenes
+
+            // Procesar imágenes
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $imageName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path('images'), $imageName);
-    
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('images'), $filename);
+                    
                     ProductImage::create([
                         'product_id' => $product->id,
-                        'image_url' => $imageName,
+                        'image_url' => $filename
                     ]);
                 }
             }
-    
-            // Añadir tallas por defecto
-            for ($size = 36; $size <= 47; $size++) {
-                Size::create([
-                    'size' => $size,
-                    'product_id' => $product->id,
-                    'stock' => 10,
-                ]);
+
+            // Procesar el stock inicial
+            if ($request->has('initial_stock')) {
+                $initialStock = json_decode($request->initial_stock, true);
+                if (is_array($initialStock)) {
+                    foreach ($initialStock as $size => $quantity) {
+                        if ($quantity > 0) {
+                            Size::create([
+                                'product_id' => $product->id,
+                                'size' => $size,
+                                'stock' => $quantity
+                            ]);
+                        }
+                    }
+                }
             }
-    
-            return redirect()->route('dashboard')->with('success', 'Producto añadido con éxito');
+
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Producto creado correctamente']);
         } catch (\Exception $e) {
-            return redirect()->route('dashboard')->withErrors(['error' => $e->getMessage()]);
+            DB::rollback();
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
 

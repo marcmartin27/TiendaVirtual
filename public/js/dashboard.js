@@ -564,3 +564,78 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Variables para el stock inicial
+    const addStockButton = document.getElementById('addStockButton');
+    const addStockModal = document.getElementById('addStockModal');
+    const saveInitialStockButton = document.getElementById('saveInitialStock');
+    let initialStockData = {};
+
+    // Manejar el botón de añadir stock inicial
+    if (addStockButton) {
+        addStockButton.addEventListener('click', function() {
+            addStockModal.classList.add('active');
+        });
+    }
+
+    // Guardar stock inicial
+    if (saveInitialStockButton) {
+        saveInitialStockButton.addEventListener('click', function() {
+            // Recoger los valores de stock inicial
+            for (let size = 36; size <= 47; size++) {
+                const input = document.getElementById(`initial_size_${size}`);
+                initialStockData[size] = input.value;
+            }
+            
+            // Cerrar el modal
+            addStockModal.classList.remove('active');
+            alert('Stock inicial guardado');
+        });
+    }
+
+    // Modificar el evento submit del formulario de añadir producto
+    const addProductForm = document.querySelector('form[action*="products"]');
+if (addProductForm) {
+    addProductForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        // Añadir el stock inicial al FormData
+        formData.append('initial_stock', JSON.stringify(initialStockData));
+
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert(data.error || 'Error al guardar el producto');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al guardar el producto');
+        }
+    });
+}
+
+    // Cerrar modal de stock inicial
+    document.querySelectorAll('.modal-close').forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('.modal-overlay').classList.remove('active');
+        });
+    });
+
+    // ...existing code...
+});
