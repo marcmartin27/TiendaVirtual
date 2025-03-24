@@ -413,9 +413,111 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    async function verificarStock() {
+        const cartItems = getCartItems();
+        let stockValid = true;
+        let errorMessage = '';
+        
+        try {
+            for (const item of cartItems) {
+                // Obtener stock actual del servidor
+                const response = await fetch(`/check-stock/${item.id}/${item.size}`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error('Error al verificar stock');
+                }
+                
+                const stockDisponible = data.stock || 0;
+                
+                // Verificar si hay suficiente stock
+                if (item.quantity > stockDisponible) {
+                    stockValid = false;
+                    errorMessage = `No hay suficiente stock para "${item.name}" (talla ${item.size}). Stock disponible: ${stockDisponible}`;
+                    break;
+                }
+            }
+            
+            return { valid: stockValid, message: errorMessage };
+        } catch (error) {
+            console.error('Error al verificar stock:', error);
+            return { valid: false, message: 'Error al verificar disponibilidad' };
+        }
+    }
+
+    async function verificarStock() {
+        const cartItems = getCartItems();
+        let stockAdjusted = false;
+        let adjustmentMessage = '';
+        let adjustments = [];
+        
+        try {
+            for (const item of cartItems) {
+                // Obtener stock actual del servidor
+                const response = await fetch(`/check-stock/${item.id}/${item.size}`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error('Error al verificar stock');
+                }
+                
+                const stockDisponible = data.stock || 0;
+                
+                // Verificar si hay suficiente stock
+                if (item.quantity > stockDisponible) {
+                    // En lugar de fallar, ajustar al máximo disponible
+                    const oldQuantity = item.quantity;
+                    item.quantity = stockDisponible;
+                    stockAdjusted = true;
+                    
+                    // Guardar información del ajuste
+                    adjustments.push({
+                        name: item.name,
+                        size: item.size,
+                        oldQuantity: oldQuantity,
+                        newQuantity: stockDisponible
+                    });
+                }
+            }
+            
+            // Si se ajustó algún producto, actualizar el carrito
+            if (stockAdjusted) {
+                // Crear mensaje de ajuste para el usuario
+                adjustmentMessage = "Se han ajustado algunas cantidades debido a limitaciones de stock:\n";
+                adjustments.forEach(adj => {
+                    adjustmentMessage += `- "${adj.name}" (talla ${adj.size}): cambio de ${adj.oldQuantity} a ${adj.newQuantity} unidades\n`;
+                });
+                
+                // Guardar carrito actualizado
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                
+                // Si el usuario está logueado, actualizar también en base de datos
+                if (userId) {
+                    await saveCartToDatabase(cartItems);
+                }
+                
+                // Volver a renderizar los items del carrito
+                renderCartItems();
+            }
+            
+            return { 
+                valid: true, 
+                adjusted: stockAdjusted, 
+                message: adjustmentMessage 
+            };
+        } catch (error) {
+            console.error('Error al verificar stock:', error);
+            return { 
+                valid: false, 
+                adjusted: false, 
+                message: 'Error al verificar disponibilidad' 
+            };
+        }
+    }
+
     // Manejar el checkout
     if (checkoutButton) {
-        checkoutButton.addEventListener('click', function() {
+        checkoutButton.addEventListener('click', async function() {
             // Si hay productos en el carrito
             const cartItems = getCartItems();
             
@@ -481,9 +583,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 return;
             }
+
+            // Verificar y ajustar stock antes de continuar
+            const stockCheck = await verificarStock();
             
-            // Si el usuario está autenticado, redirigir a la página de checkout
+            if (!stockCheck.valid) {
+                alert(stockCheck.message);
+                return;
+            }
+            
+            // Si se ajustaron cantidades, mostrar mensaje al usuario
+            if (stockCheck.adjusted) {
+                alert(stockCheck.message);
+            }
+            
+            // Si el stock es válido (después de los ajustes), redirigir a checkout
             window.location.href = '/checkout';
+
         });
     }
 

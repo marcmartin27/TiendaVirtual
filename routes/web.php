@@ -40,3 +40,16 @@ Route::get('/juego-promocion', [App\Http\Controllers\GameController::class, 'ind
 Route::post('/generate-coupon', [App\Http\Controllers\GameController::class, 'generateCoupon']);
 Route::post('/products/{id}/stock', [ProductController::class, 'updateStock'])->name('products.updateStock');
 Route::get('/products/{id}/stock', [ProductController::class, 'getStock'])->name('products.getStock');
+Route::get('/check-stock/{productId}/{size}', function ($productId, $size) {
+    $productSize = \App\Models\Size::where('product_id', $productId)
+                                   ->where('size', $size)
+                                   ->first();
+                                   
+    if (!$productSize) {
+        return response()->json(['error' => 'Producto o talla no encontrada'], 404);
+    }
+    
+    return response()->json(['stock' => $productSize->stock]);
+});
+
+Route::post('/procesar-pedido', [App\Http\Controllers\CheckoutController::class, 'procesarPedido'])->middleware('auth');

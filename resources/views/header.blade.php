@@ -138,6 +138,12 @@
     </div>
 </div>
 
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
+
 <script src="{{ asset('js/login.js') }}"></script>
 <script src="{{ asset('js/search.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>

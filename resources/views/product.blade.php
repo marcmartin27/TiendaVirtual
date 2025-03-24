@@ -32,19 +32,25 @@
             @else
                 <p class="price">{{ $product->price }} €</p>
             @endif
+            <!-- Modificar la sección de tallas -->
             <div class="sizes">
                 @foreach ($product->sizes as $size)
-                    <div class="size" data-size="{{ $size->size }}">{{ $size->size }}</div>
+                    <div class="size {{ $size->stock <= 0 ? 'out-of-stock' : '' }}" 
+                        data-size="{{ $size->size }}" 
+                        data-stock="{{ $size->stock }}">
+                        {{ $size->size }}
+                    </div>
                 @endforeach
             </div>
             <p class="delivery-time">⚠ El plazo promedio de entrega es de 2 a 14 días.</p>
             <div class="selected-size">
                 <p>Talla: <span id="selected-size">Ninguna</span></p>
+                <p id="stock-info" class="stock-info">Selecciona una talla para ver disponibilidad</p>
                 <label for="quantity">Cantidad:</label>
                 <div class="quantity-container">
-                    <button type="button" id="decrease">-</button>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1">
-                    <button type="button" id="increase">+</button>
+                    <button type="button" id="decrease" disabled>-</button>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" max="1" disabled>
+                    <button type="button" id="increase" disabled>+</button>
                 </div>
             </div>
             <div class="actions">

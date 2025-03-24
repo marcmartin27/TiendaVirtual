@@ -9,6 +9,11 @@
 <body>
 @extends('layouts.app')
 @include('header')
+@if(session('warning'))
+<div class="alert alert-warning">
+    {!! nl2br(e(session('warning'))) !!}
+</div>
+@endif
 <div class="checkout-container">
     <h1>Finalizar Compra</h1>
     
@@ -90,7 +95,9 @@
                 <div class="checkout-actions">
                     <a href="/" class="back-link">Volver a la tienda</a>
                     <button type="submit" class="checkout-button">Completar Compra</button>
+                    
                 </div>
+
             </form>
         </div>
         
