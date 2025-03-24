@@ -7,9 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Size;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Services\PayPalService;
 
 class CheckoutController extends Controller
 {
+    protected $paypalService;
+    
+    public function __construct(PayPalService $paypalService)
+    {
+        $this->paypalService = $paypalService;
+    }
+
     public function index()
     {
         // Verificar si el usuario está autenticado
@@ -35,7 +45,7 @@ class CheckoutController extends Controller
         return view('finalizarCompra');
     }
     
-    // Método para verificar stock del usuario actual
+    // Método para verificar stock del usuario actual con ajuste automático
     private function verificarStockUsuario()
     {
         $userId = Auth::id();
@@ -100,24 +110,125 @@ class CheckoutController extends Controller
         return ['valid' => true, 'adjusted' => false, 'message' => ''];
     }
     
-    // Método para procesar el pedido
+    // Método para procesar la compra con PayPal
     public function procesarPedido(Request $request)
     {
-        // Verificar stock antes de procesar el pedido
+        // Guardar la información del formulario en sesión para recuperarla después del pago
+        $request->session()->put('checkout_data', $request->all());
+        
+        // Verificar stock antes de procesar
         $stockCheck = $this->verificarStockUsuario();
         
         if (!$stockCheck['valid']) {
-            // Si hay problemas de stock, devolver error
             return back()->with('error', $stockCheck['message']);
         }
         
-        // Aquí iría el resto del código para procesar el pedido
-        // - Crear pedido en la base de datos
-        // - Reducir stock de productos
-        // - Limpiar carrito
-        // - Etc.
+        // Calcular el total del carrito
+        $userId = Auth::id();
+        $cartItems = Cart::where('user_id', $userId)
+                        ->with('product') // Asegúrate de tener esta relación definida en el modelo Cart
+                        ->get();
         
-        // Redirigir a página de éxito
-        return redirect('/pedido-completado')->with('success', 'Tu pedido ha sido procesado correctamente');
+        $total = 0;
+        foreach ($cartItems as $item) {
+            $product = Product::find($item->product_id);
+            $price = $product->sale ? $product->new_price : $product->price;
+            $total += $price * $item->quantity;
+        }
+        
+        // Guardar el total en la sesión
+        $request->session()->put('order_total', $total);
+        
+        // Crear orden de PayPal
+        $paypalLink = $this->paypalService->createOrder($total);
+        
+        if (!$paypalLink) {
+            return back()->with('error', 'Error al conectar con PayPal. Por favor, inténtalo de nuevo.');
+        }
+        
+        return redirect($paypalLink);
+    }
+    
+    // Método para manejar el retorno exitoso de PayPal
+    public function paypalSuccess(Request $request)
+    {
+        $orderId = $request->query('token');
+        $result = $this->paypalService->captureOrder($orderId);
+        
+        if (!$result || $result->status !== 'COMPLETED') {
+            return redirect('/checkout')->with('error', 'El pago no pudo ser procesado. Por favor, inténtalo de nuevo.');
+        }
+        
+        // Recuperar datos del formulario de checkout
+        $checkoutData = $request->session()->get('checkout_data', []);
+        $orderTotal = $request->session()->get('order_total', 0);
+        
+        // Crear la orden en nuestra base de datos
+        $order = new Order();
+        $order->user_id = Auth::id();
+        $order->total = $orderTotal;
+        $order->status = 'Paid';
+        $order->payment_method = 'paypal';
+        $order->payment_id = $orderId;
+        
+        // Datos de envío
+        $order->first_name = $checkoutData['first_name'] ?? '';
+        $order->last_name = $checkoutData['last_name'] ?? '';
+        $order->email = $checkoutData['email'] ?? Auth::user()->email;
+        $order->address = $checkoutData['address'] ?? '';
+        $order->apartment = $checkoutData['apartment'] ?? '';
+        $order->city = $checkoutData['city'] ?? '';
+        $order->postal_code = $checkoutData['postal_code'] ?? '';
+        $order->province = $checkoutData['province'] ?? '';
+        $order->country = $checkoutData['country'] ?? '';
+        $order->phone = $checkoutData['phone'] ?? '';
+        
+        $order->save();
+        
+        // Guardar los items de la orden
+        $cartItems = Cart::where('user_id', Auth::id())->get();
+        
+        foreach ($cartItems as $item) {
+            $product = Product::find($item->product_id);
+            $price = $product->sale ? $product->new_price : $product->price;
+            
+            // Obtener el size_id correspondiente
+            $size = Size::where('product_id', $item->product_id)
+                        ->where('size', $item->size)
+                        ->first();
+            
+            
+            // Crear item de la orden
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $item->product_id;
+            $orderItem->product_name = $product->name;
+            $orderItem->price = $price;
+            $orderItem->quantity = $item->quantity;
+            $orderItem->size = $item->size;
+            $orderItem->size_id = $size->id;
+            $orderItem->total_price = $price * $item->quantity; // Calcular y asignar el precio total
+            $orderItem->save();
+            
+            // Actualizar stock
+            $size->stock -= $item->quantity;
+            $size->save();
+        }
+        
+        // Vaciar el carrito
+        Cart::where('user_id', Auth::id())->delete();
+        
+        // Limpiar datos de sesión
+        $request->session()->forget(['checkout_data', 'order_total']);
+        
+        // Redireccionar a la página de confirmación
+        return redirect()->route('order.confirmation', $order->id);
+    }
+    
+    // Método para manejar cancelación de PayPal
+    public function paypalCancel()
+    {
+        return redirect()->route('checkout')
+                         ->with('error', 'El pago fue cancelado. Por favor, inténtalo de nuevo.');
     }
 }

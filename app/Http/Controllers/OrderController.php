@@ -126,14 +126,14 @@ class OrderController extends Controller
     
     public function confirmation($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('items')->findOrFail($id);
         
-        // Verificar que el usuario sea el propietario del pedido
-        if (Auth::id() != $order->user_id) {
+        // Verificar que el pedido pertenece al usuario autenticado
+        if (Auth::id() !== $order->user_id) {
             abort(403, 'No tienes permiso para ver este pedido');
         }
         
-        return view('orderConfirmation', compact('order'));
+        return view('orderConfirmation', ['order' => $order]);
     }
     
     public function getUserAddress($userId)
@@ -160,4 +160,6 @@ class OrderController extends Controller
             ]
         ]);
     }
+
+
 }

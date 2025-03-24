@@ -191,3 +191,67 @@
         }
     }
 }
+
+// Añadir a tu archivo CSS principal
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.summary-item {
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-image {
+    width: 60px;
+    margin-right: 15px;
+}
+
+.item-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.item-details p {
+    margin: 0 0 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #000;
+}

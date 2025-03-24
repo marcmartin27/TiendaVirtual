@@ -144,6 +144,10 @@
 </div>
 @endif
 
+@auth
+    <meta name="user-id" content="{{ Auth::id() }}">
+@endauth
+
 <script src="{{ asset('js/login.js') }}"></script>
 <script src="{{ asset('js/search.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>

@@ -10,6 +10,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ChatbotController;
+use App\Services\PayPalService;
+use Illuminate\Http\Request;
+
 
 
 
@@ -52,4 +55,15 @@ Route::get('/check-stock/{productId}/{size}', function ($productId, $size) {
     return response()->json(['stock' => $productSize->stock]);
 });
 
-Route::post('/procesar-pedido', [App\Http\Controllers\CheckoutController::class, 'procesarPedido'])->middleware('auth');
+Route::post('/order/process', [App\Http\Controllers\CheckoutController::class, 'procesarPedido'])->name('order.process');
+Route::get('/paypal/pay', function (PayPalService $paypal) {
+    $link = $paypal->createOrder(10); // Monto de 10 USD para pruebas
+    if ($link) {
+        return redirect($link);
+    }
+    return 'Ocurrió un error al crear la orden';
+})->name('paypal.pay');
+
+Route::get('/paypal/success', [App\Http\Controllers\CheckoutController::class, 'paypalSuccess'])->name('paypal.success');
+
+Route::get('/paypal/cancel', [App\Http\Controllers\CheckoutController::class, 'paypalCancel'])->name('paypal.cancel');

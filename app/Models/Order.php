@@ -13,7 +13,19 @@ class Order extends Model
         'status',
         'order_date',
         'shipping_date',
-        'shipping_address'
+        'shipping_address',
+        'payment_method',
+        'payment_id',
+        'first_name',
+        'last_name',
+        'email',
+        'address',
+        'apartment',
+        'city',
+        'postal_code',
+        'province',
+        'country',
+        'phone'
     ];
 
     // Relación con Buyer (el destinatario real del pedido)
@@ -30,6 +42,11 @@ class Order extends Model
 
     // Relación con los items del pedido
     public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function items()
     {
         return $this->hasMany(OrderItem::class);
     }
