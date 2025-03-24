@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch(`/products/${productId}/edit`);
                 const product = await response.json();
                 
-                // Actualizar estos IDs
+                // Actualizar campos del formulario
                 document.getElementById('product_editCode').value = product.code;
                 document.getElementById('product_editName').value = product.name;
-                document.getElementById('product_editDescription').value = product.description;
+                document.getElementById('product_editDescription').value = product.description || '';
                 document.getElementById('product_editCategoryId').value = product.category_id;
                 document.getElementById('product_editPrice').value = product.price;
                 document.getElementById('product_editFeatured').checked = product.featured;
