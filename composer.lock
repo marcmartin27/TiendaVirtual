@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e06cc773364f1efebddc66ceed19ce35",
+    "content-hash": "d14ed00c049c019ec83889431042cbc1",
     "packages": [
         {
             "name": "apimatic/core",
@@ -2929,27 +2929,27 @@
         },
         {
             "name": "paypal/paypal-server-sdk",
-            "version": "0.6.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paypal/PayPal-PHP-Server-SDK.git",
-                "reference": "b26f3e7dcd6cc1c426283d211b218b26473c509d"
+                "reference": "66fd3341bbffafe7d650fe7d9d2699fabf355e67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paypal/PayPal-PHP-Server-SDK/zipball/b26f3e7dcd6cc1c426283d211b218b26473c509d",
-                "reference": "b26f3e7dcd6cc1c426283d211b218b26473c509d",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-Server-SDK/zipball/66fd3341bbffafe7d650fe7d9d2699fabf355e67",
+                "reference": "66fd3341bbffafe7d650fe7d9d2699fabf355e67",
                 "shasum": ""
             },
             "require": {
-                "apimatic/core": "~0.3.11",
+                "apimatic/core": "~0.3.13",
                 "apimatic/core-interfaces": "~0.1.5",
                 "apimatic/unirest-php": "^4.0.0",
                 "ext-json": "*",
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "phan/phan": "5.4.2",
+                "phan/phan": "5.4.5",
                 "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
@@ -2966,9 +2966,9 @@
             "homepage": "https://github.com/paypal/PayPal-PHP-Server-SDK",
             "support": {
                 "issues": "https://github.com/paypal/PayPal-PHP-Server-SDK/issues",
-                "source": "https://github.com/paypal/PayPal-PHP-Server-SDK/tree/0.6.1"
+                "source": "https://github.com/paypal/PayPal-PHP-Server-SDK/tree/1.0.0"
             },
-            "time": "2024-11-21T20:04:48+00:00"
+            "time": "2025-03-24T18:44:18+00:00"
         },
         {
             "name": "paypal/paypalhttp",
