@@ -2419,8 +2419,8 @@ footer .imagen img {
 .orders-list .order-card .order-details .order-items-container .order-items-list .order-item .item-image img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .orders-list .order-card .order-details .order-items-container .order-items-list .order-item .item-image .no-image {
   width: 100%;
@@ -3684,124 +3684,124 @@ footer .imagen img {
   animation: confetti-fall 6s ease-in-out forwards;
 }
 .confetti:nth-child(1) {
-  left: 54%;
-  width: 12px;
-  height: 9px;
-  background-color: #f1c40f;
-  animation-delay: 3.1s;
-  animation-duration: 5.2s;
-}
-.confetti:nth-child(2) {
-  left: 87%;
-  width: 14px;
+  left: 76%;
+  width: 6px;
   height: 11px;
-  background-color: #f39c12;
-  animation-delay: 0.7s;
-  animation-duration: 5s;
-}
-.confetti:nth-child(3) {
-  left: 30%;
-  width: 12px;
-  height: 6px;
-  background-color: #2ecc71;
-  animation-delay: 3.2s;
-  animation-duration: 4.8s;
-}
-.confetti:nth-child(4) {
-  left: 87%;
-  width: 13px;
-  height: 14px;
-  background-color: #e74c3c;
-  animation-delay: 3.5s;
-  animation-duration: 4.2s;
-}
-.confetti:nth-child(5) {
-  left: 3%;
-  width: 9px;
-  height: 6px;
-  background-color: #f39c12;
-  animation-delay: 0.2s;
-  animation-duration: 5.6s;
-}
-.confetti:nth-child(6) {
-  left: 18%;
-  width: 14px;
-  height: 14px;
-  background-color: #f39c12;
-  animation-delay: 2.8s;
+  background-color: #1abc9c;
+  animation-delay: 2s;
   animation-duration: 5.5s;
 }
-.confetti:nth-child(7) {
-  left: 100%;
-  width: 8px;
-  height: 9px;
-  background-color: #9b59b6;
-  animation-delay: 2.8s;
-  animation-duration: 4.5s;
+.confetti:nth-child(2) {
+  left: 75%;
+  width: 15px;
+  height: 14px;
+  background-color: #3498db;
+  animation-delay: 1.8s;
+  animation-duration: 5.2s;
 }
-.confetti:nth-child(8) {
-  left: 23%;
-  width: 6px;
-  height: 12px;
-  background-color: #2ecc71;
-  animation-delay: 4.3s;
+.confetti:nth-child(3) {
+  left: 4%;
+  width: 7px;
+  height: 14px;
+  background-color: #f39c12;
+  animation-delay: 2.9s;
   animation-duration: 4.9s;
 }
-.confetti:nth-child(9) {
-  left: 91%;
-  width: 13px;
-  height: 6px;
-  background-color: #f1c40f;
-  animation-delay: 4.1s;
-  animation-duration: 5.8s;
+.confetti:nth-child(4) {
+  left: 73%;
+  width: 10px;
+  height: 12px;
+  background-color: #9b59b6;
+  animation-delay: 2.9s;
+  animation-duration: 5.2s;
 }
-.confetti:nth-child(10) {
-  left: 15%;
+.confetti:nth-child(5) {
+  left: 55%;
+  width: 10px;
+  height: 8px;
+  background-color: #594C45;
+  animation-delay: 5s;
+  animation-duration: 5.2s;
+}
+.confetti:nth-child(6) {
+  left: 48%;
   width: 14px;
+  height: 11px;
+  background-color: #1abc9c;
+  animation-delay: 2.6s;
+  animation-duration: 4.2s;
+}
+.confetti:nth-child(7) {
+  left: 41%;
+  width: 8px;
+  height: 14px;
+  background-color: #2ecc71;
+  animation-delay: 1.4s;
+  animation-duration: 5.5s;
+}
+.confetti:nth-child(8) {
+  left: 75%;
+  width: 7px;
   height: 13px;
   background-color: #3498db;
-  animation-delay: 4.1s;
+  animation-delay: 1.6s;
+  animation-duration: 5.5s;
+}
+.confetti:nth-child(9) {
+  left: 25%;
+  width: 9px;
+  height: 8px;
+  background-color: #1abc9c;
+  animation-delay: 2.6s;
+  animation-duration: 4.9s;
+}
+.confetti:nth-child(10) {
+  left: 49%;
+  width: 8px;
+  height: 11px;
+  background-color: #9b59b6;
+  animation-delay: 0.4s;
   animation-duration: 5.2s;
 }
 .confetti:nth-child(11) {
-  left: 44%;
-  width: 14px;
-  height: 11px;
+  left: 74%;
+  width: 8px;
+  height: 6px;
   background-color: #2ecc71;
-  animation-delay: 4.5s;
-  animation-duration: 6s;
+  animation-delay: 0.9s;
+  animation-duration: 4.7s;
 }
 .confetti:nth-child(12) {
-  left: 6%;
-  width: 13px;
-  height: 6px;
-  background-color: #594C45;
+  left: 96%;
+  width: 7px;
+  height: 13px;
+  background-color: #f39c12;
   animation-delay: 0.3s;
-  animation-duration: 4.8s;
+  animation-duration: 4.4s;
 }
 .confetti:nth-child(13) {
-  left: 11%;
-  width: 13px;
-  height: 11px;
-  background-color: #f39c12;
-  animation-delay: 2.7s;
-  animation-duration: 5s;
+  left: 3%;
+  width: 8px;
+  height: 6px;
+  background-color: #1abc9c;
+  animation-delay: 0.3s;
+  animation-duration: 6s;
 }
 .confetti:nth-child(14) {
-  left: 53%;
-  width: 9px;
-  height: 12px;
-  background-color: #1abc9c;
-  animation-delay: 4.2s;
-  animation-duration: 5.2s;
+  left: 73%;
+  width: 11px;
+  height: 15px;
+  background-color: #9b59b6;
+  animation-delay: 1.9s;
+  animation-duration: 5.9s;
 }
 .confetti:nth-child(15) {
-  left: 85%;
-  width: 13px;
-  height: 7px;
-  background-color: #1abc9c;
-  animation-delay: 2s;
-  animation-duration: 4.7s;
+  left: 62%;
+  width: 15px;
+  height: 13px;
+  background-color: #3498db;
+  animation-delay: 1.9s;
+  animation-duration: 5.7s;
 }
 
 @keyframes pulse {
