@@ -77,3 +77,404 @@
         }
     }
 }
+
+// Variables (usar las mismas que en orderConfirmation.scss)
+$primary-color: #594C45;
+$primary-light: lighten($primary-color, 45%);
+$primary-dark: darken($primary-color, 10%);
+$accent-color: #F09819;
+$text-color: #333;
+$text-light: #666;
+$border-color: #e0e0e0;
+$success-color: #4CAF50;
+$pending-color: #F39C12;
+$shipped-color: #3498DB;
+$card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+// Base existente para profile-container...
+
+// Nuevos estilos para las pestañas
+.profile-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 1px solid $border-color;
+
+    .tab {
+        padding: 15px 25px;
+        font-weight: 600;
+        color: $text-light;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        text-align: center;
+        flex: 1;
+
+        &:hover {
+            color: $primary-color;
+        }
+
+        &.active {
+            color: $primary-color;
+            border-bottom-color: $primary-color;
+        }
+    }
+}
+
+.tab-content {
+    display: none;
+
+    &.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+// Estilos para la lista de pedidos
+.orders-list {
+    .order-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        overflow: hidden;
+        border: 1px solid $border-color;
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #f2f2f2;
+            }
+
+            .order-info {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                .order-number, .order-date {
+                    display: flex;
+                    align-items: center;
+                    
+                    .label {
+                        color: $text-light;
+                        font-size: 13px;
+                        margin-right: 5px;
+                    }
+                    
+                    .value {
+                        font-weight: 600;
+                        font-size: 14px;
+                    }
+                }
+
+                .order-number .value {
+                    color: $primary-color;
+                }
+            }
+
+            .order-status-price {
+                text-align: right;
+
+                .order-status {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    margin-bottom: 5px;
+
+                    &.status-pending {
+                        background-color: lighten($pending-color, 35%);
+                        color: darken($pending-color, 15%);
+                    }
+
+                    &.status-paid {
+                        background-color: lighten($success-color, 45%);
+                        color: darken($success-color, 10%);
+                    }
+
+                    &.status-shipped {
+                        background-color: lighten($shipped-color, 40%);
+                        color: darken($shipped-color, 15%);
+                    }
+                }
+
+                .order-price {
+                    .label {
+                        color: $text-light;
+                        font-size: 13px;
+                        margin-right: 5px;
+                    }
+                    
+                    .value {
+                        font-weight: 700;
+                        font-size: 15px;
+                        color: $primary-color;
+                    }
+                }
+            }
+
+            .order-toggle {
+                margin-left: 15px;
+                color: $text-light;
+                
+                svg {
+                    transition: transform 0.3s ease;
+                }
+            }
+        }
+
+        .order-details {
+            display: none;
+            padding: 0;
+            max-height: 0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border-top: 1px solid $border-color;
+
+            .order-address {
+                padding: 20px;
+                border-bottom: 1px solid $border-color;
+
+                h3 {
+                    margin-top: 0;
+                    font-size: 16px;
+                    color: $primary-color;
+                    margin-bottom: 15px;
+                    font-weight: 600;
+                }
+
+                .address-card {
+                    background-color: #f9f9f9;
+                    border-radius: 6px;
+                    padding: 15px;
+                    
+                    .address-name {
+                        font-weight: 700;
+                        font-size: 15px;
+                        margin-bottom: 8px;
+                    }
+                    
+                    .address-line {
+                        margin-bottom: 3px;
+                        font-size: 14px;
+                    }
+                    
+                    .address-phone {
+                        margin-top: 8px;
+                        display: flex;
+                        align-items: center;
+                        color: $primary-color;
+                        font-size: 14px;
+                        
+                        svg {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+
+            .order-items-container {
+                padding: 20px;
+                border-bottom: 1px solid $border-color;
+
+                h3 {
+                    margin-top: 0;
+                    font-size: 16px;
+                    color: $primary-color;
+                    margin-bottom: 15px;
+                    font-weight: 600;
+                }
+
+                .order-items-list {
+                    .order-item {
+                        display: grid;
+                        grid-template-columns: auto 1fr auto;
+                        gap: 15px;
+                        align-items: center;
+                        padding: 15px;
+                        border: 1px solid $border-color;
+                        border-radius: 8px;
+                        margin-bottom: 10px;
+                        
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                        
+                        .item-image {
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 6px;
+                            overflow: hidden;
+                            
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: contain;
+                            }
+                            
+                            .no-image {
+                                width: 100%;
+                                height: 100%;
+                                background-color: #f5f5f5;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+                        
+                        .item-details {
+                            h4 {
+                                margin: 0 0 8px;
+                                font-size: 15px;
+                                font-weight: 600;
+                                color: $text-color;
+                            }
+                            
+                            .item-specs {
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 12px;
+                                margin-bottom: 8px;
+                                font-size: 13px;
+                                color: $text-light;
+                            }
+                            
+                            .item-price {
+                                color: $primary-color;
+                                font-weight: 600;
+                                font-size: 14px;
+                            }
+                        }
+                        
+                        .item-total {
+                            text-align: right;
+                            
+                            .item-total-label {
+                                font-size: 12px;
+                                color: $text-light;
+                                margin-bottom: 3px;
+                            }
+                            
+                            .item-total-price {
+                                font-weight: 700;
+                                font-size: 15px;
+                                color: $primary-color;
+                            }
+                        }
+                        
+                        @media (max-width: 600px) {
+                            grid-template-columns: auto 1fr;
+                            
+                            .item-total {
+                                grid-column: 1 / -1;
+                                display: flex;
+                                justify-content: space-between;
+                                margin-top: 10px;
+                                padding-top: 10px;
+                                border-top: 1px dashed $border-color;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .order-summary {
+                padding: 20px;
+                
+                .summary-row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 0;
+                    font-size: 14px;
+                    
+                    &.total {
+                        margin-top: 8px;
+                        padding-top: 12px;
+                        border-top: 1px solid $border-color;
+                        font-weight: 700;
+                        font-size: 16px;
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+
+        &.expanded {
+            .order-details {
+                display: block;
+                max-height: 2000px; // Valor alto para asegurar que se muestre todo
+                padding: 0;
+            }
+        }
+    }
+}
+
+// Estado sin pedidos
+.no-orders {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    .no-orders-icon {
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        margin: 0 0 10px;
+        color: $text-color;
+        font-size: 20px;
+    }
+
+    p {
+        margin: 0 0 25px;
+        color: $text-light;
+    }
+
+    .primary-button {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: $primary-color;
+        color: white;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: $primary-dark;
+        }
+    }
+}
+
+// Botones
+.primary-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: $primary-dark;
+    }
+}
