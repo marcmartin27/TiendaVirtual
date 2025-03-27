@@ -169,6 +169,141 @@ function closeModal() {
     modal.style.display = 'none';
 }
 
+function buyNow() {
+    // Verificar si se ha seleccionado una talla
+    if (!selectedSize || selectedSize === 'Ninguna' || selectedSizeStock <= 0) {
+        alert('Por favor, selecciona una talla disponible antes de continuar');
+        return;
+    }
+    
+    // Obtener los datos del producto
+    const addToCartBtn = document.getElementById('add-to-cart');
+    const productId = addToCartBtn.getAttribute('data-product-id');
+    const productName = addToCartBtn.getAttribute('data-product-name');
+    const productPrice = addToCartBtn.getAttribute('data-product-price');
+    const productNewPrice = addToCartBtn.getAttribute('data-product-new-price');
+    const productImage = addToCartBtn.getAttribute('data-product-image');
+    const currentQuantity = parseInt(document.getElementById('quantity').value);
+    
+    // Determinar el precio correcto (regular o rebajado)
+    const finalPrice = (productNewPrice && productNewPrice !== "null" && productNewPrice !== "0") 
+                     ? parseFloat(productNewPrice) 
+                     : parseFloat(productPrice);
+    
+    // Verificar que la cantidad sea válida
+    if (isNaN(currentQuantity) || currentQuantity < 1 || currentQuantity > selectedSizeStock) {
+        alert('La cantidad seleccionada no es válida');
+        return;
+    }
+    
+    // Obtener el token CSRF
+    const metaToken = document.querySelector('meta[name="csrf-token"]');
+    if (!metaToken) {
+        console.error('No se encontró el token CSRF');
+        alert('Error de configuración: Token CSRF no encontrado');
+        return;
+    }
+    
+    const csrfToken = metaToken.getAttribute('content');
+    const userIdElement = document.getElementById('userId');
+    const userId = userIdElement ? userIdElement.value : null;
+    
+    // Mostrar indicador de carga
+    const buyNowBtn = document.getElementById('buy-now');
+    const originalText = buyNowBtn.textContent;
+    buyNowBtn.textContent = 'Procesando...';
+    buyNowBtn.disabled = true;
+
+    // Primero añadir este producto al localStorage para que esté disponible en todas partes
+    const cartItem = {
+        id: productId,
+        name: productName,
+        price: finalPrice,
+        quantity: currentQuantity,
+        size: selectedSize,
+        image: productImage,
+        isCustomized: false
+    };
+    
+    // Guardar en localStorage
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
+    // Verificar si el producto ya existe con la misma talla
+    const existingItemIndex = cartItems.findIndex(item => 
+        String(item.id) === String(productId) && item.size === selectedSize
+    );
+    
+    if (existingItemIndex !== -1) {
+        // Actualizar cantidad si ya existe
+        cartItems[existingItemIndex].quantity = currentQuantity;
+    } else {
+        // Agregar nuevo item
+        cartItems.push(cartItem);
+    }
+    
+    // Guardar el carrito actualizado
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    // Ahora enviar los datos al servidor en el formato que espera
+    fetch('/save-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: userId,
+            cartItems: cartItems
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Por favor inicia sesión para añadir productos al carrito');
+            } else {
+                throw new Error('Error en el servidor: ' + response.status);
+            }
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Redirigir directamente al checkout
+        window.location.href = '/checkout';
+    })
+    // Reemplaza la sección de manejo de errores con este código:
+    .catch(error => {
+        console.error('Error:', error);
+        
+        if (error.message.includes('inicia sesión')) {
+            // En lugar de redirigir, activa el modal de login
+            const loginModal = document.getElementById('login-modal');
+            if (loginModal) {
+                // Si existe un modal con ID 'login-modal'
+                loginModal.classList.add('show');
+                loginModal.style.display = 'block';
+            } else {
+                // Si no hay un modal específico, busca un botón de login y haz clic en él
+                const loginBtn = document.querySelector('.login-btn') || 
+                                document.querySelector('[data-toggle="modal"][data-target="#loginModal"]') ||
+                                document.getElementById('login-button');
+                
+                if (loginBtn) {
+                    loginBtn.click(); // Simular clic en el botón de login
+                } else {
+                    // Si todo lo demás falla, muestra una alerta
+                    alert('Por favor inicia sesión para continuar con la compra.');
+                }
+            }
+        } else {
+            alert(error.message || 'Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo.');
+        }
+        
+        // Restaurar el botón
+        buyNowBtn.textContent = originalText;
+        buyNowBtn.disabled = false;
+    });
+}
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar visualización de imágenes
     const images = document.querySelectorAll('.product-image');
@@ -223,6 +358,32 @@ document.addEventListener('DOMContentLoaded', function () {
     if (increaseBtn) {
         increaseBtn.addEventListener('click', function() {
             updateQuantity(1);
+        });
+    }
+
+    // Inicializar botón de compra rápida
+    const buyNowBtn = document.getElementById('buy-now');
+    if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', buyNow);
+    }
+
+    // Manejar cambios en el input de cantidad
+    const quantityInput = document.getElementById('quantity');
+    if (quantityInput) {
+        quantityInput.addEventListener('change', function() {
+            let value = parseInt(this.value);
+            
+            // Validar el valor introducido
+            if (isNaN(value) || value < 1) {
+                value = 1;
+            } else if (value > selectedSizeStock) {
+                value = selectedSizeStock;
+            }
+            
+            // Actualizar la cantidad y la UI
+            quantity = value;
+            this.value = value;
+            updateQuantityButtonsState();
         });
     }
 });

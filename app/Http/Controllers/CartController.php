@@ -11,7 +11,15 @@ class CartController extends Controller
 {
     public function saveCart(Request $request)
     {
-        $userId = $request->input('userId');
+
+    // Verificar primero si el usuario está autenticado
+    if (!Auth::check() && !$request->input('userId')) {
+        return response()->json([
+            'success' => false, 
+            'message' => 'Debe iniciar sesión para añadir productos al carrito'
+        ], 401);
+    }
+        $userId = $request->input('userId') ?: Auth::id();
         $cartItems = $request->input('cartItems', []);
         
         // Si el carrito está vacío, eliminar todos los elementos del carrito del usuario
