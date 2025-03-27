@@ -15,23 +15,28 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 30px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 40px; // Aumentado: 20px -> 30px vertical, 40px horizontal
+    padding: 40px; // Aumentado: 30px -> 40px
 
     .form-group {
         margin-bottom: 15px;
+        padding: 0 10px;
 
         label {
             display: block;
             margin-bottom: 5px;
             color: #333;
             font-weight: 500;
-            margin-left: 70px;
+            margin-left: 0; // Eliminar margen izquierdo
         }
 
         input {
-            display: block; /* Asegura que los inputs sean elementos de bloque */
-            width: 80%; /* Ajusta la longitud de los inputs */
-            margin: 0 auto; /* Centra los inputs horizontalmente */
+            width: calc(100% - 20px); // Ajustado para considerar el padding
+            margin: 0 10px; // Añadido margen lateral
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -44,23 +49,10 @@
         }
     }
 
-    .form-row {
-        display: flex;
-        gap: 15px;
-
-        .half {
-            flex: 1;
-        }
-
-        @media (max-width: 500px) {
-            flex-direction: column;
-            gap: 5px;
-        }
-    }
-
+    // El botón ocupará ambas columnas
     button {
-        display: block;
-        width: 80%;
+        grid-column: 1 / -1; // Hace que el botón ocupe ambas columnas
+        width: 50%; // Reducir el ancho del botón
         padding: 12px;
         background-color: #594C45;
         color: white;
@@ -69,11 +61,21 @@
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s;
-        margin-top: 15px;
-        margin: 0 auto;
+        margin: 15px auto 0; // Centrar el botón
 
         &:hover {
             background-color: #4a3d37;
+        }
+    }
+
+    // Hacer responsivo para móviles
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr; // Una sola columna en móviles
+        gap: 10px;
+        padding: 20px;
+
+        button {
+            width: 100%; // Botón a ancho completo en móviles
         }
     }
 }
