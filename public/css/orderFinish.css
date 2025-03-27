@@ -41,6 +41,7 @@
 }
 .checkout-form .form-group {
   margin-bottom: 15px;
+  padding: 0 20px;
 }
 .checkout-form .form-group label {
   display: block;
@@ -54,6 +55,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 .checkout-form .form-group input:focus, .checkout-form .form-group select:focus {
   border-color: #594C45;
@@ -149,9 +151,9 @@
 .checkout-actions .back-link:hover {
   text-decoration: underline;
 }
-.checkout-actions #checkoutButton {
+.checkout-actions .checkout-button {
   display: block;
-  width: 100%;
+  width: 50%;
   padding: 12px;
   background-color: #594C45;
   color: white;
@@ -162,7 +164,7 @@
   transition: background-color 0.3s;
   margin-top: 15px;
 }
-.checkout-actions #checkoutButton:hover {
+.checkout-actions .checkout-button:hover {
   background-color: #4a3d37;
 }
 

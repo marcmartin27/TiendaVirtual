@@ -44,6 +44,7 @@
     
     .form-group {
         margin-bottom: 15px;
+        padding: 0 20px; // Añadir padding horizontal uniforme
         
         label {
             display: block;
@@ -53,11 +54,12 @@
         }
         
         input, select {
-            width: 100%;
+            width: 100%; // Cambiar de 80% a 100%
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 16px;
+            box-sizing: border-box; // Asegurar que el padding no afecte el ancho total
             
             &:focus {
                 border-color: #594C45;
@@ -173,9 +175,9 @@
         }
     }
     
-    #checkoutButton {
+    .checkout-button {
         display: block;
-        width: 100%;
+        width: 50%;
         padding: 12px;
         background-color: #594C45;
         color: white;

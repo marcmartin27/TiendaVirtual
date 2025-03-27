@@ -315,15 +315,63 @@ td {
   border-radius: 8px;
   width: 90%;
   max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
   position: relative;
   z-index: 1001;
+}
+.modal-container h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+.modal-container .form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+.modal-container .form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #333;
+}
+.modal-container .form-group input[type=text],
+.modal-container .form-group input[type=email],
+.modal-container .form-group input[type=password],
+.modal-container .form-group input[type=number],
+.modal-container .form-group select,
+.modal-container .form-group textarea {
+  width: calc(100% - 24px);
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+.modal-container .form-group input[type=text]:focus,
+.modal-container .form-group input[type=email]:focus,
+.modal-container .form-group input[type=password]:focus,
+.modal-container .form-group input[type=number]:focus,
+.modal-container .form-group select:focus,
+.modal-container .form-group textarea:focus {
+  outline: none;
+  border-color: #594C45;
+  box-shadow: 0 0 0 2px rgba(89, 76, 69, 0.1);
+}
+.modal-container .form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+.modal-container button {
+  padding: 8px 16px;
+  margin-top: 10px;
 }
 
 .sizes-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .size-input {
@@ -331,11 +379,12 @@ td {
   flex-direction: column;
 }
 .size-input label {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   font-weight: 500;
+  font-size: 13px;
 }
 .size-input input {
-  padding: 8px;
+  padding: 6px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
