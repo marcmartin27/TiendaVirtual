@@ -117,12 +117,9 @@ class CheckoutController extends Controller
         // Guardar la información del formulario en sesión
         $request->session()->put('checkout_data', $request->all());
         
-        // Verificar stock antes de procesar
-        $stockCheck = $this->verificarStockUsuario();
-        
-        if (!$stockCheck['valid']) {
-            return back()->with('error', $stockCheck['message']);
-        }
+        // Capturar explícitamente el valor del descuento y el código del cupón
+        $discountValue = floatval($request->input('discount_value', 0));
+        $appliedCoupon = $request->input('applied_coupon', '');
         
         // Calcular el total del carrito
         $userId = Auth::id();
@@ -137,38 +134,18 @@ class CheckoutController extends Controller
             $total += $price * $item->quantity;
         }
         
-        // Procesar el descuento del cupón
-        $discountAmount = 0;
-        $couponCode = $request->input('coupon_code');
+        // Calcular el total final con descuento
+        $finalTotal = $total - $discountValue;
         
-        if (!empty($couponCode)) {
-            // Validar el cupón
-            $coupon = Coupon::where('code', $couponCode)
-                        ->where(function($query) use ($userId) {
-                            $query->whereNull('user_id')
-                                    ->orWhere('user_id', $userId);
-                        })
-                        ->where('is_used', false)
-                        ->where('valid_until', '>', now())
-                        ->first();
-                        
-            if ($coupon) {
-                // Calcular el descuento (asumimos que es un porcentaje)
-                $discountAmount = ($total * $coupon->discount) / 100;
-                
-                // Guardar en sesión para usarlo después
-                $request->session()->put('applied_coupon', $couponCode);
-                $request->session()->put('discount_amount', $discountAmount);
-            }
-        }
+        // No permitir totales negativos
+        $finalTotal = max(0, $finalTotal);
         
-        // Calcular total final después del descuento
-        $finalTotal = $total - $discountAmount;
-        
-        // Guardar el total en la sesión
+        // Guardar los valores correctamente en la sesión
         $request->session()->put('order_total', $finalTotal);
+        $request->session()->put('discount_value', $discountValue);
+        $request->session()->put('applied_coupon', $appliedCoupon);
         
-        // Crear orden de PayPal con el total final
+        // Crear orden de PayPal con el total DESPUÉS del descuento
         $paypalLink = $this->paypalService->createOrder($finalTotal);
         
         if (!$paypalLink) {
@@ -193,8 +170,11 @@ class CheckoutController extends Controller
         $orderTotal = $request->session()->get('order_total', 0);
         
         // Recuperar datos del cupón
-        $appliedCoupon = $request->session()->get('applied_coupon');
-        $discountAmount = $request->session()->get('discount_amount', 0);
+        $appliedCoupon = $request->session()->get('applied_coupon', '');
+        $discountAmount = $request->session()->get('discount_value', 0);
+        
+        // Calcular el subtotal (lo que habría costado sin descuento)
+        $subtotal = $orderTotal + $discountAmount;
         
         // Crear la orden en nuestra base de datos
         $order = new Order();
@@ -205,7 +185,7 @@ class CheckoutController extends Controller
         $order->payment_id = $orderId;
         
         // Añadir información del descuento
-        $order->discount_amount = $discountAmount;
+        $order->discount_amount = $discountAmount;  // Asegurarse que este valor se guarda correctamente
         $order->coupon_code = $appliedCoupon;
         
         // Datos de envío

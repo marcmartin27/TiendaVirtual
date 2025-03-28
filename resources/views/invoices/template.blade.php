@@ -81,6 +81,21 @@
     </style>
 </head>
 <body>
+    @php
+    // Calcular el descuento basado en el código del cupón si discount_amount es 0
+    $calculatedDiscountAmount = $order->discount_amount;
+    $couponPercentage = 10; // 10% por defecto para los cupones SNEAKS10-*
+    $originalTotal = $order->total;
+    
+    if (!empty($order->coupon_code) && $order->discount_amount == 0) {
+        // Si es un cupón SNEAKS10, suponemos 10% de descuento
+        if (strpos($order->coupon_code, 'SNEAKS10') === 0) {
+            // El precio actual es después del descuento, calculamos el original
+            $originalTotal = $order->total / 0.9; // 100% - 10% = 90% = 0.9
+            $calculatedDiscountAmount = $originalTotal - $order->total;
+        }
+    }
+    @endphp
     <div class="invoice-header">
         <img src="{{ public_path('images/logo.png') }}" alt="Sneaks Logo" class="logo">
         <div class="company-info">
@@ -143,12 +158,12 @@
     <table class="totals">
         <tr>
             <td>Subtotal</td>
-            <td class="text-right">{{ number_format($order->total + $order->discount_amount, 2) }} €</td>
+            <td class="text-right">{{ number_format($originalTotal, 2) }} €</td>
         </tr>
-        @if($order->discount_amount > 0)
+        @if(!empty($order->coupon_code))
         <tr>
             <td>Descuento @if($order->coupon_code)({{ $order->coupon_code }})@endif</td>
-            <td class="text-right">-{{ number_format($order->discount_amount, 2) }} €</td>
+            <td class="text-right">-{{ number_format($calculatedDiscountAmount, 2) }} €</td>
         </tr>
         @endif
         <tr>

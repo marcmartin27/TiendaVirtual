@@ -589,3 +589,72 @@ $card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-top: 1px solid #eee;
     color: #28a745;
 }
+
+.discount-row {
+    color: #28a745;
+    font-weight: 500;
+    
+    
+}
+
+// Estilos para el mensaje de ahorro por descuento
+.savings-alert {
+    display: flex;
+    background-color: rgba(40, 167, 69, 0.1);
+    border-left: 4px solid #28a745;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    animation: pulse 2s infinite;
+    
+    .savings-icon {
+        margin-right: 15px;
+        
+        svg {
+            width: 28px;
+            height: 28px;
+        }
+    }
+    
+    .savings-content {
+        h3 {
+            color: #28a745;
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        
+        strong {
+            color: #28a745;
+            font-weight: 600;
+        }
+    }
+}
+
+// Animación de pulso para llamar la atención
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+// Mejora visual para la fila de descuento en el resumen
+.discount-row {
+    color: #28a745;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-in;
+    
+
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -96,6 +96,9 @@
                         <button type="button" id="apply-coupon" class="apply-coupon-btn">Aplicar</button>
                     </div>
                     <div id="coupon-message" class="coupon-message"></div>
+                    
+                    <input type="hidden" id="discount_value" name="discount_value" value="0">
+                    <input type="hidden" id="applied_coupon" name="applied_coupon" value="">
                 </div>
                 
                 <div class="form-section">
@@ -137,8 +140,6 @@
                     <span>Total</span>
                     <span id="total">0.00 €</span>
                 </div>
-                <input type="hidden" id="discount_value" name="discount_value" value="0">
-                <input type="hidden" id="applied_coupon" name="applied_coupon" value="">
             </div>
         </div>
     </div>

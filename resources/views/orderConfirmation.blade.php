@@ -18,7 +18,24 @@
 </div>
 
 <div class="confirmation-container">
+    
     <div class="confirmation-content">
+        @php
+        // Calcular el descuento basado en el código del cupón si discount_amount es 0
+        $calculatedDiscountAmount = $order->discount_amount;
+        $couponPercentage = 10; // 10% por defecto para los cupones SNEAKS10-*
+        $originalTotal = $order->total;
+        
+        if (!empty($order->coupon_code) && $order->discount_amount == 0) {
+            // Si es un cupón SNEAKS10, suponemos 10% de descuento
+            if (strpos($order->coupon_code, 'SNEAKS10') === 0) {
+                // El precio actual es después del descuento, calculamos el original
+                $originalTotal = $order->total / 0.9; // 100% - 10% = 90% = 0.9
+                $calculatedDiscountAmount = $originalTotal - $order->total;
+            }
+        }
+        @endphp
+
         <div class="confirmation-header">
             <div class="success-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
@@ -86,12 +103,21 @@
                 <div class="price-summary">
                     <div class="price-row">
                         <span>Subtotal</span>
-                        <span>{{ number_format($order->total, 2) }} €</span>
+                        <span>{{ number_format($originalTotal, 2) }} €</span>
                     </div>
+                    
+                    @if(!empty($order->coupon_code))
+                    <div class="price-row discount-row">
+                        <span>Descuento ({{ $order->coupon_code }})</span>
+                        <span>-{{ number_format($calculatedDiscountAmount, 2) }} €</span>
+                    </div>
+                    @endif
+                    
                     <div class="price-row">
                         <span>Envío</span>
                         <span>Gratis</span>
                     </div>
+                    
                     <div class="price-row total">
                         <span>Total</span>
                         <span>{{ number_format($order->total, 2) }} €</span>
@@ -118,6 +144,24 @@
                 </div>
             </div>
         </div>
+
+        @if(!empty($order->coupon_code))
+            <div class="savings-alert">
+                <div class="savings-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#28a745" d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
+                    </svg>
+                </div>
+                <div class="savings-content">
+                    <h3>¡Has ahorrado con tu cupón!</h3>
+                    <p>
+                        Gracias a tu cupón <strong>{{ $order->coupon_code }}</strong> 
+                        has ahorrado <strong>{{ number_format($calculatedDiscountAmount, 2) }} €</strong>
+                        ({{ $couponPercentage }}% de descuento).
+                    </p>
+                </div>
+            </div>
+        @endif
         
         <div class="order-items">
             <h2>Productos comprados</h2>
@@ -227,4 +271,4 @@
 @include('footer')
 
 </body>
-
+</html>

@@ -232,3 +232,16 @@ function updateTotal(newTotal) {
         totalElement.innerText = newTotal.toFixed(2) + ' €';
     }
 }
+
+// Verificar que los valores de descuento se envían correctamente
+document.querySelector('form').addEventListener('submit', function(e) {
+    // Imprimir en consola para depuración
+    console.log('Enviando formulario con descuento:', document.getElementById('discount_value').value);
+    console.log('Cupón aplicado:', document.getElementById('applied_coupon').value);
+    
+    // También puedes actualizar los valores justo antes de enviar
+    if (discountApplied && discountAmount > 0) {
+        document.getElementById('discount_value').value = discountAmount;
+        document.getElementById('applied_coupon').value = discountCode;
+    }
+});
