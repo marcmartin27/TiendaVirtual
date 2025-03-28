@@ -504,3 +504,40 @@ $card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
     }
 }
+
+.confirmation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+
+    .invoice-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 20px;
+        background-color: #f5f3f2;
+        color: #594C45;
+        border: 1px solid #594C45;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        gap: 8px;
+        
+        &:hover {
+            background-color: #594C45;
+            color: white;
+            
+            svg path {
+                fill: white;
+            }
+        }
+        
+        svg path {
+            fill: #594C45;
+            transition: fill 0.2s ease;
+        }
+    }
+}
