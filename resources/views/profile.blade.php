@@ -174,14 +174,38 @@
                                 </div>
                                 
                                 <div class="order-summary">
+                                @php
+                                // Calcular el descuento basado en el código del cupón SIEMPRE que haya un cupón
+                                $calculatedDiscountAmount = $order->discount_amount;
+                                $originalTotal = $order->total;
+
+                                if (!empty($order->coupon_code)) {
+                                    // Si es un cupón SNEAKS10, suponemos 10% de descuento
+                                    if (strpos($order->coupon_code, 'SNEAKS10') === 0) {
+                                        // El precio actual es después del descuento, calculamos el original
+                                        $originalTotal = $order->total / 0.9; // 100% - 10% = 90% = 0.9
+                                        $calculatedDiscountAmount = $originalTotal - $order->total;
+                                    }
+                                }
+                                @endphp
+                                    
                                     <div class="summary-row">
                                         <span>Subtotal</span>
-                                        <span>{{ number_format($order->total, 2) }} €</span>
+                                        <span>{{ number_format($originalTotal, 2) }} €</span>
                                     </div>
+                                    
+                                    @if(!empty($order->coupon_code))
+                                    <div class="summary-row discount-row">
+                                        <span>Descuento ({{ $order->coupon_code }})</span>
+                                        <span>-{{ number_format($calculatedDiscountAmount, 2) }} €</span>
+                                    </div>
+                                    @endif
+                                    
                                     <div class="summary-row">
                                         <span>Envío</span>
                                         <span>Gratis</span>
                                     </div>
+                                    
                                     <div class="summary-row total">
                                         <span>Total</span>
                                         <span>{{ number_format($order->total, 2) }} €</span>
@@ -208,44 +232,6 @@
 
     @include('footer')
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Funcionalidad de pestañas
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabId = this.getAttribute('data-tab');
-                
-                // Desactivar todas las pestañas y contenido
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                
-                // Activar la pestaña seleccionada
-                this.classList.add('active');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-        
-        // Funcionalidad para expandir/colapsar pedidos
-        const orderHeaders = document.querySelectorAll('.order-header');
-        
-        orderHeaders.forEach(header => {
-            header.addEventListener('click', function() {
-                const orderCard = this.closest('.order-card');
-                orderCard.classList.toggle('expanded');
-                
-                // Animar el ícono de toggle
-                const toggleIcon = this.querySelector('.order-toggle svg');
-                if (orderCard.classList.contains('expanded')) {
-                    toggleIcon.style.transform = 'rotate(180deg)';
-                } else {
-                    toggleIcon.style.transform = 'rotate(0)';
-                }
-            });
-        });
-    });
-    </script>
+    <script src="{{ asset('js/profileOrders.js') }}"></script>
 </body>
 </html>

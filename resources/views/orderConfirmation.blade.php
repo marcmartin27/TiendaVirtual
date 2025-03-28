@@ -20,21 +20,21 @@
 <div class="confirmation-container">
     
     <div class="confirmation-content">
-        @php
-        // Calcular el descuento basado en el código del cupón si discount_amount es 0
-        $calculatedDiscountAmount = $order->discount_amount;
-        $couponPercentage = 10; // 10% por defecto para los cupones SNEAKS10-*
-        $originalTotal = $order->total;
-        
-        if (!empty($order->coupon_code) && $order->discount_amount == 0) {
-            // Si es un cupón SNEAKS10, suponemos 10% de descuento
-            if (strpos($order->coupon_code, 'SNEAKS10') === 0) {
-                // El precio actual es después del descuento, calculamos el original
-                $originalTotal = $order->total / 0.9; // 100% - 10% = 90% = 0.9
-                $calculatedDiscountAmount = $originalTotal - $order->total;
-            }
+    @php
+    // Calcular el subtotal y el descuento correctamente
+    $calculatedDiscountAmount = $order->discount_amount;
+    $couponPercentage = 10; // 10% por defecto para los cupones SNEAKS10-*
+    $subtotal = $order->total;
+
+    if (!empty($order->coupon_code)) {
+        // Si es un cupón SNEAKS10, asumimos 10% de descuento
+        if (strpos($order->coupon_code, 'SNEAKS10') === 0) {
+            // Recalcular el subtotal (precio original antes del descuento)
+            $subtotal = $order->total / 0.9; // Precio con descuento dividido por 0.9 (100% - 10%)
+            $calculatedDiscountAmount = $subtotal - $order->total;
         }
-        @endphp
+    }
+    @endphp
 
         <div class="confirmation-header">
             <div class="success-icon">
@@ -101,17 +101,17 @@
             <div class="confirmation-section">
                 <h2>Resumen del pedido</h2>
                 <div class="price-summary">
-                    <div class="price-row">
-                        <span>Subtotal</span>
-                        <span>{{ number_format($originalTotal, 2) }} €</span>
-                    </div>
-                    
-                    @if(!empty($order->coupon_code))
-                    <div class="price-row discount-row">
-                        <span>Descuento ({{ $order->coupon_code }})</span>
-                        <span>-{{ number_format($calculatedDiscountAmount, 2) }} €</span>
-                    </div>
-                    @endif
+                <div class="price-row">
+                    <span>Subtotal</span>
+                    <span>{{ number_format($subtotal, 2) }} €</span>
+                </div>
+
+                @if(!empty($order->coupon_code))
+                <div class="price-row discount-row">
+                    <span>Descuento ({{ $order->coupon_code }})</span>
+                    <span>-{{ number_format($calculatedDiscountAmount, 2) }} €</span>
+                </div>
+                @endif
                     
                     <div class="price-row">
                         <span>Envío</span>

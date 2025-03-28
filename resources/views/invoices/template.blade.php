@@ -82,17 +82,17 @@
 </head>
 <body>
     @php
-    // Calcular el descuento basado en el código del cupón si discount_amount es 0
+    // Calcular el descuento correctamente para TODOS los casos con cupón
     $calculatedDiscountAmount = $order->discount_amount;
-    $couponPercentage = 10; // 10% por defecto para los cupones SNEAKS10-*
-    $originalTotal = $order->total;
-    
-    if (!empty($order->coupon_code) && $order->discount_amount == 0) {
-        // Si es un cupón SNEAKS10, suponemos 10% de descuento
+    $couponPercentage = 10; // 10% para cupones SNEAKS10
+    $subtotalBeforeDiscount = $order->total; // Inicialmente igual al total
+
+    if (!empty($order->coupon_code)) {
+        // SIEMPRE recalcular si hay un código de cupón, sin importar el valor en discount_amount
         if (strpos($order->coupon_code, 'SNEAKS10') === 0) {
-            // El precio actual es después del descuento, calculamos el original
-            $originalTotal = $order->total / 0.9; // 100% - 10% = 90% = 0.9
-            $calculatedDiscountAmount = $originalTotal - $order->total;
+            // Calcular el subtotal original (precio antes de descuento)
+            $subtotalBeforeDiscount = $order->total / 0.9; // Dividir por (1 - descuento/100)
+            $calculatedDiscountAmount = $subtotalBeforeDiscount - $order->total;
         }
     }
     @endphp
@@ -158,10 +158,10 @@
     <table class="totals">
         <tr>
             <td>Subtotal</td>
-            <td class="text-right">{{ number_format($originalTotal, 2) }} €</td>
+            <td class="text-right">{{ number_format($subtotalBeforeDiscount, 2) }} €</td>
         </tr>
         @if(!empty($order->coupon_code))
-        <tr>
+        <tr class="discount-row">
             <td>Descuento @if($order->coupon_code)({{ $order->coupon_code }})@endif</td>
             <td class="text-right">-{{ number_format($calculatedDiscountAmount, 2) }} €</td>
         </tr>
