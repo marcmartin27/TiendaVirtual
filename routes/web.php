@@ -13,6 +13,8 @@ use App\Http\Controllers\ChatbotController;
 use App\Services\PayPalService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\CouponController;
+
 
 
 
@@ -67,3 +69,4 @@ Route::get('/paypal/pay', function (PayPalService $paypal) {
 Route::get('/paypal/success', [App\Http\Controllers\CheckoutController::class, 'paypalSuccess'])->name('paypal.success');
 Route::get('/paypal/cancel', [App\Http\Controllers\CheckoutController::class, 'paypalCancel'])->name('paypal.cancel');
 Route::get('/invoice/{orderId}', [InvoiceController::class, 'generate'])->name('invoice.generate');
+Route::post('/validate-coupon', [CouponController::class, 'validate'])->name('coupon.validate');

@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\PayPalService;
+use App\Models\Coupon;
 
 class CheckoutController extends Controller
 {
@@ -113,7 +114,7 @@ class CheckoutController extends Controller
     // Método para procesar la compra con PayPal
     public function procesarPedido(Request $request)
     {
-        // Guardar la información del formulario en sesión para recuperarla después del pago
+        // Guardar la información del formulario en sesión
         $request->session()->put('checkout_data', $request->all());
         
         // Verificar stock antes de procesar
@@ -126,7 +127,7 @@ class CheckoutController extends Controller
         // Calcular el total del carrito
         $userId = Auth::id();
         $cartItems = Cart::where('user_id', $userId)
-                        ->with('product') // Asegúrate de tener esta relación definida en el modelo Cart
+                        ->with('product')
                         ->get();
         
         $total = 0;
@@ -136,11 +137,39 @@ class CheckoutController extends Controller
             $total += $price * $item->quantity;
         }
         
-        // Guardar el total en la sesión
-        $request->session()->put('order_total', $total);
+        // Procesar el descuento del cupón
+        $discountAmount = 0;
+        $couponCode = $request->input('coupon_code');
         
-        // Crear orden de PayPal
-        $paypalLink = $this->paypalService->createOrder($total);
+        if (!empty($couponCode)) {
+            // Validar el cupón
+            $coupon = Coupon::where('code', $couponCode)
+                        ->where(function($query) use ($userId) {
+                            $query->whereNull('user_id')
+                                    ->orWhere('user_id', $userId);
+                        })
+                        ->where('is_used', false)
+                        ->where('valid_until', '>', now())
+                        ->first();
+                        
+            if ($coupon) {
+                // Calcular el descuento (asumimos que es un porcentaje)
+                $discountAmount = ($total * $coupon->discount) / 100;
+                
+                // Guardar en sesión para usarlo después
+                $request->session()->put('applied_coupon', $couponCode);
+                $request->session()->put('discount_amount', $discountAmount);
+            }
+        }
+        
+        // Calcular total final después del descuento
+        $finalTotal = $total - $discountAmount;
+        
+        // Guardar el total en la sesión
+        $request->session()->put('order_total', $finalTotal);
+        
+        // Crear orden de PayPal con el total final
+        $paypalLink = $this->paypalService->createOrder($finalTotal);
         
         if (!$paypalLink) {
             return back()->with('error', 'Error al conectar con PayPal. Por favor, inténtalo de nuevo.');
@@ -163,6 +192,10 @@ class CheckoutController extends Controller
         $checkoutData = $request->session()->get('checkout_data', []);
         $orderTotal = $request->session()->get('order_total', 0);
         
+        // Recuperar datos del cupón
+        $appliedCoupon = $request->session()->get('applied_coupon');
+        $discountAmount = $request->session()->get('discount_amount', 0);
+        
         // Crear la orden en nuestra base de datos
         $order = new Order();
         $order->user_id = Auth::id();
@@ -170,6 +203,10 @@ class CheckoutController extends Controller
         $order->status = 'Paid';
         $order->payment_method = 'paypal';
         $order->payment_id = $orderId;
+        
+        // Añadir información del descuento
+        $order->discount_amount = $discountAmount;
+        $order->coupon_code = $appliedCoupon;
         
         // Datos de envío
         $order->first_name = $checkoutData['first_name'] ?? '';
@@ -184,6 +221,15 @@ class CheckoutController extends Controller
         $order->phone = $checkoutData['phone'] ?? '';
         
         $order->save();
+        
+        // Si se aplicó un cupón, marcarlo como utilizado
+        if (!empty($appliedCoupon)) {
+            $coupon = Coupon::where('code', $appliedCoupon)->first();
+            if ($coupon) {
+                $coupon->is_used = true;
+                $coupon->save();
+            }
+        }
         
         // Guardar los items de la orden
         $cartItems = Cart::where('user_id', Auth::id())->get();
@@ -219,7 +265,12 @@ class CheckoutController extends Controller
         Cart::where('user_id', Auth::id())->delete();
         
         // Limpiar datos de sesión
-        $request->session()->forget(['checkout_data', 'order_total']);
+        $request->session()->forget([
+            'checkout_data', 
+            'order_total', 
+            'applied_coupon',
+            'discount_amount'
+        ]);
         
         // Redireccionar a la página de confirmación
         return redirect()->route('order.confirmation', $order->id);

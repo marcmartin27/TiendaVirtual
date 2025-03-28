@@ -541,3 +541,51 @@ $card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
     }
 }
+
+/* Estilos para la sección de códigos de descuento */
+.coupon-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.coupon-field {
+    flex: 1;
+}
+
+.apply-coupon-btn {
+    background-color: #594C45;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.apply-coupon-btn:hover {
+    background-color: #463b36;
+}
+
+.coupon-message {
+    font-size: 14px;
+    margin-top: 5px;
+    height: 20px;
+}
+
+.coupon-valid {
+    color: #28a745;
+}
+
+.coupon-invalid {
+    color: #dc3545;
+}
+
+/* Estilos para el descuento en el resumen */
+.discount {
+    padding: 10px 0;
+    font-weight: 600;
+    border-top: 1px solid #eee;
+    color: #28a745;
+}

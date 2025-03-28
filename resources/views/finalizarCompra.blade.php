@@ -86,6 +86,17 @@
                         <input type="tel" id="phone" name="phone" required>
                     </div>
                 </div>
+
+                <div class="form-section discount-section">
+                    <h2>Código de Descuento</h2>
+                    <div class="coupon-container">
+                        <div class="form-group coupon-field">
+                            <input type="text" id="coupon_code" name="coupon_code" placeholder="Ingresa tu código de descuento">
+                        </div>
+                        <button type="button" id="apply-coupon" class="apply-coupon-btn">Aplicar</button>
+                    </div>
+                    <div id="coupon-message" class="coupon-message"></div>
+                </div>
                 
                 <div class="form-section">
                     <h2>Pago</h2>
@@ -117,10 +128,17 @@
                     <span>Envío</span>
                     <span>Gratuito</span>
                 </div>
+                <!-- Fila para el descuento - importante: está oculta por defecto -->
+                <div class="discount" id="discount-row" style="display: none;">
+                    <span>Descuento</span>
+                    <span id="discount-amount">-0.00 €</span>
+                </div>
                 <div class="total">
                     <span>Total</span>
                     <span id="total">0.00 €</span>
                 </div>
+                <input type="hidden" id="discount_value" name="discount_value" value="0">
+                <input type="hidden" id="applied_coupon" name="applied_coupon" value="">
             </div>
         </div>
     </div>

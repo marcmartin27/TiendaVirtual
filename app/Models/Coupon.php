@@ -9,12 +9,22 @@ class Coupon extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['code', 'discount', 'valid_until', 'user_id', 'is_used'];
+    protected $fillable = [
+        'code', 'discount', 'valid_until', 'user_id', 'is_used'
+    ];
     
-    protected $dates = ['valid_until'];
+    protected $casts = [
+        'valid_until' => 'datetime',
+        'is_used' => 'boolean',
+    ];
     
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function isValid()
+    {
+        return !$this->is_used && $this->valid_until->greaterThanOrEqualTo(now());
     }
 }

@@ -143,8 +143,14 @@
     <table class="totals">
         <tr>
             <td>Subtotal</td>
-            <td class="text-right">{{ number_format($order->total, 2) }} €</td>
+            <td class="text-right">{{ number_format($order->total + $order->discount_amount, 2) }} €</td>
         </tr>
+        @if($order->discount_amount > 0)
+        <tr>
+            <td>Descuento @if($order->coupon_code)({{ $order->coupon_code }})@endif</td>
+            <td class="text-right">-{{ number_format($order->discount_amount, 2) }} €</td>
+        </tr>
+        @endif
         <tr>
             <td>IVA (21%)</td>
             <td class="text-right">Incluido</td>
