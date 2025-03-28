@@ -542,25 +542,40 @@ $card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 }
 
-/* Estilos para la sección de códigos de descuento */
+/* Ajustes para el contenedor del cupón y botón */
 .coupon-container {
     display: flex;
-    gap: 10px;
     margin-bottom: 10px;
+    width: 100%;
 }
 
+/* Ajustes para el campo del cupón */
 .coupon-field {
-    flex: 1;
+    display: flex;
+    width: 100%;
+    
+    input {
+        flex: 1;
+        height: 36px;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px 0 0 5px;
+        border-right: none;
+    }
 }
 
+/* Estilo para el botón de aplicar cupón */
 .apply-coupon-btn {
     background-color: #594C45;
     color: white;
     border: none;
-    padding: 0 20px;
-    border-radius: 5px;
+    padding: 8px 15px;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
     font-weight: 600;
+    font-size: 14px;
+    height: 36px;
+    line-height: 1;
     transition: background-color 0.3s ease;
 }
 

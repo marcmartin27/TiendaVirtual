@@ -92,8 +92,8 @@
                     <div class="coupon-container">
                         <div class="form-group coupon-field">
                             <input type="text" id="coupon_code" name="coupon_code" placeholder="Ingresa tu código de descuento">
+                            <button type="button" id="apply-coupon" class="apply-coupon-btn">Aplicar</button>
                         </div>
-                        <button type="button" id="apply-coupon" class="apply-coupon-btn">Aplicar</button>
                     </div>
                     <div id="coupon-message" class="coupon-message"></div>
                     
@@ -101,10 +101,7 @@
                     <input type="hidden" id="applied_coupon" name="applied_coupon" value="">
                 </div>
                 
-                <div class="form-section">
-                    <h2>Pago</h2>
-                    <p>Métodos de pago disponibles próximamente</p>
-                </div>
+
                 
                 <div class="checkout-actions">
                     <a href="/" class="back-link">Volver a la tienda</a>
