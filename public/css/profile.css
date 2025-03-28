@@ -395,4 +395,39 @@
 }
 .primary-button:hover {
   background-color: #3c332f;
+}
+
+.order-invoice {
+  margin-top: 10px;
+}
+.order-invoice .invoice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: #f5f3f2;
+  color: #594C45;
+  border: 1px solid #594C45;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.order-invoice .invoice-btn:hover {
+  background-color: #594C45;
+  color: white;
+}
+.order-invoice .invoice-btn:hover svg path {
+  fill: white;
+}
+.order-invoice .invoice-btn svg {
+  margin-right: 3px;
+}
+
+.order-status-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }/*# sourceMappingURL=profile.css.map */

@@ -12,6 +12,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ChatbotController;
 use App\Services\PayPalService;
 use Illuminate\Http\Request;
+use App\Http\Controllers\InvoiceController;
 
 
 
@@ -63,7 +64,6 @@ Route::get('/paypal/pay', function (PayPalService $paypal) {
     }
     return 'Ocurrió un error al crear la orden';
 })->name('paypal.pay');
-
 Route::get('/paypal/success', [App\Http\Controllers\CheckoutController::class, 'paypalSuccess'])->name('paypal.success');
-
 Route::get('/paypal/cancel', [App\Http\Controllers\CheckoutController::class, 'paypalCancel'])->name('paypal.cancel');
+Route::get('/invoice/{orderId}', [InvoiceController::class, 'generate'])->name('invoice.generate');
