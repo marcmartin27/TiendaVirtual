@@ -154,19 +154,35 @@ function changeImageInModal(direction) {
     modalImg.src = currentImage.src;
 }
 
+// Modificar la función openModal
 function openModal() {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const images = document.querySelectorAll('.product-image');
     const currentImage = images[currentImageIndex];
+    
+    // Ocultar las flechas del slider principal
+    const mainSliderPrev = document.querySelector('.image-slider .prev');
+    const mainSliderNext = document.querySelector('.image-slider .next');
+    if (mainSliderPrev) mainSliderPrev.style.display = 'none';
+    if (mainSliderNext) mainSliderNext.style.display = 'none';
+    
+    // Mostrar el modal
     modal.style.display = 'flex';
     modalImg.src = currentImage.src;
     modalImg.style.transform = 'scale(1)';
 }
 
+// Modificar la función closeModal
 function closeModal() {
     const modal = document.getElementById('imageModal');
     modal.style.display = 'none';
+    
+    // Mostrar nuevamente las flechas del slider principal
+    const mainSliderPrev = document.querySelector('.image-slider .prev');
+    const mainSliderNext = document.querySelector('.image-slider .next');
+    if (mainSliderPrev) mainSliderPrev.style.display = 'block';
+    if (mainSliderNext) mainSliderNext.style.display = 'block';
 }
 
 function buyNow() {

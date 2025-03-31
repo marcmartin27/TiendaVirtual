@@ -485,3 +485,137 @@ body {
         margin: 10px 0;
     }
 }
+
+// Media queries para el popup de login/registro
+@media screen and (max-width: 768px) {
+    .popup {
+        flex-direction: column;
+        width: 90%;
+        max-width: 450px;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .left {
+        border-radius: 10px 10px 0 0;
+        padding: 20px;
+        
+        .logo-large {
+            display: none; // Ocultamos la imagen grande en móviles
+        }
+        
+        .logo-small {
+            width: 50%;
+            max-width: 150px;
+            margin: 10px auto;
+        }
+    }
+    
+    .right {
+        border-radius: 0 0 10px 10px;
+        padding: 20px;
+        
+        .logo-form {
+            width: 25%;
+            max-width: 70px;
+            margin: 10px auto;
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        
+        form input {
+            width: 85%;
+            padding: 12px;
+            font-size: 14px;
+        }
+        
+        form button {
+            width: 85%;
+            margin: 15px 0;
+        }
+    }
+    
+    .toggle-buttons {
+        margin: 0 0 15px 0;
+        
+        button {
+            padding: 8px;
+            font-size: 14px;
+        }
+    }
+}
+
+// Para dispositivos muy pequeños
+@media screen and (max-width: 375px) {
+    .popup {
+        width: 95%;
+        max-height: 90vh; // Altura máxima para evitar que se salga de la pantalla
+        overflow-y: auto; // Permitir scroll si el contenido es muy grande
+    }
+    
+    .left {
+        padding: 15px 10px;
+    }
+    
+    .right {
+        padding: 15px 10px;
+        
+        form input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        
+        form button {
+            width: 90%;
+            padding: 10px;
+        }
+        
+        h2 {
+            font-size: 16px;
+        }
+    }
+    
+    // Hacer que el padding del popup sea menor cuando hay teclado virtual visible
+    @media (max-height: 500px) {
+        .popup {
+            padding: 5px 0;
+        }
+        
+        .left {
+            padding: 10px 5px;
+            
+            .logo-small {
+                max-width: 100px;
+                margin: 5px auto;
+            }
+            
+            .toggle-buttons {
+                margin-bottom: 5px;
+            }
+        }
+        
+        .right {
+            padding: 10px 5px;
+            
+            .logo-form {
+                display: none; // Ocultar en modo landscape en móviles
+            }
+            
+            h2 {
+                margin: 5px 0;
+            }
+            
+            form input {
+                margin: 5px 0;
+            }
+            
+            form button {
+                margin: 10px 0;
+            }
+        }
+    }
+}

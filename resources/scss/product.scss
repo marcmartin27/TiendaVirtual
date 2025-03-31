@@ -71,7 +71,7 @@
     position: absolute; // Asegurar posición absoluta
     transform: translateY(-50%); // Centrar verticalmente
     padding: 15px 20px; // Área de clic más grande
-    z-index: 1010; // Mayor que el z-index de la imagen
+    z-index: 5; // Mayor que el z-index de la imagen
     cursor: pointer;
 }
 
@@ -117,11 +117,22 @@
 }
 
 .modal .prev, .modal .next {
+    position: absolute;
     top: 50%;
-    font-size: 24px; /* Tamaño de fuente más pequeño */
-    color: black;
-    background: none; /* Sin recuadro */
-    border: none; /* Sin borde */
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.3);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 20px;
+    transition: background-color 0.3s;
+    z-index: 5;
+    cursor: pointer;
+    
+    &:hover {
+        background: rgba(0,0,0,0.5);
+    }
 }
 
 .modal .prev:hover, .modal .next:hover {

@@ -1,0 +1,229 @@
+@import 'common-legal';
+
+// Estilos para el contenido de las páginas legales
+.legal-content {
+  color: $legal-text-color;
+  font-size: 1rem;
+  line-height: 1.7;
+  
+  // Tipografía
+  h1, h2, h3, h4, h5, h6 {
+    color: $legal-primary-color;
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+    
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $legal-accent-color;
+    
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+  
+  h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  }
+  
+  // Párrafos y espaciado
+  p {
+    margin-bottom: 1.5rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Enlaces
+  a {
+    color: $legal-link-color;
+    text-decoration: underline;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: darken($legal-link-color, 15%);
+    }
+  }
+  
+  // Listas
+  ul, ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  // Tabla de contenidos 
+  .toc {
+    background-color: $legal-secondary-color;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    
+    h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+    
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      
+      li {
+        padding: 0.25rem 0;
+        
+        a {
+          text-decoration: none;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  // Secciones con fondo destacado
+  .highlighted-section {
+    background-color: lighten($legal-secondary-color, 3%);
+    border-left: 4px solid $legal-primary-color;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  // Tablas
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid $legal-accent-color;
+    }
+    
+    th {
+      font-weight: 600;
+      background-color: $legal-secondary-color;
+      color: $legal-primary-color;
+    }
+    
+    tr:nth-child(even) {
+      background-color: rgba($legal-secondary-color, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  
+  // Botones CTA
+  .legal-cta {
+    display: inline-block;
+    background-color: $legal-primary-color;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 1.5rem 0;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: darken($legal-primary-color, 10%);
+      color: white;
+    }
+  }
+
+  // Bloques de código o términos técnicos
+  code {
+    background: rgba($legal-accent-color, 0.3);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+  
+  // Separadores
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: $legal-accent-color;
+    margin: 2.5rem 0;
+  }
+  
+  // Advertencias o notas importantes
+  .legal-notice-box {
+    background-color: rgba($legal-accent-color, 0.2);
+    border: 1px solid $legal-accent-color;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    
+    h4 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      
+      &:before {
+        content: "⚠️";
+        margin-right: 0.5rem;
+      }
+    }
+    
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Estilos específicos para imprimir
+  @media print {
+    font-size: 12pt;
+    
+    a {
+      text-decoration: underline;
+      color: black;
+    }
+    
+    h2 {
+      page-break-after: avoid;
+    }
+    
+    h3, h4 {
+      page-break-after: avoid;
+    }
+    
+    p, li {
+      page-break-inside: avoid;
+    }
+  }
+}

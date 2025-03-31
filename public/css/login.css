@@ -416,4 +416,109 @@ body {
     font-size: 16px;
     margin: 10px 0;
   }
+}
+@media screen and (max-width: 768px) {
+  .popup {
+    flex-direction: column;
+    width: 90%;
+    max-width: 450px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .left {
+    border-radius: 10px 10px 0 0;
+    padding: 20px;
+  }
+  .left .logo-large {
+    display: none;
+  }
+  .left .logo-small {
+    width: 50%;
+    max-width: 150px;
+    margin: 10px auto;
+  }
+  .right {
+    border-radius: 0 0 10px 10px;
+    padding: 20px;
+  }
+  .right .logo-form {
+    width: 25%;
+    max-width: 70px;
+    margin: 10px auto;
+  }
+  .right h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  .right form input {
+    width: 85%;
+    padding: 12px;
+    font-size: 14px;
+  }
+  .right form button {
+    width: 85%;
+    margin: 15px 0;
+  }
+  .toggle-buttons {
+    margin: 0 0 15px 0;
+  }
+  .toggle-buttons button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .popup {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .left {
+    padding: 15px 10px;
+  }
+  .right {
+    padding: 15px 10px;
+  }
+  .right form input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+  }
+  .right form button {
+    width: 90%;
+    padding: 10px;
+  }
+  .right h2 {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 375px) and (max-height: 500px) {
+  .popup {
+    padding: 5px 0;
+  }
+  .left {
+    padding: 10px 5px;
+  }
+  .left .logo-small {
+    max-width: 100px;
+    margin: 5px auto;
+  }
+  .left .toggle-buttons {
+    margin-bottom: 5px;
+  }
+  .right {
+    padding: 10px 5px;
+  }
+  .right .logo-form {
+    display: none;
+  }
+  .right h2 {
+    margin: 5px 0;
+  }
+  .right form input {
+    margin: 5px 0;
+  }
+  .right form button {
+    margin: 10px 0;
+  }
 }/*# sourceMappingURL=login.css.map */

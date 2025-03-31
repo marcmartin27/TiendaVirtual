@@ -14,6 +14,8 @@ use App\Services\PayPalService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\LegalController;
+
 
 
 
@@ -70,3 +72,8 @@ Route::get('/paypal/success', [App\Http\Controllers\CheckoutController::class, '
 Route::get('/paypal/cancel', [App\Http\Controllers\CheckoutController::class, 'paypalCancel'])->name('paypal.cancel');
 Route::get('/invoice/{orderId}', [InvoiceController::class, 'generate'])->name('invoice.generate');
 Route::post('/validate-coupon', [CouponController::class, 'validate'])->name('coupon.validate');
+Route::get('/privacy', [App\Http\Controllers\LegalController::class, 'privacy'])->name('privacy');
+Route::get('/terms', [App\Http\Controllers\LegalController::class, 'terms'])->name('terms');
+Route::get('/cookies', [App\Http\Controllers\LegalController::class, 'cookies'])->name('cookies');
+Route::get('/legal', [App\Http\Controllers\LegalController::class, 'legalNotice'])->name('legal-notice');
+Route::delete('/product-images/{id}', [ProductController::class, 'deleteImage'])->name('product.images.delete');

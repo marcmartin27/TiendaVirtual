@@ -132,27 +132,63 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'code' => 'required|max:10|unique:products,code,' . $id,
-            'name' => 'required|max:255',
-            'description' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric',
-            'images.*' => 'image',
-        ]);
-
         $product = Product::findOrFail($id);
-        $product->update($request->all());
-
-        // Handle image uploads
+        
+        // Validar los datos
+        $validatedData = $request->validate([
+            'code' => 'required|string|max:100|unique:products,code,'.$id,
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'featured' => 'boolean',
+            'images.*' => 'sometimes|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imágenes
+        ]);
+        
+        // Actualizar el producto
+        $product->update([
+            'code' => $validatedData['code'],
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'category_id' => $validatedData['category_id'],
+            'price' => $validatedData['price'],
+            'featured' => $request->has('featured') ? 1 : 0,
+        ]);
+        
+        // Procesar las nuevas imágenes si se han subido
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('public/images');
-                $product->images()->create(['image_url' => $path]);
+                $imageName = time() . '_' . uniqid() . '.' . $image->extension();
+                $image->move(public_path('images'), $imageName);
+                
+                // Guardar la referencia en la base de datos
+                $product->images()->create([
+                    'image_url' => $imageName
+                ]);
             }
         }
+        
+        return redirect()->route('dashboard')->with('success', 'Producto actualizado correctamente');
+    }
 
-        return redirect()->route('dashboard')->with('success', 'Producto actualizado con éxito');
+    public function deleteImage($id)
+    {
+        try {
+            $image = \App\Models\ProductImage::findOrFail($id);
+            $imagePath = public_path('images/' . $image->image_url);
+            
+            // Eliminar el archivo físico si existe
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            
+            // Eliminar el registro de la base de datos
+            $image->delete();
+            
+            return response()->json(['success' => true, 'message' => 'Imagen eliminada correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo eliminar la imagen: ' . $e->getMessage()], 500);
+        }
     }
 
     /**

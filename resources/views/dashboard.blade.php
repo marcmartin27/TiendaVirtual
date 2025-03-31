@@ -282,8 +282,16 @@ use Illuminate\Support\Str;
                             <input type="checkbox" id="product_editFeatured" name="featured" value="1">
                         </div>
                         <div class="form-group">
-                            <label for="editImages">Imágenes:</label>
+                            <label>Imágenes actuales:</label>
+                            <div id="current-images-container" class="current-images">
+                                <!-- Las imágenes se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editImages">Añadir o reemplazar imágenes:</label>
                             <input type="file" id="product_editImages" name="images[]" multiple>
+                            <small>Seleccione nuevas imágenes para añadirlas o reemplazar las existentes.</small>
                         </div>
                         <div class="form-group">
                             <button type="button" id="manageStockButton" class="secondary-button">Gestionar Stock</button>

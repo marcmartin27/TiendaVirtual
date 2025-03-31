@@ -100,12 +100,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('product_editFeatured').checked = product.featured;
                 document.getElementById('editProductForm').action = `/products/${productId}`;
                 
+                // Cargar y mostrar las imágenes actuales
+                const imagesContainer = document.getElementById('current-images-container');
+                imagesContainer.innerHTML = '';
+                
+                if (product.images && product.images.length > 0) {
+                    product.images.forEach(image => {
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'image-container';
+                        
+                        const img = document.createElement('img');
+                        img.src = `/images/${image.image_url}`;
+                        img.alt = product.name;
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-image';
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.dataset.imageId = image.id;
+                        removeBtn.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            if (confirm('¿Estás seguro de que deseas eliminar esta imagen?')) {
+                                deleteProductImage(image.id, imageContainer);
+                            }
+                        });
+                        
+                        imageContainer.appendChild(img);
+                        imageContainer.appendChild(removeBtn);
+                        imagesContainer.appendChild(imageContainer);
+                    });
+                } else {
+                    imagesContainer.innerHTML = '<p>No hay imágenes disponibles para este producto.</p>';
+                }
+                
                 openModal('editProductModal');
             } catch (error) {
                 console.error('Error al cargar datos del producto:', error);
             }
         });
     });
+
+    // Función para eliminar una imagen de producto
+    async function deleteProductImage(imageId, containerElement) {
+        try {
+            const response = await fetch(`/product-images/${imageId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                // Eliminar el contenedor de la imagen del DOM
+                containerElement.remove();
+                alert(result.message || 'Imagen eliminada correctamente');
+            } else {
+                alert(result.error || 'Error al eliminar la imagen');
+            }
+        } catch (error) {
+            console.error('Error al eliminar la imagen:', error);
+            alert('Error al procesar la solicitud');
+        }
+    }
     
     // Botones eliminar producto
     document.querySelectorAll('.deleteProductButton').forEach(button => {
