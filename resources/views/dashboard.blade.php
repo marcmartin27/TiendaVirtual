@@ -432,7 +432,7 @@ use Illuminate\Support\Str;
                                 <td>{{ $order->user ? $order->user->name : 'Usuario no disponible' }}</td>                                <td>{{ $order->total }}</td>
                                 <td>{{ $order->status }}</td>
                                 <td>
-                                <img src="{{ asset('images/editar_icon.png') }}" alt="Ver Detalles" class="viewOrderDetailsButton action-icon" style="filter: hue-rotate(120deg);" data-order-id="{{ $order->id }}">
+                                    <img src="{{ asset('images/order-icon.png') }}" alt="Ver Detalles" class="viewOrderDetailsButton action-icon" style="filter: hue-rotate(120deg);" data-order-id="{{ $order->id }}">
                                     <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Pedido" class="editOrderButton action-icon" data-order-id="{{ $order->id }}">
                                     <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Pedido" class="deleteOrderButton action-icon" data-order-id="{{ $order->id }}">
                                 </td>
