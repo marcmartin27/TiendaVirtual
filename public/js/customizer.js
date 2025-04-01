@@ -15,7 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Imagen del producto
     let productImage = new Image();
-
+    
+    // Área de dibujo (se definirá cuando se cargue la imagen)
+    let drawingArea = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    };
 
     let customizedImageData = null;
     const productId = document.querySelector('#add-to-cart').getAttribute('data-product-id');
@@ -27,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     saveButton.classList.add('save-button');
     clearCanvasButton.parentNode.appendChild(saveButton);
     
-    // Abrir el modal de personalización (modificación del código existente)
+    // Abrir el modal de personalización
     customizeButton.addEventListener('click', function() {
         customizeModal.style.display = 'flex';
         
@@ -35,15 +42,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const productImgSrc = document.querySelector('.product-image').src;
         loadImageToCanvas(productImgSrc);
         
-        // Si ya hay una personalización guardada, cargarla
-        const savedCustomization = localStorage.getItem(`customized_${productId}`);
-        if (savedCustomization) {
-            const img = new Image();
-            img.onload = function() {
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            };
-            img.src = savedCustomization;
-        }
+        // Si ya hay una personalización guardada, cargarla después de que la imagen se haya cargado
+        productImage.onload = function() {
+            const savedCustomization = localStorage.getItem(`customized_${productId}`);
+            if (savedCustomization) {
+                const img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                };
+                img.src = savedCustomization;
+            }
+        };
     });
     
     // Guardar la personalización
@@ -67,8 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
             notification.remove();
         }, 3000);
     });
-
-
     
     // Cargar la imagen en el canvas
     function loadImageToCanvas(src) {
@@ -85,8 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 canvas.height / productImage.height
             );
             
-            const x = (canvas.width / 2) - (productImage.width / 2) * scale;
-            const y = (canvas.height / 2) - (productImage.height / 2) * scale;
+            const imgWidth = productImage.width * scale;
+            const imgHeight = productImage.height * scale;
+            const x = (canvas.width / 2) - (imgWidth / 2);
+            const y = (canvas.height / 2) - (imgHeight / 2);
             
             // Limpiar el canvas y dibujar la imagen
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -96,9 +105,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 productImage.width, 
                 productImage.height,
                 x, y, 
-                productImage.width * scale, 
-                productImage.height * scale
+                imgWidth, 
+                imgHeight
             );
+            
+            // Definir área de dibujo (frente de la camiseta)
+            // Estos valores se deben ajustar según la imagen específica de la camiseta
+            drawingArea = {
+                x: x + imgWidth * 0.27, // 30% desde la izquierda de la imagen
+                y: y + imgHeight * 0.2, // 20% desde arriba
+                width: imgWidth * 0.4,  // Ancho 40% de la imagen
+                height: imgHeight * 0.5  // Alto 50% de la imagen
+            };
+            
+
         };
     }
     
@@ -107,9 +127,55 @@ document.addEventListener('DOMContentLoaded', function () {
         customizeModal.style.display = 'none';
     };
     
+    // Función para verificar si un punto está dentro del área de dibujo
+    function isInsideDrawingArea(x, y) {
+        return (
+            x >= drawingArea.x &&
+            x <= drawingArea.x + drawingArea.width &&
+            y >= drawingArea.y &&
+            y <= drawingArea.y + drawingArea.height
+        );
+    }
+    
     // Eventos para dibujar en el canvas
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mousedown', function(e) {
+        const x = e.offsetX;
+        const y = e.offsetY;
+        
+        // Solo comenzar a dibujar si está dentro del área permitida
+        if (isInsideDrawingArea(x, y)) {
+            isDrawing = true;
+            lastX = x;
+            lastY = y;
+        }
+    });
+    
+    canvas.addEventListener('mousemove', function(e) {
+        if (!isDrawing) return;
+        
+        const x = e.offsetX;
+        const y = e.offsetY;
+        
+        // Solo dibujar si está dentro del área permitida
+        if (isInsideDrawingArea(x, y)) {
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = brushSize.value;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            
+            lastX = x;
+            lastY = y;
+        } else {
+            // Detener el dibujo si se sale del área permitida
+            isDrawing = false;
+        }
+    });
+    
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
     
@@ -118,27 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.addEventListener('touchmove', handleTouch);
     canvas.addEventListener('touchend', stopDrawing);
     
-    function startDrawing(e) {
-        isDrawing = true;
-        [lastX, lastY] = [e.offsetX, e.offsetY];
-    }
-    
-    function draw(e) {
-        if (!isDrawing) return;
-        
-        ctx.strokeStyle = colorPicker.value;
-        ctx.lineWidth = brushSize.value;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        
-        ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(e.offsetX, e.offsetY);
-        ctx.stroke();
-        
-        [lastX, lastY] = [e.offsetX, e.offsetY];
-    }
-    
     function stopDrawing() {
         isDrawing = false;
     }
@@ -146,25 +191,42 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleTouch(e) {
         e.preventDefault();
         
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        
         if (e.type === 'touchstart') {
-            const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            
-            startDrawing({ offsetX: x, offsetY: y });
+            // Solo comenzar a dibujar si está dentro del área permitida
+            if (isInsideDrawingArea(x, y)) {
+                isDrawing = true;
+                lastX = x;
+                lastY = y;
+            }
         } 
-        else if (e.type === 'touchmove') {
-            const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            
-            draw({ offsetX: x, offsetY: y });
+        else if (e.type === 'touchmove' && isDrawing) {
+            // Solo dibujar si está dentro del área permitida
+            if (isInsideDrawingArea(x, y)) {
+                ctx.strokeStyle = colorPicker.value;
+                ctx.lineWidth = brushSize.value;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                
+                lastX = x;
+                lastY = y;
+            } else {
+                // Detener el dibujo si se sale del área permitida
+                isDrawing = false;
+            }
         }
     }
     
-    // Limpiar el canvas (mantener solo la imagen)
+    // Limpiar el canvas (mantener la imagen y el área de dibujo)
     clearCanvasButton.addEventListener('click', function() {
         const productImgSrc = document.querySelector('.product-image').src;
         loadImageToCanvas(productImgSrc);

@@ -93,6 +93,26 @@
         <p>No hay productos destacados en este momento.</p>
     @endif
 
+    <!-- Añadir justo después del div "featured-container" en welcome.blade.php -->
+    <section class="customization-section">
+        <div class="customization-container">
+            <div class="customization-content">
+                <div class="customization-text">
+                    <h2>CREA TU ESTILO ÚNICO</h2>
+                    <h3>Personaliza tu propia camiseta</h3>
+                    <p>Diseña algo tan único como tú. Elige colores, añade texto y crea una prenda exclusiva que refleje tu personalidad.</p>
+                    <a href="{{ route('product.show', ['id' => 75]) }}" class="customization-btn">PERSONALIZAR AHORA</a>
+                </div>
+                <div class="customization-image">
+                    <img src="{{ asset('images/white-t-shirt-free-png.webp') }}" alt="Camiseta personalizable">
+                    <div class="customization-badge">
+                        <span>¡NUEVO!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
     @include('footer')

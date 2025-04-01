@@ -844,3 +844,55 @@ button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+// Añadir al final del archivo o donde estén los estilos de personalización
+.customize-instructions {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: rgba(186, 173, 166, 0.1);
+    border-left: 3px solid #594C45;
+    color: #333;
+    
+    p {
+        margin: 0;
+        font-size: 0.95rem;
+    }
+}
+
+.customize-content {
+    h3 {
+        position: relative;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #594C45;
+        }
+    }
+}
+
+.canvas-container {
+    position: relative;
+    background-color: #f8f8f8; // Fondo sutil
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05); // Sombra interior sutil
+}
+
+#saveCustomization {
+    background-color: #594C45; // Mantener consistencia con el tema
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 15px;
+    
+    &:hover {
+        background-color: #483c36;
+    }
+}
