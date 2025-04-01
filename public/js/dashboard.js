@@ -399,6 +399,106 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Botones ver detalles del pedido
+    document.querySelectorAll('.viewOrderDetailsButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const orderId = e.target.getAttribute('data-order-id');
+            try {
+                const response = await fetch(`/orders/${orderId}/details`);
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const orderDetails = await response.json();
+                console.log("Datos del pedido completo:", orderDetails); // Depuración
+                
+                // Actualizar la información del pedido en el modal
+                document.getElementById('orderIdDisplay').textContent = orderDetails.id;
+                document.getElementById('orderCustomerName').textContent = orderDetails.user ? orderDetails.user.name : 'Cliente no disponible';
+                document.getElementById('orderDate').textContent = new Date(orderDetails.created_at).toLocaleString();
+                document.getElementById('orderStatus').textContent = orderDetails.status;
+                document.getElementById('orderTotal').textContent = orderDetails.total;
+                
+                // Mostrar información de envío
+                // Los datos de envío están directamente en el objeto orderDetails, no en shipping_address
+                document.getElementById('shippingName').textContent = 
+                    `${orderDetails.first_name || ''} ${orderDetails.last_name || ''}`.trim() || 'No disponible';
+                document.getElementById('shippingAddress').textContent = orderDetails.address || 'No disponible';
+                document.getElementById('shippingApartment').textContent = orderDetails.apartment || 'No disponible';
+                document.getElementById('shippingPostalCode').textContent = orderDetails.postal_code || 'No disponible';
+                document.getElementById('shippingCity').textContent = orderDetails.city || 'No disponible';
+                document.getElementById('shippingProvince').textContent = orderDetails.province || 'No disponible';
+                document.getElementById('shippingCountry').textContent = orderDetails.country || 'No disponible';
+                document.getElementById('shippingPhone').textContent = orderDetails.phone || 'No disponible';
+                
+                // Limpiar la tabla de productos
+                const productsList = document.getElementById('orderProductsList');
+                productsList.innerHTML = '';
+                
+                // Añadir los productos a la tabla
+                if (orderDetails.order_items && orderDetails.order_items.length > 0) {
+                    orderDetails.order_items.forEach(item => {
+                        const tr = document.createElement('tr');
+                        
+                        // Imagen del producto
+                        const imgTd = document.createElement('td');
+                        const img = document.createElement('img');
+                        img.src = item.product && item.product.images && item.product.images.length > 0 
+                            ? `/images/${item.product.images[0].image_url}` 
+                            : '/images/default-product.png';
+                        img.alt = item.product ? item.product.name : 'Producto';
+                        imgTd.appendChild(img);
+                        tr.appendChild(imgTd);
+                        
+                        // Nombre del producto
+                        const nameTd = document.createElement('td');
+                        nameTd.textContent = item.product ? item.product.name : 'Producto no disponible';
+                        tr.appendChild(nameTd);
+                        
+                        // Cantidad
+                        const quantityTd = document.createElement('td');
+                        quantityTd.textContent = item.quantity;
+                        tr.appendChild(quantityTd);
+                        
+                        // Talla
+                        const sizeTd = document.createElement('td');
+                        sizeTd.textContent = item.size || 'N/A';
+                        tr.appendChild(sizeTd);
+                        
+                        // Precio unitario
+                        const priceTd = document.createElement('td');
+                        priceTd.textContent = `${item.price}€`;
+                        tr.appendChild(priceTd);
+                        
+                        // Subtotal
+                        const subtotalTd = document.createElement('td');
+                        subtotalTd.textContent = `${(item.price * item.quantity).toFixed(2)}€`;
+                        tr.appendChild(subtotalTd);
+                        
+                        productsList.appendChild(tr);
+                    });
+                } else {
+                    // Si no hay productos, mostrar mensaje
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 6;
+                    td.textContent = 'No hay productos en este pedido';
+                    td.style.textAlign = 'center';
+                    tr.appendChild(td);
+                    productsList.appendChild(tr);
+                }
+                
+                // Mostrar el modal
+                openModal('orderDetailsModal');
+                
+            } catch (error) {
+                console.error('Error al cargar detalles del pedido:', error);
+                alert('Error al cargar los detalles del pedido');
+            }
+        });
+    });
     
     // Inicializar gráficos si estamos en la sección de dashboard
     if (document.getElementById('productsChart') && document.getElementById('ordersChart')) {

@@ -462,3 +462,66 @@ td {
 .image-container .remove-image:hover {
     background-color: rgba(255, 0, 0, 0.9);
 }
+
+// Estilos para el modal de detalles del pedido
+#orderDetailsModal {
+    .modal-container {
+        max-width: 800px;
+    }
+    
+    .order-info {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        
+        p {
+            margin: 5px 0;
+        }
+    }
+    
+    #orderProductsTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        td img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+    }
+}
+// Añade esto dentro del bloque #orderDetailsModal
+.shipping-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    border-left: 4px solid #594C45;
+    
+    h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #594C45;
+    }
+    
+    p {
+        margin: 5px 0;
+    }
+}

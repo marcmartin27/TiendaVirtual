@@ -451,4 +451,56 @@ td {
 
 .image-container .remove-image:hover {
   background-color: rgba(255, 0, 0, 0.9);
+}
+
+#orderDetailsModal .modal-container {
+  max-width: 800px;
+}
+#orderDetailsModal .order-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+#orderDetailsModal .order-info p {
+  margin: 5px 0;
+}
+#orderDetailsModal #orderProductsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+#orderDetailsModal #orderProductsTable th, #orderDetailsModal #orderProductsTable td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+#orderDetailsModal #orderProductsTable th {
+  background-color: #f2f2f2;
+}
+#orderDetailsModal #orderProductsTable td img {
+  width: 50px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+}
+#orderDetailsModal #orderProductsTable tr:hover {
+  background-color: #f9f9f9;
+}
+
+.shipping-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  border-left: 4px solid #594C45;
+}
+.shipping-info h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #594C45;
+}
+.shipping-info p {
+  margin: 5px 0;
 }/*# sourceMappingURL=dashboard.css.map */

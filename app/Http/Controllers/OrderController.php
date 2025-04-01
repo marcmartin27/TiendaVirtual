@@ -161,5 +161,53 @@ class OrderController extends Controller
         ]);
     }
 
+    public function details(Order $order)
+    {
+        // Asegurémonos de que shipping_address esté disponible
+        $order = Order::with(['user', 'orderItems.product.images'])->findOrFail($order->id);
+        
+        // Esto asegura que tengamos disponible shipping_address y lo decodificamos si es necesario
+        if (is_string($order->shipping_address)) {
+            $order->shipping_address = json_decode($order->shipping_address);
+        }
+        
+        return response()->json($order);
+    }
+
+    public function edit(Order $order)
+    {
+        try {
+            // Cargar las relaciones necesarias
+            $order->load(['user', 'orderItems.product']);
+            
+            return response()->json($order);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al cargar los datos del pedido: ' . $e->getMessage()], 500);
+        }
+    }
+    
+    public function update(Request $request, Order $order)
+    {
+        try {
+            // Validar datos del formulario
+            $validatedData = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'total' => 'required|numeric|min:0',
+                'status' => 'required|string',
+            ]);
+            
+            // Actualizar el pedido
+            $order->user_id = $validatedData['user_id'];
+            $order->total = $validatedData['total'];
+            $order->status = $validatedData['status'];
+            $order->save();
+            
+            return redirect()->route('dashboard')
+                ->with('success', 'Pedido actualizado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al actualizar el pedido: ' . $e->getMessage());
+        }
+    }
 
 }

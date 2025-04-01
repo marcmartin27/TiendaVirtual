@@ -1,4 +1,5 @@
-<head><meta name="csrf-token" content="{{ csrf_token() }}"></head>
+<head><meta name="csrf-token" content="{{ csrf_token() }}"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
 <div id="header-fixed">
 <div id="promo-banner">
     <a href="{{ route('game') }}" style="text-decoration: none; color: inherit;">
@@ -27,11 +28,11 @@
             <!-- Indicador de inicio de sesión reciente -->
             <input type="hidden" id="just-logged-in" value="{{ session('just_logged_in') ? 'true' : 'false' }}">
             <!-- Icono de perfil -->
-            <img src="../../../images/profile_icon.webp" alt="Perfil" id="profileIcon" onclick="toggleProfilePopup()">
-        <?php else: ?>
+            <i class="fa-solid fa-circle-user" id="profileIcon" onclick="toggleProfilePopup()"></i>
+            <?php else: ?>
             <button id="openPopup">Iniciar Sesion</button>
         <?php endif; ?>
-            <img src="../../../images/cesta.webp" alt="" id="cartButton">
+            <i class="fa-solid fa-cart-shopping" id="cartButton"></i>
         </div>
     </div>
 

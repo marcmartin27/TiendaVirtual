@@ -432,8 +432,9 @@ use Illuminate\Support\Str;
                                 <td>{{ $order->user ? $order->user->name : 'Usuario no disponible' }}</td>                                <td>{{ $order->total }}</td>
                                 <td>{{ $order->status }}</td>
                                 <td>
-                                <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Pedido" class="editOrderButton action-icon" data-order-id="{{ $order->id }}">
-                                <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Pedido" class="deleteOrderButton action-icon" data-order-id="{{ $order->id }}">
+                                <img src="{{ asset('images/editar_icon.png') }}" alt="Ver Detalles" class="viewOrderDetailsButton action-icon" style="filter: hue-rotate(120deg);" data-order-id="{{ $order->id }}">
+                                    <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Pedido" class="editOrderButton action-icon" data-order-id="{{ $order->id }}">
+                                    <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Pedido" class="deleteOrderButton action-icon" data-order-id="{{ $order->id }}">
                                 </td>
                             </tr>
                         @endforeach
@@ -518,6 +519,48 @@ use Illuminate\Support\Str;
                     @endfor
                 </div>
                 <button type="button" id="saveInitialStock">Guardar Stock</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderDetailsModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close">&times;</button>
+            <h2>Detalles del Pedido #<span id="orderIdDisplay"></span></h2>
+            <div class="order-details-content">
+            <div class="order-info">
+                <p><strong>Cliente:</strong> <span id="orderCustomerName"></span></p>
+                <p><strong>Fecha:</strong> <span id="orderDate"></span></p>
+                <p><strong>Estado:</strong> <span id="orderStatus"></span></p>
+                <p><strong>Total:</strong> <span id="orderTotal"></span>€</p>
+            </div>
+            <div class="shipping-info">
+                <h3>Información de Envío</h3>
+                <p><strong>Nombre:</strong> <span id="shippingName"></span></p>
+                <p><strong>Dirección:</strong> <span id="shippingAddress"></span></p>
+                <p><strong>Apartamento:</strong> <span id="shippingApartment"></span></p>
+                <p><strong>Código Postal:</strong> <span id="shippingPostalCode"></span></p>
+                <p><strong>Ciudad:</strong> <span id="shippingCity"></span></p>
+                <p><strong>Provincia:</strong> <span id="shippingProvince"></span></p>
+                <p><strong>País:</strong> <span id="shippingCountry"></span></p>
+                <p><strong>Teléfono:</strong> <span id="shippingPhone"></span></p>
+            </div>
+            <h3>Productos</h3>
+                <table id="orderProductsTable">
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Talla</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderProductsList">
+                        <!-- Los productos se cargarán dinámicamente aquí -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
