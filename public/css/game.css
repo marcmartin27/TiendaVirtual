@@ -574,4 +574,74 @@
     font-size: 14px;
     margin: 8px;
   }
+}
+/* Estilos para el mensaje de espera de cupón */
+.coupon-wait-message {
+  color: #594C45;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.coupon-info strong {
+  color: #d35400;
+  font-weight: bold;
+}
+
+.login-suggestion {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #594C45;
+  background-color: rgba(186, 173, 166, 0.2);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.login-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+.login-required a {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.login-required a.login-button {
+  background: linear-gradient(135deg, #594C45, #3c332f);
+  color: white;
+  box-shadow: 0 4px 12px rgba(89, 76, 69, 0.3);
+}
+.login-required a.login-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(89, 76, 69, 0.4);
+}
+.login-required a.register-button {
+  background: linear-gradient(135deg, #BAADA6, #a49389);
+  color: white;
+  box-shadow: 0 4px 12px rgba(186, 173, 166, 0.3);
+}
+.login-required a.register-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(186, 173, 166, 0.4);
+}
+.login-required span {
+  color: #594C45;
+  font-weight: 500;
 }/*# sourceMappingURL=game.css.map */

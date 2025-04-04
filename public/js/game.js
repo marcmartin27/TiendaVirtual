@@ -283,10 +283,9 @@ document.addEventListener('DOMContentLoaded', function() {
         gameOverModal.style.display = 'block';
     }
 
-    // Generar cupón al ganar
     function generateCoupon() {
         // Solicitud AJAX para generar un cupón
-        fetch('/generate-coupon', {  // Cambiado de /api/generate-coupon a /generate-coupon para usar la ruta web
+        fetch('/generate-coupon', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -297,12 +296,50 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Caso de éxito: se ha creado un nuevo cupón
+                gameResultTitle.textContent = '¡Felicidades!';
+                gameResultMessage.textContent = `¡Has conseguido ${score} puntos y has ganado un cupón de descuento!`;
                 couponCodeElement.textContent = data.couponCode;
                 couponContainer.classList.remove('hidden');
+            } else if (data.hasActiveCoupon) {
+                // Caso donde ya tiene un cupón activo
+                gameResultTitle.textContent = '¡Buen juego!';
+                gameResultMessage.textContent = `Has conseguido ${score} puntos, pero ya tienes un cupón activo.`;
+                
+                // Modificamos el contenedor del cupón para mostrar el mensaje de espera
+                couponContainer.classList.remove('hidden');
+                couponContainer.innerHTML = `
+                    <p class="coupon-wait-message">Ya tienes un cupón activo con el código:</p>
+                    <div class="coupon-code">${data.couponCode}</div>
+                    <p class="coupon-info">Debes esperar <strong>${data.daysRemaining} días</strong> para obtener un nuevo cupón.</p>
+                    <p class="coupon-info">Tu cupón actual sigue siendo válido para cualquier compra.</p>
+                `;
+            } else if (data.notAuthenticated) {
+                // Caso donde el usuario no está autenticado
+                gameResultTitle.textContent = '¡Inicia sesión para obtener tu cupón!';
+                gameResultMessage.textContent = `Has conseguido ${score} puntos, ¡suficientes para un descuento!`;
+                
+                // Mostrar mensaje de login requerido
+                couponContainer.classList.remove('hidden');
+                couponContainer.innerHTML = `
+                    <p class="coupon-wait-message">Para obtener tu cupón de descuento del 10%:</p>
+                    <div class="login-required">
+                        <a href="/login" class="login-button">Iniciar Sesión</a>
+                        <span>o</span>
+                        <a href="/register" class="register-button">Crear Cuenta</a>
+                    </div>
+                    <p class="coupon-info">Necesitas una cuenta para reclamar y guardar tus descuentos.</p>
+                `;
+            } else {
+                // Otros casos de error
+                couponContainer.classList.add('hidden');
             }
         })
         .catch(error => {
             console.error('Error generating coupon:', error);
+            gameResultTitle.textContent = '¡Ups!';
+            gameResultMessage.textContent = `Ha ocurrido un error al procesar tu cupón. Por favor, inténtalo de nuevo.`;
+            couponContainer.classList.add('hidden');
         });
     }
 

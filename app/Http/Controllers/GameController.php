@@ -11,6 +11,11 @@ class GameController extends Controller
 {
     public function index()
     {
+        // Verificación simple - solo permitir acceso si está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('/')->with('error', 'Debes iniciar sesión para jugar y obtener cupones de descuento.');
+        }
+        
         return view('game');
     }
     
@@ -21,6 +26,36 @@ class GameController extends Controller
             return response()->json(['success' => false, 'message' => 'Puntuación insuficiente']);
         }
         
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'notAuthenticated' => true,
+                'message' => 'Debes iniciar sesión para obtener un cupón de descuento'
+            ]);
+        }
+        
+        $userId = Auth::id();
+        
+        // Comprobar si el usuario ya tiene un cupón activo (no caducado)
+        $activeCoupon = Coupon::where('user_id', $userId)
+            ->where('valid_until', '>', now())
+            ->orderBy('valid_until', 'desc')
+            ->first();
+        
+        if ($activeCoupon) {
+            // Calcular días restantes
+            $daysRemaining = now()->diffInDays($activeCoupon->valid_until);
+            
+            return response()->json([
+                'success' => false,
+                'hasActiveCoupon' => true,
+                'daysRemaining' => $daysRemaining,
+                'couponCode' => $activeCoupon->code,
+                'message' => "Ya tienes un cupón activo. Debes esperar {$daysRemaining} días para obtener uno nuevo."
+            ]);
+        }
+        
         // Generar código de cupón único
         $couponCode = 'SNEAKS10-' . strtoupper(Str::random(8));
         
@@ -29,12 +64,7 @@ class GameController extends Controller
         $coupon->code = $couponCode;
         $coupon->discount = 10; // 10% de descuento
         $coupon->valid_until = now()->addDays(30);
-        
-        // Si el usuario está autenticado, asociar el cupón a su cuenta
-        if (Auth::check()) {
-            $coupon->user_id = Auth::id();
-        }
-        
+        $coupon->user_id = $userId;
         $coupon->save();
         
         return response()->json([
