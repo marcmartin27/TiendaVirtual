@@ -297,6 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Actualizar estos IDs
                 document.getElementById('user_editName').value = user.name;
                 document.getElementById('user_editEmail').value = user.email;
+                // Añadir esto para seleccionar el rol correcto
+                document.getElementById('user_editRole').value = user.role || 0;
                 document.getElementById('editUserForm').action = `/users/${userId}`;
                 
                 openModal('editUserModal');

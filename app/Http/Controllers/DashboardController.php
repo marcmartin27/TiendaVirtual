@@ -7,7 +7,8 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -16,6 +17,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        // Verificación simple - solo permitir acceso si está autenticado y es admin (role=1)
+        if (!Auth::check()) {
+            return redirect('/')->with('error', 'Debes iniciar sesión primero.');
+        }
+        
+        // Verificar si el usuario es administrador
+        if (Auth::user()->role != 1) {
+            return redirect('/')->with('error', 'No tienes permisos para acceder al dashboard.');
+        }
+
+        // El resto del método queda igual
         $totalUsers = User::count();
         $totalProducts = Product::count();
         $totalCategories = Category::count();

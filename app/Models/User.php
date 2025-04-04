@@ -28,7 +28,8 @@ class User extends Authenticatable
         'city',
         'province',
         'country',
-        'phone'
+        'phone',
+        'role'
     ];
 
     /**

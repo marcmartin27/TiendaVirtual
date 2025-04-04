@@ -326,6 +326,14 @@ use Illuminate\Support\Str;
                                 <label for="password">Contraseña:</label>
                                 <input type="password" id="user_password" name="password" required>
                             </div>
+                            <!-- Añadir selector de rol -->
+                            <div class="form-group">
+                                <label for="role">Rol:</label>
+                                <select id="user_role" name="role" required>
+                                    <option value="0">Usuario normal</option>
+                                    <option value="1">Administrador</option>
+                                </select>
+                            </div>
                             <button type="submit">Añadir Usuario</button>
                         </form>
                     </div>
@@ -336,6 +344,7 @@ use Illuminate\Support\Str;
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Email</th>
+                            <th>Rol</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -345,6 +354,7 @@ use Illuminate\Support\Str;
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->role == 1 ? 'Administrador' : 'Usuario' }}</td>
                                 <td>
                                 <img src="{{ asset('images/editar_icon.png') }}" alt="Editar Usuario" class="editUserButton action-icon" data-user-id="{{ $user->id }}">
                                 <img src="{{ asset('images/eliminar_icon.png') }}" alt="Eliminar Usuario" class="deleteUserButton action-icon" data-user-id="{{ $user->id }}">
@@ -375,6 +385,14 @@ use Illuminate\Support\Str;
                             <label for="editPassword">Contraseña:</label>
                             <input type="password" id="user_editPassword" name="password">
                             <small>Dejar en blanco para mantener la contraseña actual</small>
+                        </div>
+                        <!-- Añadir selector de rol -->
+                        <div class="form-group">
+                            <label for="editRole">Rol:</label>
+                            <select id="user_editRole" name="role" required>
+                                <option value="0">Usuario normal</option>
+                                <option value="1">Administrador</option>
+                            </select>
                         </div>
                         <button type="submit">Actualizar Usuario</button>
                     </form>
