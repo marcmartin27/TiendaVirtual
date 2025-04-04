@@ -13,7 +13,7 @@ class GameController extends Controller
     {
         // Verificación simple - solo permitir acceso si está autenticado
         if (!Auth::check()) {
-            return redirect()->route('/')->with('error', 'Debes iniciar sesión para jugar y obtener cupones de descuento.');
+            return redirect('/')->with('error', 'Debes iniciar sesión para jugar y obtener cupones de descuento.');
         }
         
         return view('game');
@@ -45,14 +45,14 @@ class GameController extends Controller
         
         if ($activeCoupon) {
             // Calcular días restantes
-            $daysRemaining = now()->diffInDays($activeCoupon->valid_until);
+            $daysRemaining = ceil(now()->diffInDays($activeCoupon->valid_until));
             
             return response()->json([
                 'success' => false,
                 'hasActiveCoupon' => true,
                 'daysRemaining' => $daysRemaining,
                 'couponCode' => $activeCoupon->code,
-                'message' => "Ya tienes un cupón activo. Debes esperar {$daysRemaining} días para obtener uno nuevo."
+                'message' => "Ya has reclamado un cupon. Debes esperar {$daysRemaining} días para obtener uno nuevo."
             ]);
         }
         

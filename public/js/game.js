@@ -311,9 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 couponContainer.innerHTML = `
                     <p class="coupon-wait-message">Ya tienes un cupón activo con el código:</p>
                     <div class="coupon-code">${data.couponCode}</div>
-                    <p class="coupon-info">Debes esperar <strong>${data.daysRemaining} días</strong> para obtener un nuevo cupón.</p>
-                    <p class="coupon-info">Tu cupón actual sigue siendo válido para cualquier compra.</p>
-                `;
+                    <p class="coupon-info">Debes esperar <strong>${data.daysRemaining} días</strong> para obtener un nuevo cupón.</p>                `;
             } else if (data.notAuthenticated) {
                 // Caso donde el usuario no está autenticado
                 gameResultTitle.textContent = '¡Inicia sesión para obtener tu cupón!';
