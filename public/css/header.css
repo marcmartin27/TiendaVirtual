@@ -61,22 +61,81 @@ body {
 }
 .nav .buscador {
   flex-grow: 1;
-  margin: 0 20px;
+  margin: 0 0px;
   text-align: center;
+  position: relative;
 }
 .nav .buscador p {
   display: inline-block;
+  margin-right: 10px;
 }
 .nav .buscador p a {
-  color: red;
+  color: #FF6B6B;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.nav .buscador p a:hover {
+  color: #ff3838;
+  text-decoration: underline;
+}
+.nav .buscador .search-container {
+  position: relative;
+  display: inline-block;
+  width: 45%;
 }
 .nav .buscador input {
-  width: 40%;
-  padding: 8px;
-  border: #bebebe 1px solid;
-  border-radius: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+.nav .buscador input:focus {
+  border-color: #594C45;
+  box-shadow: 0 0 8px rgba(89, 76, 69, 0.2);
+}
+.nav .buscador input::-moz-placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+.nav .buscador input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+.nav .buscador .search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #594C45;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.nav .buscador .search-icon:hover {
+  color: #baada6;
+}
+.nav .search-popup .search-results li {
+  transition: background-color 0.2s ease;
+}
+.nav .search-popup .search-results li:hover {
+  background-color: rgba(186, 173, 166, 0.1);
+}
+.nav .search-popup .search-results li a {
+  padding: 10px 0;
+}
+.nav .search-popup .search-results li a:hover {
+  color: #594C45;
+}
+@media screen and (max-width: 768px) {
+  .nav .nav .buscador .search-container {
+    width: 100%;
+  }
+  .nav .nav .buscador p {
+    display: none;
+  }
 }
 .nav .usuario {
   display: flex;
@@ -151,9 +210,9 @@ body {
 .search-popup {
   position: fixed;
   top: 108px;
-  left: 50%;
+  left: 56%;
   transform: translateX(-50%);
-  width: 40%;
+  width: 37%;
   max-height: 300px;
   background-color: white;
   border: 1px solid #ccc;

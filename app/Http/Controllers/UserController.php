@@ -113,4 +113,25 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Perfil actualizado correctamente.');
     }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+        
+        $user = Auth::user();
+        
+        // Verificar que la contraseña actual es correcta
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->with('password_error', 'La contraseña actual no es correcta.');
+        }
+        
+        // Actualizar la contraseña
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+        
+        return redirect()->back()->with('password_success', 'Contraseña actualizada correctamente.');
+    }
 }

@@ -1,8 +1,9 @@
 <head><meta name="csrf-token" content="{{ csrf_token() }}"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <div id="header-fixed">
+<a href="{{ route('game') }}" style="text-decoration: none; color: inherit;">
+
 <div id="promo-banner">
-    <a href="{{ route('game') }}" style="text-decoration: none; color: inherit;">
         <div class="marquee" id="marquee">
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
@@ -10,8 +11,9 @@
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
             <span>🔥 Participa en un juego para ganar un artículo 🔥</span>
         </div>
-    </a>
+
 </div>
+</a>
 
     <div class="nav">
         <div class="foto">
@@ -19,7 +21,9 @@
         </div>
         <div class="buscador">
             <p><a href="{{ route('viewall', ['sale' => '1']) }}">Rebajas</a></p>
-            <input type="text" id="buscador" placeholder="Buscar...">
+            <div class="search-container">
+                <input type="text" id="buscador" placeholder="Buscar productos...">
+            </div>
         </div>
         <div class="usuario">
         <?php if (Auth::check()): ?>

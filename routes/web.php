@@ -78,3 +78,4 @@ Route::get('/cookies', [App\Http\Controllers\LegalController::class, 'cookies'])
 Route::get('/legal', [App\Http\Controllers\LegalController::class, 'legalNotice'])->name('legal-notice');
 Route::delete('/product-images/{id}', [ProductController::class, 'deleteImage'])->name('product.images.delete');
 Route::get('/orders/{order}/details', [\App\Http\Controllers\OrderController::class, 'details'])->name('orders.details');
+Route::post('/updatePassword', [UserController::class, 'updatePassword'])->name('updatePassword');

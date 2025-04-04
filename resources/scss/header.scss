@@ -65,25 +65,100 @@ body {
         }
     }
 
+    // Reemplaza el estilo actual del buscador con este
     .buscador {
         flex-grow: 1;
-        margin: 0 20px;
+        margin: 0 0px;
         text-align: center;
+        position: relative;
 
-        p{
+        p {
             display: inline-block;
+            margin-right: 10px;
 
-            a{
-                color: red;
+            a {
+                color: #FF6B6B;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                
+                &:hover {
+                    color: darken(#FF6B6B, 10%);
+                    text-decoration: underline;
+                }
             }
         }
+        
+        .search-container {
+            position: relative;
+            display: inline-block;
+            width: 45%;
+        }
+        
         input {
-            width: 40%;
-            padding: 8px;
-            border: #bebebe 1px solid;
-            border-radius: 20px;
-            margin-left: 15px;
-            margin-right: 15px;
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+            
+            &:focus {
+                border-color: #594C45;
+                box-shadow: 0 0 8px rgba(89, 76, 69, 0.2);
+            }
+            
+            &::placeholder {
+                color: #aaa;
+                font-style: italic;
+            }
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #594C45;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                color: #baada6;
+            }
+        }
+    }
+
+    // Mejora para el hover en los resultados de búsqueda
+    .search-popup .search-results li {
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: rgba(186, 173, 166, 0.1);
+        }
+        
+        a {
+            padding: 10px 0;
+            
+            &:hover {
+                color: #594C45;
+            }
+        }
+    }
+
+    // Ajuste responsive para los nuevos estilos
+    @media screen and (max-width: 768px) {
+        .nav {
+            .buscador {
+                .search-container {
+                    width: 100%;
+                }
+                
+                p {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -166,9 +241,9 @@ body {
 .search-popup {
     position: fixed;
     top: 108px;
-    left: 50%;
+    left: 56%;
     transform: translateX(-50%);
-    width: 40%;
+    width: 37%;
     max-height: 300px;
     background-color: white;
     border: 1px solid #ccc;

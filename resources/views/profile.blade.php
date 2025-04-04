@@ -57,8 +57,34 @@
                 </div>
                 <button type="submit">Actualizar Perfil</button>
             </form>
-        </div>
 
+            <!-- Modificación de la sección de cambiar contraseña -->
+            <div class="password-change-container">
+                <h2>Cambiar Contraseña</h2>
+                @if(session('password_error'))
+                    <div class="alert alert-danger">{{ session('password_error') }}</div>
+                @endif
+                @if(session('password_success'))
+                    <div class="alert alert-success">{{ session('password_success') }}</div>
+                @endif
+                <form action="{{ route('updatePassword') }}" method="POST" class="profile-form password-form">
+                    @csrf
+                    <div class="form-group">
+                        <label for="current_password">Contraseña actual</label>
+                        <input type="password" id="current_password" name="current_password" placeholder="Introduce tu contraseña actual" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">Nueva contraseña</label>
+                        <input type="password" id="new_password" name="new_password" placeholder="Introduce tu nueva contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password_confirmation">Confirmar nueva contraseña</label>
+                        <input type="password" id="new_password_confirmation" name="new_password_confirmation" placeholder="Confirma tu nueva contraseña" required>
+                    </div>
+                    <button type="submit">Cambiar Contraseña</button>
+                </form>
+            </div>
+        </div>
         <div class="tab-content orders-tab" id="orders-tab">
             <h2>Mis Pedidos</h2>
             
